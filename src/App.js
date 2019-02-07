@@ -1,11 +1,18 @@
 import React from 'react'
-import { url, hook } from './spotify'
+import { url, hook } from './spotify/spotify'
 
-const c = 'd889de9a8c554ddebea3a0b88fdf5874'
-const r = 'http://localhost:3000'
-const s = ['playlist-read-private', 'playlist-modify-private']
+if (process.env.NODE_ENV === 'production') {
+  const redirect = 'http://localhost:3000'
+} else {
+  const redirect = 'https://shufflify.ruud.ninja'
+}
 
-//   window.history.replaceState({}, document.title, window.location.pathname);
+const client = 'd889de9a8c554ddebea3a0b88fdf5874'
+const scopes = ['playlist-read-private', 'playlist-modify-private']
+
+// window.history.replaceState({}, document.title, window.location.pathname)
+// window.location.search
+// window.location.hash
 
 const App = () => (
   <div>
