@@ -1,44 +1,39 @@
 import {
-  callback,
+  findToken,
   authURI,
   playlists,
   user,
   tracks,
-  reorderTrack
+  reorderTrack,
+  hasAuthError
 } from './spotify'
 import * as Adapter from './local.adapter'
 
-describe('authentication callback hook', () => {
+describe('auth has error check', () => {
+  it('returns true if error is present', () => {
+    expect(hasAuthError('?error=access_denied&state=123')).toBeTruthy()
+  })
+})
+
+describe('authentication findToken hook', () => {
   it('returns access token from hash', () => {
     const f = '123456'
 
-    return expect(
-      callback(`#access_token=${f}&token_type=Bearer`)
-    ).resolves.toBe(f)
+    expect(findToken(`#access_token=${f}&token_type=Bearer`)).toBe(f)
   })
 
   it('returns null if hash is provided but access token not present', () => {
-    return expect(
-      callback('#access_token1=123&token_type=Bearer')
-    ).resolves.toBeNull()
-  })
-
-  it('throws error if query string is falsy', () => {
-    return expect(callback('?error=access_denied&state=123')).rejects.toThrow(
-      'Authentication failed'
-    )
+    expect(findToken('#access_token1=123&token_type=Bearer')).toBeNull()
   })
 
   it('returns null when no data is provided', () => {
-    return expect(callback()).resolves.toBe(null)
+    expect(findToken()).toBe(null)
   })
 })
 
 describe('authentication url builder', () => {
   it('returns a nice url', () => {
-    return expect(
-      authURI('123', 'http://localhost', ['nice-scope', '123'])
-    ).resolves.toBe(
+    expect(authURI('123', 'http://localhost', ['nice-scope', '123'])).toBe(
       'https://accounts.spotify.com/authorize?client_id=123&redirect_uri=http%3A%2F%2Flocalhost&response_type=token&scope=nice-scope%20123&show_dialog=true'
     )
   })

@@ -1,28 +1,25 @@
-export const authURI = async (client, redirect, scopes) => {
-  const { stringify } = await import('query-string')
+import {stringify, parse} from 'query-string'
 
+export const authURI = (client, redirect, scopes) => {
   const q = stringify({
     redirect_uri: redirect,
     client_id: client,
     scope: scopes.join(' '),
     response_type: 'token',
-    show_dialog: true
+    show_dialog: false
   })
 
   return `https://accounts.spotify.com/authorize?${q}`
 }
 
-export const callback = async value => {
-  if (!value) {
-    return null
-  }
-
-  const { parse } = await import('query-string')
+export const hasAuthError = value => {
   const p = parse(value)
 
-  if (p.error) {
-    throw new Error('Authentication failed')
-  }
+  return !!p.error
+}
+
+export const findToken = value => {
+  const p = parse(value)
 
   if (!p.access_token) {
     return null
@@ -66,13 +63,15 @@ export const playlists = async (getPlaylists, getGeneric, userId) => {
     }
   }
 
-  return l.map(p => ({
-    id: p.id,
-    ownerId: p.owner.id,
-    name: p.name,
-    uri: p.uri,
-    href: p.href
-  })).filter(p => !userId || p.ownerId === userId)
+  return l
+    .map(p => ({
+      id: p.id,
+      ownerId: p.owner.id,
+      name: p.name,
+      uri: p.uri,
+      href: p.href
+    }))
+    .filter(p => !userId || p.ownerId === userId)
 }
 
 export const tracks = async (getTracks, getGeneric, playlistId) => {
