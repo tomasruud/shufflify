@@ -7,15 +7,17 @@ import store from './store'
 
 import AuthRoute from './auth/ProtectedRoute'
 
-import List from './playlist/List'
+import PlaylistList from './playlist/List'
+import TrackList from './tracklist/List'
 import Login from './auth/Login'
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
       <React.Fragment>
-        <AuthRoute exact path='/' component={List} />
-        <Route path='/sign-in' component={Login} />
+        <AuthRoute exact path='/' component={PlaylistList} />
+        <Route path='/auth' component={Login} />
+        <Route path='/shuffle/:id' component={TrackList} />
       </React.Fragment>
     </Router>
   </Provider>,

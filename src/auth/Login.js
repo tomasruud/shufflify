@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
-import { fetchToken, getAuthUri } from './state'
+import { fetchToken, redirectToLogin } from './state'
 
-const Login = ({ hasToken, isLoading, fetchToken, authURL }) => {
+const Login = ({ hasToken, isLoading, fetchToken, onLoginClick }) => {
   useEffect(() => {
     if (!hasToken) {
       fetchToken()
@@ -22,7 +22,7 @@ const Login = ({ hasToken, isLoading, fetchToken, authURL }) => {
   return (
     <React.Fragment>
       <h1>Login</h1>
-      <a href={authURL}>Log me in</a>
+      <button onClick={onLoginClick}>Log me in</button>
     </React.Fragment>
   )
 }
@@ -30,7 +30,7 @@ const Login = ({ hasToken, isLoading, fetchToken, authURL }) => {
 const mapState = state => ({
   hasToken: state.auth.hasToken,
   isLoading: state.auth.isLoading,
-  authURL: getAuthUri()
+  onLoginClick: redirectToLogin
 })
 
 const mapDispatch = dispatch => ({

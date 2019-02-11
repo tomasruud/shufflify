@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { findPlaylists } from './state'
+import { Link } from 'react-router-dom'
 
 const List = ({ playlists, done, failed, loading, fetchPlaylists }) => {
   useEffect(() => {
@@ -14,7 +15,13 @@ const List = ({ playlists, done, failed, loading, fetchPlaylists }) => {
 
   if (playlists && playlists.length > 0) {
     list = (
-      <ul>{playlists && playlists.map((p, i) => <li key={i}>{p.name}</li>)}</ul>
+      <ul>
+        {playlists.map((p, i) => (
+          <li key={i}>
+            <Link to={'/shuffle/' + p.id}>{p.name}</Link>
+          </li>
+        ))}
+      </ul>
     )
 
     title = title + ' (' + playlists.length + ')'
