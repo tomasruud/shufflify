@@ -1,11 +1,11 @@
 import {
-  findToken,
   authURI,
+  findToken,
+  hasAuthError,
   playlists,
-  user,
-  tracks,
   reorderTrack,
-  hasAuthError
+  tracks,
+  user
 } from './service'
 import * as Adapter from './local.adapter'
 
@@ -34,7 +34,7 @@ describe('authentication findToken hook', () => {
 describe('authentication url builder', () => {
   it('returns a nice url', () => {
     expect(authURI('123', 'http://localhost', ['nice-scope', '123'])).toBe(
-      'https://accounts.spotify.com/authorize?client_id=123&redirect_uri=http%3A%2F%2Flocalhost&response_type=token&scope=nice-scope%20123&show_dialog=true'
+      'https://accounts.spotify.com/authorize?client_id=123&redirect_uri=http%3A%2F%2Flocalhost&response_type=token&scope=nice-scope%20123&show_dialog=false'
     )
   })
 })
