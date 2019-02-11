@@ -6,7 +6,7 @@ import {
   tracks,
   reorderTrack,
   hasAuthError
-} from './spotify'
+} from './service'
 import * as Adapter from './local.adapter'
 
 describe('auth has error check', () => {

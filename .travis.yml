@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+- 8
+env:
+- CI=yes
+cache: npm
+notifications:
+  email: false
+install:
+- npm install
+script:
+- npm run test
+- npm run build
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  local-dir: build
+  fqdn: shufflify.ruud.ninja
+  on:
+    branch: master
