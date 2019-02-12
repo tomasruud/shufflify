@@ -9,6 +9,11 @@ const init = {
   fetched: false
 }
 
+export const getTracks = state => state.tracks.items
+export const isLoading = state => state.tracks.isLoading
+export const hasFailed = state => state.tracks.failed
+export const fetchComplete = state => state.tracks.fetched
+
 const reducer = (state = init, action = {}) => {
   switch (action.type) {
     case REQUEST_TRACKS:
@@ -63,7 +68,8 @@ export const findTracks = playlistID => async (dispatch, getState) => {
     const adapter = await import('../spotify/remote.adapter')
     const service = await import('../spotify/service')
 
-    const { token } = getState().auth
+    const auth = await import('../auth/state')
+    const token = auth.getToken(getState())
 
     const client = await adapter.client(token)
     const items = await service.tracks(

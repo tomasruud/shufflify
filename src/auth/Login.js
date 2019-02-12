@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
-import { fetchToken, redirectToLogin } from './state'
+import { fetchToken, hasToken, isLoading, redirectToLogin } from './state'
 
 const Login = ({ hasToken, isLoading, fetchToken, onLoginClick }) => {
   useEffect(() => {
@@ -28,8 +28,8 @@ const Login = ({ hasToken, isLoading, fetchToken, onLoginClick }) => {
 }
 
 const mapState = state => ({
-  hasToken: state.auth.hasToken,
-  isLoading: state.auth.isLoading,
+  hasToken: hasToken(state),
+  isLoading: isLoading(state),
   onLoginClick: redirectToLogin
 })
 

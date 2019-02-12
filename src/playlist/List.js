@@ -1,9 +1,26 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { findPlaylists } from './state'
 import { Link } from 'react-router-dom'
 
-const List = ({ playlists, done, failed, loading, fetchPlaylists }) => {
+import {
+  fetchComplete,
+  findPlaylists,
+  getSearch,
+  getVisiblePlaylists,
+  hasFailed,
+  isLoading,
+  setSearch
+} from './state'
+
+const List = ({
+  playlists,
+  done,
+  failed,
+  loading,
+  fetchPlaylists,
+  setSearch,
+  search
+}) => {
   useEffect(() => {
     if (!done && !loading && !failed) {
       fetchPlaylists()
@@ -32,20 +49,32 @@ const List = ({ playlists, done, failed, loading, fetchPlaylists }) => {
       <h1>{title}</h1>
       {loading && <span>Finding your playlists..</span>}
       {failed && <span>Unable to find your playlists, please try again!</span>}
-      {!loading && list}
+      {!loading && (
+        <React.Fragment>
+          <input
+            type='text'
+            placeholder='Filter'
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          {list}
+        </React.Fragment>
+      )}
     </React.Fragment>
   )
 }
 
 const mapDispatch = dispatch => ({
-  fetchPlaylists: () => dispatch(findPlaylists())
+  fetchPlaylists: () => dispatch(findPlaylists()),
+  setSearch: search => dispatch(setSearch(search))
 })
 
 const mapState = state => ({
-  playlists: state.playlists.items,
-  done: state.playlists.fetched,
-  failed: state.playlists.failed,
-  loading: state.playlists.isLoading
+  playlists: getVisiblePlaylists(state),
+  done: fetchComplete(state),
+  failed: hasFailed(state),
+  loading: isLoading(state),
+  search: getSearch(state)
 })
 
 export default connect(

@@ -9,7 +9,19 @@ const initial = {
   isLoading: true
 }
 
-const reducer = (state = initial, action = {}) => {
+export const getToken = state => state.auth.token
+
+export const getUser = state => state.auth.user
+
+export const getUserID = state => getUser(state).id
+
+export const isLoading = state => state.auth.isLoading
+
+export const hasToken = state => state.auth.hasToken
+
+export const hasError = state => state.auth.error
+
+export default (state = initial, action = {}) => {
   switch (action.type) {
     case RECEIVE_TOKEN:
       return {
@@ -30,8 +42,6 @@ const reducer = (state = initial, action = {}) => {
       return state
   }
 }
-
-export default reducer
 
 export const receiveToken = (token, user) => ({
   type: RECEIVE_TOKEN,

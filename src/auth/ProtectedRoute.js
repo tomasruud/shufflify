@@ -1,6 +1,7 @@
 import React from 'react'
 import { Redirect, Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import {getToken} from './state'
 
 const ProtectedRoute = ({ component: Component, hasToken, ...rest }) => (
   <Route
@@ -12,7 +13,7 @@ const ProtectedRoute = ({ component: Component, hasToken, ...rest }) => (
 )
 
 const state = state => ({
-  hasToken: state.auth.hasToken
+  hasToken: getToken(state)
 })
 
 export default withRouter(connect(state)(ProtectedRoute))

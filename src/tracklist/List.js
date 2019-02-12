@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { findTracks } from './state'
+
+import {
+  fetchComplete,
+  findTracks,
+  getTracks,
+  hasFailed,
+  isLoading
+} from './state'
+import { getPlaylistById } from '../playlist/state'
 
 const List = ({ tracks, playlist, done, failed, loading, fetchTracks }) => {
   useEffect(() => {
@@ -16,7 +24,7 @@ const List = ({ tracks, playlist, done, failed, loading, fetchTracks }) => {
     list = (
       <ul>
         {tracks.map((p, i) => (
-          <li key={i}>{p.name}</li>
+          <li key={i}>{p.name} - {p.artists.join(', ')}</li>
         ))}
       </ul>
     )
@@ -39,11 +47,11 @@ const mapDispatch = (dispatch, { match }) => ({
 })
 
 const mapState = (state, { match }) => ({
-  playlist: state.playlists.items.find(p => p.id === match.params.id),
-  tracks: state.tracks.items,
-  done: state.tracks.fetched,
-  failed: state.tracks.failed,
-  loading: state.tracks.isLoading
+  playlist: getPlaylistById(state, match.params.id),
+  tracks: getTracks(state),
+  done: fetchComplete(state),
+  failed: hasFailed(state),
+  loading: isLoading(state)
 })
 
 export default connect(

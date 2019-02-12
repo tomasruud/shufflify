@@ -1,4 +1,4 @@
-import {stringify, parse} from 'query-string'
+import { stringify, parse } from 'query-string'
 
 export const authURI = (client, redirect, scopes) => {
   const q = stringify({
@@ -51,7 +51,7 @@ export const user = async getMe => {
   }
 }
 
-export const playlists = async (getPlaylists, getGeneric, userId) => {
+export const playlists = async (getPlaylists, getGeneric) => {
   let ps = await getPlaylists()
   let l = ps.items
 
@@ -63,15 +63,13 @@ export const playlists = async (getPlaylists, getGeneric, userId) => {
     }
   }
 
-  return l
-    .map(p => ({
-      id: p.id,
-      ownerId: p.owner.id,
-      name: p.name,
-      uri: p.uri,
-      href: p.href
-    }))
-    .filter(p => !userId || p.ownerId === userId)
+  return l.map(p => ({
+    id: p.id,
+    ownerId: p.owner.id,
+    name: p.name,
+    uri: p.uri,
+    href: p.href
+  }))
 }
 
 export const tracks = async (getTracks, getGeneric, playlistId) => {

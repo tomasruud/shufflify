@@ -87,20 +87,6 @@ describe('playlist listing', () => {
       }
     ])
   })
-
-  it('lists playlists for user only', () => {
-    return expect(
-      playlists(Adapter.playlists, Adapter.playlistsLastPage, 'myspotfiy')
-    ).resolves.toEqual([
-      {
-        id: '5QYl0j3b2od8WjVgm0tXIX',
-        ownerId: 'myspotfiy',
-        name: 'Starred',
-        uri: 'spotify:user:myspotfiy:playlist:5QYl0j3b2od8WjVgm0tXIX',
-        href: 'https://api.spotify.com/v1/playlists/5QYl0j3b2od8WjVgm0tXIX'
-      }
-    ])
-  })
 })
 
 describe('playlist track listing', () => {
