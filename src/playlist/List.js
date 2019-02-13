@@ -1,34 +1,33 @@
-import React, { useEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import {
-  fetchComplete,
-  findPlaylists,
-  getSearch,
-  getVisiblePlaylists,
-  hasFailed,
-  isLoading,
-  setSearch
+  loadPlaylists,
+  search,
+  visiblePlaylists,
+  error,
+  loading,
+  updatePlaylistsSearch,
+  loaded
 } from './state'
 
 const List = ({
   playlists,
-  done,
-  failed,
+  loaded,
+  error,
   loading,
-  fetchPlaylists,
-  setSearch,
+  loadPlaylists,
+  updateSearch,
   search
 }) => {
-  useEffect(() => {
-    if (!done && !loading && !failed) {
-      fetchPlaylists()
+  useLayoutEffect(() => {
+    if (!loaded) {
+      loadPlaylists()
     }
-  })
+  }, [])
 
   let list = <span>No playlists found</span>
-  let title = 'Your playlists'
 
   if (playlists && playlists.length > 0) {
     list = (
@@ -40,23 +39,26 @@ const List = ({
         ))}
       </ul>
     )
-
-    title = title + ' (' + playlists.length + ')'
   }
 
   return (
     <React.Fragment>
-      <h1>{title}</h1>
-      {loading && <span>Finding your playlists..</span>}
-      {failed && <span>Unable to find your playlists, please try again!</span>}
-      {!loading && (
+      <h1>Your playlists</h1>
+      {error && <span>Unable to find your playlists, please try again!</span>}
+      {loading ? (
+        <span>Finding your playlists..</span>
+      ) : (
         <React.Fragment>
           <input
             type='text'
             placeholder='Filter'
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => updateSearch(e.target.value)}
           />
+          <button onClick={() => updateSearch('')} disabled={search === ''}>
+            X
+          </button>
+          <br />
           {list}
         </React.Fragment>
       )}
@@ -65,16 +67,16 @@ const List = ({
 }
 
 const mapDispatch = dispatch => ({
-  fetchPlaylists: () => dispatch(findPlaylists()),
-  setSearch: search => dispatch(setSearch(search))
+  loadPlaylists: () => dispatch(loadPlaylists()),
+  updateSearch: search => dispatch(updatePlaylistsSearch(search))
 })
 
 const mapState = state => ({
-  playlists: getVisiblePlaylists(state),
-  done: fetchComplete(state),
-  failed: hasFailed(state),
-  loading: isLoading(state),
-  search: getSearch(state)
+  loaded: loaded(state),
+  playlists: visiblePlaylists(state),
+  error: error(state),
+  loading: loading(state),
+  search: search(state)
 })
 
 export default connect(

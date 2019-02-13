@@ -1,48 +1,99 @@
 import { createSelector } from 'reselect'
-import { getUserID } from '../auth/state'
-
-const REQUEST_PLAYLISTS = 'playlist/REQUEST_PLAYLISTS'
-const RECEIVE_PLAYLISTS = 'playlist/RECEIVE_PLAYLISTS'
-const RECEIVE_PLAYLISTS_FAILED = 'playlist/RECEIVE_PLAYLISTS_FAILED'
-const SET_PLAYLIST_FILTER = 'playlist/SET_PLAYLIST_FILTER'
-const SET_PLAYLIST_SEARCH = 'playlist/SET_PLAYLIST_SEARCH'
+import { createAction, handleActions } from 'redux-actions'
+import { userID } from '../auth/state'
 
 export const PlaylistFilters = {
   ALL: null,
   MINE: 'MINE'
 }
 
-const init = {
+export const loadPlaylistsRequest = createAction('LOAD_PLAYLISTS_REQUEST')
+
+export const loadPlaylistsSuccess = createAction(
+  'LOAD_PLAYLISTS_SUCCESS',
+  playlists => playlists
+)
+
+export const loadPlaylistsError = createAction('LOAD_PLAYLISTS_ERROR')
+
+export const updatePlaylistsFilter = createAction(
+  'UPDATE_PLAYLISTS_FILTER',
+  filter => filter
+)
+
+export const updatePlaylistsSearch = createAction(
+  'UPDATE_PLAYLISTS_SEARCH',
+  search => search
+)
+
+const defaultState = {
   items: [],
-  isLoading: false,
-  failed: false,
-  fetched: false,
+  loading: false,
+  error: false,
+  loaded: false,
   filter: PlaylistFilters.MINE,
   search: ''
 }
 
-export const getPlaylists = state => state.playlists.items
+export default handleActions(
+  {
+    [loadPlaylistsRequest]: state => ({
+      ...state,
+      loading: true,
+      error: false,
+      loaded: false
+    }),
 
-export const isLoading = state => state.playlists.isLoading
+    [loadPlaylistsSuccess]: (state, action) => ({
+      ...state,
+      items: action.payload,
+      loading: false,
+      error: false,
+      loaded: true
+    }),
 
-export const hasFailed = state => state.playlists.failed
+    [loadPlaylistsError]: state => ({
+      ...state,
+      error: true,
+      loading: false,
+      loaded: true
+    }),
 
-export const fetchComplete = state => state.playlists.fetched
+    [updatePlaylistsFilter]: (state, action) => ({
+      ...state,
+      filter: action.payload
+    }),
 
-export const getPlaylistById = (state, id) =>
-  getPlaylists(state).find(p => p.id === id)
+    [updatePlaylistsSearch]: (state, action) => ({
+      ...state,
+      search: action.payload
+    })
+  },
+  defaultState
+)
 
-export const getFilter = state => state.playlists.filter
+export const playlists = state => state.playlists.items
 
-export const getSearch = state => state.playlists.search
+export const loading = state => state.playlists.loading
 
-export const getVisiblePlaylists = createSelector(
-  [getFilter, getSearch, getPlaylists, getUserID],
+export const error = state => state.playlists.error
+
+export const loaded = state => state.playlists.loaded
+
+export const playlistById = (state, id) =>
+  playlists(state).find(p => p.id === id)
+
+export const filter = state => state.playlists.filter
+
+export const search = state => state.playlists.search
+
+export const visiblePlaylists = createSelector(
+  [filter, search, playlists, userID],
   (filter, search, playlists, userID) => {
     search = search.toLowerCase()
 
     playlists = playlists.filter(
-      p => !search || p.name.toLowerCase().includes(search)
+      p => !search || (p.name && p.name.toLowerCase().includes(search))
     )
 
     switch (filter) {
@@ -55,82 +106,15 @@ export const getVisiblePlaylists = createSelector(
   }
 )
 
-export default (state = init, action = {}) => {
-  switch (action.type) {
-    case SET_PLAYLIST_FILTER:
-      return {
-        ...state,
-        filter: action.filter
-      }
-
-    case SET_PLAYLIST_SEARCH:
-      return {
-        ...state,
-        search: action.search
-      }
-
-    case REQUEST_PLAYLISTS:
-      return {
-        ...state,
-        isLoading: true,
-        failed: false,
-        fetched: false
-      }
-
-    case RECEIVE_PLAYLISTS:
-      return {
-        ...state,
-        items: action.playlists,
-        isLoading: false,
-        failed: false,
-        fetched: true
-      }
-
-    case RECEIVE_PLAYLISTS_FAILED:
-      return {
-        ...state,
-        failed: true,
-        isLoading: false,
-        fetched: true
-      }
-
-    default:
-      return state
-  }
-}
-
-export const requestPlaylists = () => ({
-  type: REQUEST_PLAYLISTS
-})
-
-export const receivePlaylists = playlists => ({
-  type: RECEIVE_PLAYLISTS,
-  playlists
-})
-
-export const receivePlaylistsFailed = () => ({
-  type: RECEIVE_PLAYLISTS_FAILED
-})
-
-export const setFilter = filter => ({
-  type: SET_PLAYLIST_FILTER,
-  filter
-})
-
-export const setSearch = search => ({
-  type: SET_PLAYLIST_SEARCH,
-  search
-})
-
-export const findPlaylists = () => async (dispatch, getState) => {
-  dispatch(requestPlaylists())
+export const loadPlaylists = () => async (dispatch, getState) => {
+  dispatch(loadPlaylistsRequest())
 
   try {
     const adapter = await import('../spotify/remote.adapter')
     const service = await import('../spotify/service')
 
     const auth = await import('../auth/state')
-    const token = auth.getToken(getState())
+    const token = auth.token(getState())
 
     const client = await adapter.client(token)
     const items = await service.playlists(
@@ -138,9 +122,9 @@ export const findPlaylists = () => async (dispatch, getState) => {
       adapter.getGeneric(client)
     )
 
-    return dispatch(receivePlaylists(items))
+    return dispatch(loadPlaylistsSuccess(items))
   } catch (e) {
     console.log(e)
-    return dispatch(receivePlaylistsFailed())
+    return dispatch(loadPlaylistsError())
   }
 }

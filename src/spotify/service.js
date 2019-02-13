@@ -28,8 +28,8 @@ export const findToken = value => {
   return p.access_token
 }
 
-export const user = async getMe => {
-  const u = await getMe()
+export const user = async meFunc => {
+  const u = await meFunc()
 
   if (!u) {
     return null
@@ -51,12 +51,12 @@ export const user = async getMe => {
   }
 }
 
-export const playlists = async (getPlaylists, getGeneric) => {
-  let ps = await getPlaylists()
+export const playlists = async (playlistFunc, genericFunc) => {
+  let ps = await playlistFunc()
   let l = ps.items
 
   while (ps.next) {
-    ps = await getGeneric(ps.next)
+    ps = await genericFunc(ps.next)
 
     if (ps.items) {
       l = l.concat(ps.items)
@@ -72,15 +72,15 @@ export const playlists = async (getPlaylists, getGeneric) => {
   }))
 }
 
-export const tracks = async (getTracks, getGeneric, playlistId) => {
-  let ts = await getTracks(playlistId, {
+export const tracks = async (tracksFunc, genericFunc, playlistId) => {
+  let ts = await tracksFunc(playlistId, {
     fields: 'items(track(name,artists(name))), next'
   })
 
   let l = ts.items
 
   while (ts.next) {
-    ts = await getGeneric(ts.next)
+    ts = await genericFunc(ts.next)
 
     if (ts.items) {
       l = l.concat(ts.items)
@@ -94,7 +94,7 @@ export const tracks = async (getTracks, getGeneric, playlistId) => {
   }))
 }
 
-export const reorderTrack = async (reorder, playlistId, from, to) => {
-  const res = await reorder(playlistId, from, to)
+export const reorderTrack = async (reorderFunc, playlistId, from, to) => {
+  const res = await reorderFunc(playlistId, from, to)
   return res.snapshot_id
 }

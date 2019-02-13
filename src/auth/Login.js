@@ -1,40 +1,49 @@
-import React, { useEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
-import { fetchToken, hasToken, isLoading, redirectToLogin } from './state'
+import { loadToken, hasToken, loading } from './state'
+import { redirectToLogin } from './business'
 
-const Login = ({ hasToken, isLoading, fetchToken, onLoginClick }) => {
-  useEffect(() => {
+const Login = ({ hasToken, loading, loadToken, onLoginClick }) => {
+  useLayoutEffect(() => {
     if (!hasToken) {
-      fetchToken()
+      loadToken()
     }
-  }, [hasToken])
-
-  if (isLoading) {
-    return <span>Loading...</span>
-  }
+  }, [])
 
   if (hasToken) {
     return <Redirect to='/' />
   }
 
+  if (loading) {
+    return <span>Loading...</span>
+  }
+
   return (
     <React.Fragment>
-      <h1>Login</h1>
-      <button onClick={onLoginClick}>Log me in</button>
+      <h1>Shufflify</h1>
+      <button onClick={() => onLoginClick()}>Authenticate and continue</button>
     </React.Fragment>
   )
 }
 
+Login.propTypes = {
+  hasToken: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  loadToken: PropTypes.func.isRequired,
+  onLoginClick: PropTypes.func.isRequired
+}
+
 const mapState = state => ({
   hasToken: hasToken(state),
-  isLoading: isLoading(state),
-  onLoginClick: redirectToLogin
+  loading: loading(state),
+  onLoginClick: () => redirectToLogin()
 })
 
 const mapDispatch = dispatch => ({
-  fetchToken: () => dispatch(fetchToken())
+  loadToken: () => dispatch(loadToken())
 })
 
 export default connect(

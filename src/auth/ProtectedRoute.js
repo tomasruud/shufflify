@@ -1,7 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Redirect, Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {getToken} from './state'
+
+import { hasToken } from './state'
 
 const ProtectedRoute = ({ component: Component, hasToken, ...rest }) => (
   <Route
@@ -12,8 +14,13 @@ const ProtectedRoute = ({ component: Component, hasToken, ...rest }) => (
   />
 )
 
+ProtectedRoute.propTypes = {
+  component: PropTypes.any,
+  hasToken: PropTypes.bool
+}
+
 const state = state => ({
-  hasToken: getToken(state)
+  hasToken: hasToken(state)
 })
 
 export default withRouter(connect(state)(ProtectedRoute))

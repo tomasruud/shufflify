@@ -1,57 +1,58 @@
-import React, { useEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-import {
-  fetchComplete,
-  findTracks,
-  getTracks,
-  hasFailed,
-  isLoading
-} from './state'
-import { getPlaylistById } from '../playlist/state'
+import { playlistById } from '../playlist/state'
+import { loadTracks, tracks, error, loading } from './state'
 
-const List = ({ tracks, playlist, done, failed, loading, fetchTracks }) => {
-  useEffect(() => {
-    if (!done && !loading && !failed) {
-      fetchTracks()
-    }
-  })
+const List = ({ tracks, playlist, error, loading, loadTracks }) => {
+  useLayoutEffect(() => {
+    loadTracks()
+  }, [])
 
   let list = <span>No tracks found</span>
-  let title = playlist.name
 
   if (tracks && tracks.length > 0) {
     list = (
       <ul>
         {tracks.map((p, i) => (
-          <li key={i}>{p.name} - {p.artists.join(', ')}</li>
+          <li key={i}>
+            {p.name} - {p.artists.join(', ')}
+          </li>
         ))}
       </ul>
     )
-
-    title = title + ' (' + tracks.length + ')'
   }
 
   return (
     <React.Fragment>
-      <h1>{title}</h1>
-      {loading && <span>Finding your tracks..</span>}
-      {failed && <span>Unable to find your tracks, please try again!</span>}
-      {!loading && list}
+      <h1>{playlist.name}</h1>
+      <Link to='/'>Back</Link>
+      <br />
+      {error && <span>Unable to find your tracks, please try again!</span>}
+      {loading ? <span>Finding your tracks..</span> : list}
     </React.Fragment>
   )
 }
 
+List.propTypes = {
+  tracks: PropTypes.array.isRequired,
+  playlist: PropTypes.object.isRequired,
+  error: PropTypes.bool,
+  loading: PropTypes.bool,
+  loadTracks: PropTypes.func.isRequired
+}
+
 const mapDispatch = (dispatch, { match }) => ({
-  fetchTracks: () => dispatch(findTracks(match.params.id))
+  loadTracks: () => dispatch(loadTracks(match.params.id))
 })
 
 const mapState = (state, { match }) => ({
-  playlist: getPlaylistById(state, match.params.id),
-  tracks: getTracks(state),
-  done: fetchComplete(state),
-  failed: hasFailed(state),
-  loading: isLoading(state)
+  playlist: playlistById(state, match.params.id),
+  tracks: tracks(state),
+  error: error(state),
+  loading: loading(state)
 })
 
 export default connect(

@@ -1,75 +1,59 @@
-const REQUEST_TRACKS = 'tracklist/REQUEST_TRACKS'
-const RECEIVE_TRACKS = 'tracklist/RECEIVE_TRACKS'
-const RECEIVE_TRACKS_FAILED = 'tracklist/RECEIVE_TRACKS_FAILED'
+import { createAction, handleActions } from 'redux-actions'
 
-const init = {
+export const loadTracksRequest = createAction('LOAD_TRACKS_REQUEST')
+
+export const loadTracksSuccess = createAction(
+  'LOAD_TRACKS_SUCCESS',
+  tracks => tracks
+)
+
+export const loadTracksError = createAction('LOAD_TRACKS_ERROR')
+
+const defaultState = {
   items: [],
-  isLoading: false,
-  failed: false,
-  fetched: false
+  loading: false,
+  error: false
 }
 
-export const getTracks = state => state.tracks.items
-export const isLoading = state => state.tracks.isLoading
-export const hasFailed = state => state.tracks.failed
-export const fetchComplete = state => state.tracks.fetched
+export default handleActions(
+  {
+    [loadTracksRequest]: state => ({
+      ...state,
+      loading: true,
+      error: false
+    }),
 
-const reducer = (state = init, action = {}) => {
-  switch (action.type) {
-    case REQUEST_TRACKS:
-      return {
-        ...state,
-        isLoading: true,
-        failed: false,
-        fetched: false
-      }
+    [loadTracksSuccess]: (state, action) => ({
+      ...state,
+      items: action.payload,
+      loading: false,
+      error: false
+    }),
 
-    case RECEIVE_TRACKS:
-      return {
-        ...state,
-        items: action.tracks,
-        isLoading: false,
-        failed: false,
-        fetched: true
-      }
+    [loadTracksError]: state => ({
+      ...state,
+      error: true,
+      loading: false
+    })
+  },
+  defaultState
+)
 
-    case RECEIVE_TRACKS_FAILED:
-      return {
-        ...state,
-        failed: true,
-        isLoading: false,
-        fetched: true
-      }
+export const tracks = state => state.tracks.items
 
-    default:
-      return state
-  }
-}
+export const loading = state => state.tracks.loading
 
-export default reducer
+export const error = state => state.tracks.error
 
-export const requestTracks = () => ({
-  type: REQUEST_TRACKS
-})
-
-export const receiveTracks = (tracks) => ({
-  type: RECEIVE_TRACKS,
-  tracks
-})
-
-export const receiveTracksFailed = () => ({
-  type: RECEIVE_TRACKS_FAILED
-})
-
-export const findTracks = playlistID => async (dispatch, getState) => {
+export const loadTracks = playlistID => async (dispatch, getState) => {
   try {
-    dispatch(requestTracks())
+    dispatch(loadTracksRequest())
 
     const adapter = await import('../spotify/remote.adapter')
     const service = await import('../spotify/service')
 
     const auth = await import('../auth/state')
-    const token = auth.getToken(getState())
+    const token = auth.token(getState())
 
     const client = await adapter.client(token)
     const items = await service.tracks(
@@ -78,9 +62,9 @@ export const findTracks = playlistID => async (dispatch, getState) => {
       playlistID
     )
 
-    return dispatch(receiveTracks(items))
+    return dispatch(loadTracksSuccess(items))
   } catch (e) {
     console.log(e)
-    return dispatch(receiveTracksFailed())
+    return dispatch(loadTracksError())
   }
 }

@@ -1,59 +1,52 @@
-const RECEIVE_TOKEN = 'auth/RECEIVE_TOKEN'
-const RECEIVE_TOKEN_FAILED = 'auth/RECEIVE_TOKEN_FAILED'
+import { createAction, handleActions } from 'redux-actions'
 
-const initial = {
+export const loadTokenSuccess = createAction(
+  'LOAD_TOKEN_SUCCESS',
+  (token, user) => ({
+    token,
+    user
+  })
+)
+
+export const loadTokenError = createAction('LOAD_TOKEN_ERROR')
+
+const defaultState =  {
   token: null,
   user: {},
-  hasToken: false,
   error: false,
-  isLoading: true
+  loading: true
 }
 
-export const getToken = state => state.auth.token
+export default handleActions(
+  {
+    [loadTokenSuccess]: (state, action) => ({
+      ...state,
+      token: action.payload.token,
+      user: action.payload.user,
+      loading: false
+    }),
 
-export const getUser = state => state.auth.user
+    [loadTokenError]: state => ({
+      ...state,
+      error: true
+    })
+  },
+  defaultState
+)
 
-export const getUserID = state => getUser(state).id
+export const token = state => state.auth.token
 
-export const isLoading = state => state.auth.isLoading
+export const user = state => state.auth.user
 
-export const hasToken = state => state.auth.hasToken
+export const userID = state => user(state).id
 
-export const hasError = state => state.auth.error
+export const loading = state => state.auth.loading
 
-export default (state = initial, action = {}) => {
-  switch (action.type) {
-    case RECEIVE_TOKEN:
-      return {
-        ...state,
-        token: action.token,
-        user: action.user,
-        hasToken: !!action.token,
-        isLoading: false
-      }
+export const hasToken = state => !!token(state)
 
-    case RECEIVE_TOKEN_FAILED:
-      return {
-        ...state,
-        error: true
-      }
+export const error = state => state.auth.error
 
-    default:
-      return state
-  }
-}
-
-export const receiveToken = (token, user) => ({
-  type: RECEIVE_TOKEN,
-  token,
-  user
-})
-
-export const receiveTokenFailed = () => ({
-  type: RECEIVE_TOKEN_FAILED
-})
-
-export const fetchToken = () => async dispatch => {
+export const loadToken = () => async dispatch => {
   try {
     const service = await import('../spotify/service')
 
@@ -61,13 +54,13 @@ export const fetchToken = () => async dispatch => {
     const { search, hash } = location
 
     if (await service.hasAuthError(search)) {
-      return dispatch(receiveTokenFailed())
+      return dispatch(loadTokenError())
     }
 
     const token = await service.findToken(hash)
 
     if (!token) {
-      return dispatch(receiveToken(token, {}))
+      return dispatch(loadTokenSuccess(token, {}))
     }
 
     const adapter = await import('../spotify/remote.adapter')
@@ -76,22 +69,9 @@ export const fetchToken = () => async dispatch => {
 
     history.replaceState({}, title, location.pathname)
 
-    return dispatch(receiveToken(token, user))
+    return dispatch(loadTokenSuccess(token, user))
   } catch (e) {
     console.log(e)
-    return dispatch(receiveTokenFailed())
+    return dispatch(loadTokenError())
   }
-}
-
-export const redirectToLogin = async () => {
-  const service = await import('../spotify/service')
-
-  const scopes = ['playlist-read-private', 'playlist-modify-private']
-  const client = 'd889de9a8c554ddebea3a0b88fdf5874'
-  const redirect =
-    process.env.NODE_ENV === 'production'
-      ? 'https://shufflify.ruud.ninja'
-      : 'http://localhost:3000'
-
-  window.location = service.authURI(client, redirect, scopes)
 }
