@@ -30,6 +30,26 @@ it('creates valid moves', () => {
   expect(ms).toContainEqual({start: 6, range: 1, before: 5})
 })
 
+it('creates correct moves', () => {
+  const a = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+  const b = ['d', 'f', 'c', 'a', 'b', 'g', 'e']
+
+  const ms = moves(a, b, (a, b) => a === b)
+
+  expect(ms.length).toBe(4)
+})
+
+it('makes certain that moves count is less than n', () => {
+  const a = Array.from(Array(2000).keys())
+  const b = shuffle(a)
+
+  const ms = moves(a, b, (a, b) => a === b)
+
+  console.log(ms.length)
+
+  expect(ms.length < a.length).toBeTruthy()
+})
+
 it('creates moves that actually works on large arrays', () => {
   const a = Array.from(Array(2000).keys())
   const b = shuffle(a)

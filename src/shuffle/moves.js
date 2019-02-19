@@ -14,41 +14,33 @@ export const moves = (a, b, equals) => {
   )
 
   // Loop through all inversions and make move objects
-  return inversions.reduce(
+  const { moves } = inversions.reduce(
     (a, v, i, arr) => {
-      if (v < 1) {
-        if (a.current.length > 0) {
-          a.moves.push(move(a.current, i - 1))
-          a.current = []
+      if (v > 0) {
+        const last = a.current[a.current.length - 1]
+
+        if (last && last === v) {
+          a.current.push(v)
+        } else {
+          if (a.current.length > 0) {
+            a.moves.push(move(a.current, i - 1))
+          }
+
+          a.current = [v]
         }
-
-        return a
-      }
-
-      const last = a.current[a.current.length - 1]
-
-      if (last && last === v) {
-        a.current.push(v)
-
-        if (arr.length - 1 === i) {
-          a.moves.push(move(a.current, i))
-        }
-
-        return a
-      }
-
-      if (a.current.length > 0) {
+      } else if (a.current.length > 0) {
         a.moves.push(move(a.current, i - 1))
+        a.current = []
       }
 
-      a.current = [v]
-
-      if (arr.length - 1 === i) {
+      if (i === arr.length - 1 && a.current.length > 0) {
         a.moves.push(move(a.current, i))
       }
 
       return a
     },
     { moves: [], current: [] }
-  ).moves
+  )
+
+  return moves
 }
