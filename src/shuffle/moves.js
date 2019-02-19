@@ -1,79 +1,54 @@
-const a = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-const b = ['d', 'f', 'c', 'a', 'b', 'g', 'e']
+const move = (steps, index) => ({
+  start: index - steps.length + 1,
+  range: steps.length,
+  before: index - steps.length + 1 - steps[0]
+})
 
-// {start: 0, range: 2, before: 4}
+export const moves = (a, b, equals) => {
+  // Create an array of the destination index for each element
+  const target = a.map(e => b.findIndex(v => equals(e, v)))
 
-const smallest = (s, sub, e) => {
-  let low = 0
-  let high = sub.length - 1
+  // Find all inversions for the destination index list
+  const inversions = target.map((e, i, arr) =>
+    arr.reduce((a, v, j) => (a += j < i && v > e ? 1 : 0), 0)
+  )
 
-  while (high > low) {
-    let mid = (high + low) / 2
+  // Loop through all inversions and make move objects
+  return inversions.reduce(
+    (a, v, i, arr) => {
+      if (v < 1) {
+        if (a.current.length > 0) {
+          a.moves.push(move(a.current, i - 1))
+          a.current = []
+        }
 
-    if (s[sub[mid]] < s[e]) {
-      low = mid + 1
-    } else {
-      high = mid
-    }
-  }
-
-  return high
-}
-
-const lis = s => {
-  let se = []
-  let parent = Array(s.length)
-
-  s.forEach((e, i) => {
-    if (se.length === 0 || s[i] > s[se[se.length - 1]]) {
-      if (se.length > 0) {
-        parent[i] = se[se.length - 1]
+        return a
       }
 
-      se.push(i)
-    } else {
-      let ltr = smallest(s, se, i)
-      se[ltr] = i
+      const last = a.current[a.current.length - 1]
 
-      if (ltr !== 0) {
-        parent[i] = (se[ltr - 1])
+      if (last && last === v) {
+        a.current.push(v)
+
+        if (arr.length - 1 === i) {
+          a.moves.push(move(a.current, i))
+        }
+
+        return a
       }
-    }
-  })
 
-  let curr = se[se.length - 1]
-  let lis = []
+      if (a.current.length > 0) {
+        a.moves.push(move(a.current, i - 1))
+      }
 
-  while (curr) {
-    lis.push(s[curr])
-    curr = parent[curr]
-  }
+      a.current = [v]
 
-  return lis.reverse()
+      if (arr.length - 1 === i) {
+        a.moves.push(move(a.current, i))
+      }
+
+      return a
+    },
+    { moves: [], current: [] }
+  ).moves
 }
-
-const inversions = o =>
-  o.map((e, i) => o.reduce((a, v, j) => (a += j < i && v > e ? 1 : 0), 0))
-
-const steps = (a, b) => {
-  console.log('A', a)
-  console.log('B', b)
-
-  // Target indexes for each element
-  const target = a.map(e => b.findIndex(v => e === v))
-  console.log('Target', target)
-
-  const inv = inversions(target)
-  console.log('Inv', inv)
-
-  // Find sequences in inversions
-  // Take sequence, move seq[0] indexes left, reverse seq and place
-  // Do for all inversions > 0
-
-  const inc = lis(target)
-  console.log('LIS', inc)
-}
-
-console.time('steps')
-steps(a, b)
-console.timeEnd('steps')
