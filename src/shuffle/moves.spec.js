@@ -1,5 +1,6 @@
 import {moves} from './moves'
 import {shuffle} from './shuffler'
+import {lisMove} from './lis'
 
 const applyMoves = (arr, moves) => {
   const res = arr.slice()
@@ -66,4 +67,13 @@ it('handles ascension correctly', () => {
   const m = moves(a, b, (a, b) => a === b)
 
   expect(m).toEqual([{start: 4, range: 2, before: 0}])
+})
+
+it('lis', () => {
+  const a = Array.from(Array(2000).keys())
+  const b = shuffle(a)
+
+  const ms = lisMove(a, b, (a, b) => a === b)
+
+  expect(ms.length < a.length).toBeTruthy()
 })

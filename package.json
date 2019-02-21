@@ -3,29 +3,33 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@wessberg/color": "^1.0.5",
     "prop-types": "^15.7.1",
     "query-string": "^6.2.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.3",
+    "react-scripts": "^2.1.5",
     "redux": "^4.0.1",
     "redux-actions": "^2.6.4",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "spotify-web-api-js": "^1.2.0",
-    "styled-components": "^4.1.3"
+    "styled-components": "^4.1.3",
+    "styled-reset": "^1.6.8"
   },
   "devDependencies": {
     "@types/jest": "^24.0.0",
-    "prettier": "^1.16.4"
+    "prettier": "^1.16.4",
+    "react-styleguidist": "^9.0.0"
   },
   "scripts": {
     "format": "prettier --write src/**/*",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --colors"
+    "test": "react-scripts test --colors",
+    "styleguide": "styleguidist server"
   },
   "eslintConfig": {
     "extends": "react-app"

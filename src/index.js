@@ -10,16 +10,20 @@ import AuthRoute from './auth/ProtectedRoute'
 import PlaylistList from './playlist/List'
 import TrackList from './tracklist/List'
 import Login from './auth/Login'
+import Theme from './Theme'
+import Layout from './Layout'
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <React.Fragment>
-        <AuthRoute exact path='/' component={PlaylistList} />
-        <Route path='/auth' component={Login} />
-        <Route path='/shuffle/:id' component={TrackList} />
-      </React.Fragment>
-    </Router>
+    <Theme>
+      <Router>
+        <Layout>
+          <AuthRoute exact path='/' component={PlaylistList} />
+          <Route path='/auth' component={Login} />
+          <Route path='/shuffle/:id' component={TrackList} />
+        </Layout>
+      </Router>
+    </Theme>
   </Provider>,
   document.getElementById('shufflify')
 )

@@ -15,7 +15,7 @@ const smallest = (s, sub, e) => {
   return high
 }
 
-const lis = s => {
+export const findLIS = s => {
   let se = []
   let parent = Array(s.length)
 
@@ -45,4 +45,31 @@ const lis = s => {
   }
 
   return lis.reverse()
+}
+
+const bucket = (anc, ins, rem) => ({
+  anchor: anc,
+  inserted: ins,
+  toBeRemoved: rem
+})
+
+export const lisMove = (a, b, equals) => {
+  // console.log(a, b)
+
+  const target = a.map(e => b.findIndex(v => equals(e, v)))
+  const lis = findLIS(target)
+
+  console.log(lis.length)
+
+  const map = target.reduce((acc, v, i) => {
+    if (!lis.includes(v)) {
+      acc[i] = v
+    }
+
+    return acc
+  }, {})
+
+  // console.log(map)
+
+  return lis
 }

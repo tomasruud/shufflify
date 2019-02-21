@@ -6,6 +6,10 @@ import { Redirect } from 'react-router-dom'
 import { loadToken, hasToken, loading } from './state'
 import { redirectToLogin } from './business'
 
+import Button from '../ui/Button'
+import { Heading1 } from '../ui/Heading'
+import Paragraph from '../ui/Paragraph'
+
 const Login = ({ hasToken, loading, loadToken, onLoginClick }) => {
   useLayoutEffect(() => {
     if (!hasToken) {
@@ -23,8 +27,17 @@ const Login = ({ hasToken, loading, loadToken, onLoginClick }) => {
 
   return (
     <React.Fragment>
-      <h1>Shufflify</h1>
-      <button onClick={() => onLoginClick()}>Authenticate and continue</button>
+      <Heading1>Make your playlists more interesting!</Heading1>
+      <Paragraph>
+        Shufflify allows you to shuffle and order your Spotify playlists in new
+        and exciting ways.{' '}
+      </Paragraph>
+      <Paragraph>
+        Continue by clicking the button below, and allow access to your
+        playlists to start shuffling!
+      </Paragraph>
+
+      <Button onClick={() => onLoginClick()}>Authenticate and continue</Button>
     </React.Fragment>
   )
 }
