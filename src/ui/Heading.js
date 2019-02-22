@@ -3,17 +3,17 @@ import styled from 'styled-components'
 const Heading = styled.h1`
   font-family: ${p => p.theme.font.secondary};
   font-weight: 700;
-  font-size: 2rem;
+  font-size: ${p => p.theme.font.h1};
   
-  line-height: 1.5;
+  color: ${p => p.theme.black};
   
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
 `
 
 export const Heading1 = Heading
 
 export const Heading2 = styled(Heading).attrs({ as: 'h2' })`
-  font-size: 1.5rem;
+  font-size: ${p => p.theme.font.h2};
 `
 
 /** @component */

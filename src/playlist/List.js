@@ -46,7 +46,7 @@ const List = ({
       <h1>Your playlists</h1>
       {error && <span>Unable to find your playlists, please try again!</span>}
       {loading ? (
-        <span>Finding your playlists..</span>
+        <span>Loading..</span>
       ) : (
         <React.Fragment>
           <input

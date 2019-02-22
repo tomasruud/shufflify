@@ -8,7 +8,7 @@ const Button = styled.button`
   border: 0;
 
   font-weight: ${p => p.theme.font.bold};
-  font-size: ${p => p.theme.font.large};
+  font-size: ${p => p.theme.font.regular};
   font-family: ${p => p.theme.font.primary};
 
   color: ${p => p.theme.primaryContrast};

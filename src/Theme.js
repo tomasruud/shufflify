@@ -2,6 +2,7 @@ import React from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import reset from 'styled-reset'
 import { lighten } from '@wessberg/color'
+import { SkeletonTheme } from 'react-loading-skeleton'
 
 const colors = {
   purple: '#453246',
@@ -22,6 +23,9 @@ const theme = {
   secondary: colors.yellow,
   white: colors.white,
   black: colors.black,
+  gray: '#4D4646',
+  grayLight: '#AF99B0',
+  grayLighter: lighten(colors.white, -10),
 
   palette: colors,
 
@@ -31,9 +35,12 @@ const theme = {
 
     bold: 700,
 
-    root: '16px',
+    small: '.8rem',
     regular: '1rem',
-    large: '1.2rem'
+    large: '1.2rem',
+
+    h1: '1.4rem',
+    h2: '1.2rem'
   },
 
   shadow: 'box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)'
@@ -44,8 +51,15 @@ const Global = createGlobalStyle`
   
   @import url('https://fonts.googleapis.com/css?family=Karla:400,400i,700|Rubik:700');
   
+  html {
+    font-size: 140%;
+  }
+  
   body {
     background-color: ${p => p.theme.background};
+    
+    font-family: ${p => p.theme.font.primary};
+    line-height: 1.35;
   }
   
   ::selection {
@@ -56,10 +70,10 @@ const Global = createGlobalStyle`
 
 const Theme = ({ children }) => (
   <ThemeProvider theme={theme}>
-    <React.Fragment>
+    <SkeletonTheme color={theme.grayLighter} highlightColor={colors.white}>
       <Global />
       {children}
-    </React.Fragment>
+    </SkeletonTheme>
   </ThemeProvider>
 )
 

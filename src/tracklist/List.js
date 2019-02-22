@@ -31,7 +31,7 @@ const List = ({ tracks, playlist, error, loading, loadTracks }) => {
       <Link to='/'>Back</Link>
       <br />
       {error && <span>Unable to find your tracks, please try again!</span>}
-      {loading ? <span>Finding your tracks..</span> : list}
+      {loading ? <span>Loading..</span> : list}
     </React.Fragment>
   )
 }

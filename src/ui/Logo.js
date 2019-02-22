@@ -11,10 +11,10 @@ const Box = styled.span`
 `
 
 const BoxWrap = styled.div`
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 1.8rem;
+  height: 1.8rem;
   
-  margin-right: .75rem;
+  margin-right: .5rem;
 
   display: grid;
 
@@ -24,14 +24,12 @@ const BoxWrap = styled.div`
 const Wrap = styled.span`
   font-family: ${p => p.theme.font.primary};
   font-weight: ${p => p.theme.font.bold};
-  font-size: 1.75rem;
+  font-size: ${p => p.theme.font.h1};
   color: ${p => p.theme.black};
   
   display: flex;
   
   align-items: center;
-  
-  cursor: default;
 `
 
 const Logo = ({ theme }) => {

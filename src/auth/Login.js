@@ -2,6 +2,8 @@ import React, { useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import styled from 'styled-components'
+import Skeleton from 'react-loading-skeleton'
 
 import { loadToken, hasToken, loading } from './state'
 import { redirectToLogin } from './business'
@@ -9,6 +11,10 @@ import { redirectToLogin } from './business'
 import Button from '../ui/Button'
 import { Heading1 } from '../ui/Heading'
 import Paragraph from '../ui/Paragraph'
+
+const Wrap = styled.div`
+  max-width: 600px;
+`
 
 const Login = ({ hasToken, loading, loadToken, onLoginClick }) => {
   useLayoutEffect(() => {
@@ -22,12 +28,27 @@ const Login = ({ hasToken, loading, loadToken, onLoginClick }) => {
   }
 
   if (loading) {
-    return <span>Loading...</span>
+    return (
+      <Wrap>
+        <Heading1>
+            <Skeleton />
+        </Heading1>
+        <Paragraph>
+          <Skeleton count={6} />
+        </Paragraph>
+      </Wrap>
+    )
   }
 
   return (
-    <React.Fragment>
-      <Heading1>Make your playlists more interesting!</Heading1>
+    <Wrap>
+      <Heading1>
+        {loading ? (
+          <Skeleton width={400} count={6} />
+        ) : (
+          'Make your playlists more interesting!'
+        )}
+      </Heading1>
       <Paragraph>
         Shufflify allows you to shuffle and order your Spotify playlists in new
         and exciting ways.{' '}
@@ -37,8 +58,8 @@ const Login = ({ hasToken, loading, loadToken, onLoginClick }) => {
         playlists to start shuffling!
       </Paragraph>
 
-      <Button onClick={() => onLoginClick()}>Authenticate and continue</Button>
-    </React.Fragment>
+      <Button onClick={() => onLoginClick()}>Sign in with Spotify</Button>
+    </Wrap>
   )
 }
 
