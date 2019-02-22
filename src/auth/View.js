@@ -2,21 +2,14 @@ import React, { useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import styled from 'styled-components'
 import Skeleton from 'react-loading-skeleton'
 
-import { loadToken, hasToken, loading } from './state'
+import { hasToken, loading, loadToken } from './state'
 import { redirectToLogin } from './business'
 
-import Button from '../ui/Button'
-import { Heading1 } from '../ui/Heading'
-import Paragraph from '../ui/Paragraph'
+import { Button, ContentLimiter, Heading1, Paragraph } from '../ui'
 
-const Wrap = styled.div`
-  max-width: 600px;
-`
-
-const Login = ({ hasToken, loading, loadToken, onLoginClick }) => {
+const View = ({ hasToken, loading, loadToken, onLoginClick }) => {
   useLayoutEffect(() => {
     if (!hasToken) {
       loadToken()
@@ -29,26 +22,21 @@ const Login = ({ hasToken, loading, loadToken, onLoginClick }) => {
 
   if (loading) {
     return (
-      <Wrap>
+      <ContentLimiter>
         <Heading1>
-            <Skeleton />
+          <Skeleton />
         </Heading1>
         <Paragraph>
           <Skeleton count={6} />
         </Paragraph>
-      </Wrap>
+      </ContentLimiter>
     )
   }
 
   return (
-    <Wrap>
-      <Heading1>
-        {loading ? (
-          <Skeleton width={400} count={6} />
-        ) : (
-          'Make your playlists more interesting!'
-        )}
-      </Heading1>
+    <ContentLimiter>
+      <Heading1>Make your playlists more interesting</Heading1>
+
       <Paragraph>
         Shufflify allows you to shuffle and order your Spotify playlists in new
         and exciting ways.{' '}
@@ -59,11 +47,11 @@ const Login = ({ hasToken, loading, loadToken, onLoginClick }) => {
       </Paragraph>
 
       <Button onClick={() => onLoginClick()}>Sign in with Spotify</Button>
-    </Wrap>
+    </ContentLimiter>
   )
 }
 
-Login.propTypes = {
+View.propTypes = {
   hasToken: PropTypes.bool,
   isLoading: PropTypes.bool,
   loadToken: PropTypes.func.isRequired,
@@ -83,4 +71,4 @@ const mapDispatch = dispatch => ({
 export default connect(
   mapState,
   mapDispatch
-)(Login)
+)(View)

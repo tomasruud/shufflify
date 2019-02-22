@@ -9,9 +9,7 @@ import { hasToken, loading } from './auth/state'
 import { clearState } from './store'
 import { redirectToLogin } from './auth/business'
 
-import Logo from './ui/Logo'
-import Paragraph from './ui/Paragraph'
-import Link from './ui/Link'
+import { Logo, Paragraph, Link } from './ui'
 
 const Wrap = styled.div`
   background-color: ${p => p.theme.white};
@@ -62,7 +60,13 @@ const Footer = styled(Inner).attrs({ as: 'footer' })`
   align-items: flex-start;
 `
 
-const Layout = ({ children, hasToken, onLogOutClick, onLoginClick, loading }) => (
+const Layout = ({
+  children,
+  hasToken,
+  onLogOutClick,
+  onLoginClick,
+  loading
+}) => (
   <React.Fragment>
     <Wrap>
       <Inner>
@@ -80,7 +84,7 @@ const Layout = ({ children, hasToken, onLogOutClick, onLoginClick, loading }) =>
 
             <NavItem>
               <Link as={NavLink} to='/faq'>
-                FAQ
+                About
               </Link>
             </NavItem>
 

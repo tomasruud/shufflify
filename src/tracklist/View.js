@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { playlistById } from '../playlist/state'
 import { loadTracks, tracks, error, loading } from './state'
 
-const List = ({ tracks, playlist, error, loading, loadTracks }) => {
+const View = ({ tracks, playlist, error, loading, loadTracks }) => {
   useLayoutEffect(() => {
     loadTracks()
   }, [])
@@ -36,7 +36,7 @@ const List = ({ tracks, playlist, error, loading, loadTracks }) => {
   )
 }
 
-List.propTypes = {
+View.propTypes = {
   tracks: PropTypes.array.isRequired,
   playlist: PropTypes.object.isRequired,
   error: PropTypes.bool,
@@ -58,4 +58,4 @@ const mapState = (state, { match }) => ({
 export default connect(
   mapState,
   mapDispatch
-)(List)
+)(View)

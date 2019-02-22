@@ -12,7 +12,7 @@ import {
   loaded
 } from './state'
 
-const List = ({
+const View = ({
   playlists,
   loaded,
   error,
@@ -82,4 +82,4 @@ const mapState = state => ({
 export default connect(
   mapState,
   mapDispatch
-)(List)
+)(View)

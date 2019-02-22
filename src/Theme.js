@@ -1,7 +1,7 @@
 import React from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import reset from 'styled-reset'
-import { lighten } from '@wessberg/color'
+import { lighten, saturate } from '@wessberg/color'
 import { SkeletonTheme } from 'react-loading-skeleton'
 
 const colors = {
@@ -17,6 +17,7 @@ const theme = {
   primary: colors.red,
   primaryContrast: colors.white,
   primaryLight: lighten(colors.red, 20),
+  primaryDark: saturate(lighten(colors.red, -10), -30),
 
   background: colors.purple,
 
@@ -63,8 +64,8 @@ const Global = createGlobalStyle`
   }
   
   ::selection {
-    background-color: ${p => p.theme.primary};
-    color: ${p => p.theme.primaryContrast};
+    background-color: ${p => p.theme.background};
+    color: ${p => p.theme.white};
   }
 `
 

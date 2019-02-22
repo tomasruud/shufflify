@@ -16,11 +16,12 @@ const Button = styled.button`
 
   ${p => p.theme.shadow};
 
-  transition: all 0.1s;
+  transition: all .1s;
 
   :hover {
     cursor: pointer;
-    text-decoration: underline;
+    
+    background-color: ${p => p.theme.primaryDark};
   }
 
   :active,
