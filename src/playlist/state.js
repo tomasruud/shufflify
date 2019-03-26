@@ -124,7 +124,7 @@ export const loadPlaylists = () => async (dispatch, getState) => {
 
     return dispatch(loadPlaylistsSuccess(items))
   } catch (e) {
-    console.log(e)
+    console.error(e)
     return dispatch(loadPlaylistsError())
   }
 }

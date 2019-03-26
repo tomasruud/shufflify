@@ -71,7 +71,7 @@ export const loadToken = () => async dispatch => {
 
     return dispatch(loadTokenSuccess(token, user))
   } catch (e) {
-    console.log(e)
+    console.error(e)
     return dispatch(loadTokenError())
   }
 }

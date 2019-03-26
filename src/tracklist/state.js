@@ -64,7 +64,7 @@ export const loadTracks = playlistID => async (dispatch, getState) => {
 
     return dispatch(loadTracksSuccess(items))
   } catch (e) {
-    console.log(e)
+    console.error(e)
     return dispatch(loadTracksError())
   }
 }

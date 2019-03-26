@@ -7,10 +7,17 @@ const Link = styled.a.attrs(({ external }) => ({
 
   font-weight: ${p => p.theme.font.bold};
   font-family: ${p => p.theme.font.primary};
+  font-size: inherit;
 
   text-decoration: none;
   
   transition: all .1s;
+  
+  border: 0;
+  background-color: transparent;
+  
+  margin: 0;
+  padding: 0;
 
   :hover {
     cursor: pointer;

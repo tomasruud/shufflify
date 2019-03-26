@@ -1,6 +1,6 @@
 import React from 'react'
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
-import reset from 'styled-reset'
+import { createGlobalStyle, ThemeProvider, css } from 'styled-components'
+import { Reset } from 'styled-reset'
 import { lighten, saturate } from '@wessberg/color'
 import { SkeletonTheme } from 'react-loading-skeleton'
 
@@ -27,6 +27,7 @@ const theme = {
   gray: '#4D4646',
   grayLight: '#AF99B0',
   grayLighter: lighten(colors.white, -10),
+  grayEvenLighter: saturate(lighten(colors.white, -2), -20),
 
   palette: colors,
 
@@ -47,9 +48,13 @@ const theme = {
   shadow: 'box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)'
 }
 
+export const small = (...args) => css`
+  @media (max-width: 800px) {
+    ${css(...args)}
+  }
+`
+
 const Global = createGlobalStyle`
-  ${reset}
-  
   @import url('https://fonts.googleapis.com/css?family=Karla:400,400i,700|Rubik:700');
   
   html {
@@ -72,6 +77,7 @@ const Global = createGlobalStyle`
 const Theme = ({ children }) => (
   <ThemeProvider theme={theme}>
     <SkeletonTheme color={theme.grayLighter} highlightColor={colors.white}>
+      <Reset />
       <Global />
       {children}
     </SkeletonTheme>

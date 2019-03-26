@@ -10,11 +10,11 @@ import AuthRoute from './auth/ProtectedRoute'
 import PlaylistList from './playlist/View'
 import TrackList from './tracklist/View'
 import Login from './auth/View'
-import FAQ from './FAQ'
-import Privacy from './Privacy'
+import FAQ from './views/FAQ'
+import Privacy from './views/Privacy'
 
 import Theme from './Theme'
-import Layout from './Layout'
+import Layout from './layout/Main'
 
 ReactDOM.render(
   <Provider store={store}>
