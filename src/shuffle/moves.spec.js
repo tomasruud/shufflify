@@ -1,6 +1,5 @@
 import {moves} from './moves'
-import {shuffle} from './shuffler'
-import {lisMove} from './lis'
+import {random} from './shuffler'
 
 const applyMoves = (arr, moves) => {
   const res = arr.slice()
@@ -42,7 +41,7 @@ it('creates correct moves', () => {
 
 it('makes certain that moves count is less than n', () => {
   const a = Array.from(Array(2000).keys())
-  const b = shuffle(a)
+  const b = random(a)
 
   const ms = moves(a, b, (a, b) => a === b)
 
@@ -53,7 +52,7 @@ it('makes certain that moves count is less than n', () => {
 
 it('creates moves that actually works on large arrays', () => {
   const a = Array.from(Array(2000).keys())
-  const b = shuffle(a)
+  const b = random(a)
 
   const ms = moves(a, b, (a, b) => a === b)
 
@@ -67,13 +66,4 @@ it('handles ascension correctly', () => {
   const m = moves(a, b, (a, b) => a === b)
 
   expect(m).toEqual([{start: 4, range: 2, before: 0}])
-})
-
-it('lis', () => {
-  const a = Array.from(Array(2000).keys())
-  const b = shuffle(a)
-
-  const ms = lisMove(a, b, (a, b) => a === b)
-
-  expect(ms.length < a.length).toBeTruthy()
 })

@@ -6,8 +6,8 @@ import Skeleton from 'react-loading-skeleton'
 
 import info from '../../package.json'
 import { hasToken, loading } from '../auth/state'
-import { clearState } from '../store'
-import { redirectToLogin } from '../auth/business'
+import { redirectToLogin, reload } from '../auth/business'
+import { small } from '../Theme'
 
 import { Logo, Paragraph, Link } from '../ui'
 import Header from './Header'
@@ -26,6 +26,10 @@ const Content = styled.main`
   margin: 4rem 0;
 
   color: ${p => p.theme.gray};
+  
+  ${small`
+    margin: 3rem 0;
+  `}
 `
 
 const Layout = ({
@@ -114,7 +118,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  onLogOutClick: () => dispatch(clearState),
+  onLogOutClick: () => reload(),
   onLoginClick: () => redirectToLogin()
 })
 

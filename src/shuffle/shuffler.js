@@ -1,4 +1,4 @@
-export const shuffle = arr => {
+export const random = arr => {
   let shuf = [...arr.keys()]
 
   for (let i = arr.length - 1; i > 0; i--) {
@@ -9,12 +9,6 @@ export const shuffle = arr => {
   return shuf
 }
 
-export const remap = (map, arr) => {
-  let shuf = []
+export const artistDistribution = arr => {
 
-  map.forEach((d, i) => {
-    shuf[d] = arr[i]
-  })
-
-  return shuf
 }

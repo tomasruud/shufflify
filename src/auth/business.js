@@ -10,3 +10,7 @@ export const redirectToLogin = async () => {
 
   window.location = service.authURI(client, redirect, scopes)
 }
+
+export const reload = () => {
+  window.location.reload(false)
+}

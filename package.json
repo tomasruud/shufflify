@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@wessberg/color": "^1.0.5",
+    "flow-bin": "^0.96.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.4.0",
     "react": "^16.8.5",
@@ -30,7 +31,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --colors",
-    "styleguide": "styleguidist server"
+    "styleguide": "styleguidist server",
+    "flow": "flow"
   },
   "eslintConfig": {
     "extends": "react-app"
