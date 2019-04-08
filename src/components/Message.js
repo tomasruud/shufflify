@@ -18,6 +18,9 @@ const Close = styled.button`
 
   float: right;
   
+  vertical-align: middle;
+  font-size: 1rem;
+    
   :hover {
     cursor: pointer;
   }
@@ -29,7 +32,7 @@ const Message = ({ children }) => {
   return (
     <Wrapper open={open}>
       {children}
-      <Close onClick={() => setOpen(false)}>❌</Close>
+      <Close onClick={() => setOpen(false)}>x</Close>
     </Wrapper>
   )
 }

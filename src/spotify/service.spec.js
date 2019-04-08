@@ -9,7 +9,7 @@ import {
 } from './service'
 import * as Adapter from './local.adapter'
 
-describe('auth has error check', () => {
+describe('Auth has error check', () => {
   it('returns true if error is present', () => {
     expect(hasAuthError('?error=access_denied&state=123')).toBeTruthy()
   })
@@ -66,7 +66,7 @@ describe('get user info', () => {
   })
 })
 
-describe('playlist listing', () => {
+describe('Playlists listing', () => {
   it('lists all playlists', () => {
     return expect(
       playlists(Adapter.playlists, Adapter.playlistsLastPage)
@@ -75,22 +75,22 @@ describe('playlist listing', () => {
         id: '5QYl0j3b2od8WjVgm0tXIX',
         ownerId: 'myspotfiy',
         name: 'Starred',
-        uri: 'spotify:user:myspotfiy:playlist:5QYl0j3b2od8WjVgm0tXIX',
+        uri: 'spotify:user:myspotfiy:Playlists:5QYl0j3b2od8WjVgm0tXIX',
         href: 'https://api.spotify.com/v1/playlists/5QYl0j3b2od8WjVgm0tXIX'
       },
       {
         id: '5Ehsce4n7LxwGUAQ7arcZM',
         ownerId: 'myspotfiy2',
         name: 'Shuffle',
-        uri: 'spotify:user:myspotfiy:playlist:5Ehsce4n7LxwGUAQ7arcZM',
+        uri: 'spotify:user:myspotfiy:Playlists:5Ehsce4n7LxwGUAQ7arcZM',
         href: 'https://api.spotify.com/v1/playlists/5Ehsce4n7LxwGUAQ7arcZM'
       }
     ])
   })
 })
 
-describe('playlist track listing', () => {
-  it('lists all tracks in playlist', () => {
+describe('Playlists track listing', () => {
+  it('lists all tracks in Playlists', () => {
     return expect(
       tracks(Adapter.tracks, Adapter.tracksLastPage, '123')
     ).resolves.toEqual([

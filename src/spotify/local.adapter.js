@@ -43,7 +43,7 @@ export const playlists = () => ({
     {
       collaborative: false,
       external_urls: {
-        spotify: 'https://open.spotify.com/playlist/5QYl0j3b2od8WjVgm0tXIX'
+        spotify: 'https://open.spotify.com/Playlists/5QYl0j3b2od8WjVgm0tXIX'
       },
       href: 'https://api.spotify.com/v1/playlists/5QYl0j3b2od8WjVgm0tXIX',
       id: '5QYl0j3b2od8WjVgm0tXIX',
@@ -76,7 +76,7 @@ export const playlists = () => ({
         total: 1727
       },
       type: 'playlist',
-      uri: 'spotify:user:myspotfiy:playlist:5QYl0j3b2od8WjVgm0tXIX'
+      uri: 'spotify:user:myspotfiy:Playlists:5QYl0j3b2od8WjVgm0tXIX'
     }
   ],
   limit: 1,
@@ -92,7 +92,7 @@ export const playlistsLastPage = () => ({
     {
       collaborative: false,
       external_urls: {
-        spotify: 'https://open.spotify.com/playlist/5Ehsce4n7LxwGUAQ7arcZM'
+        spotify: 'https://open.spotify.com/Playlists/5Ehsce4n7LxwGUAQ7arcZM'
       },
       href: 'https://api.spotify.com/v1/playlists/5Ehsce4n7LxwGUAQ7arcZM',
       id: '5Ehsce4n7LxwGUAQ7arcZM',
@@ -125,7 +125,7 @@ export const playlistsLastPage = () => ({
         total: 93
       },
       type: 'playlist',
-      uri: 'spotify:user:myspotfiy:playlist:5Ehsce4n7LxwGUAQ7arcZM'
+      uri: 'spotify:user:myspotfiy:Playlists:5Ehsce4n7LxwGUAQ7arcZM'
     }
   ],
   limit: 1,

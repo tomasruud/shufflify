@@ -1,9 +1,9 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
 
-import auth from './auth/state'
-import playlists from './playlist/state'
-import tracks from './tracklist/state'
+import auth from './views/Auth/state'
+import playlists from './views/Playlists/state'
+import tracks from './views/Tracks/state'
 
 const app = combineReducers({
   auth,

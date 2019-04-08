@@ -1,5 +1,5 @@
 import React from 'react'
-import { ContentLimiter, Heading1, Paragraph } from '../ui'
+import { ContentLimiter, Heading1, Paragraph } from '../components'
 
 const Privacy = () => (
   <ContentLimiter>

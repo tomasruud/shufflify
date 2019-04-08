@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { createAction, handleActions } from 'redux-actions'
-import { userID } from '../auth/state'
+import { userID } from '../Auth/state'
 
 export const PlaylistFilters = {
   ALL: null,
@@ -110,10 +110,10 @@ export const loadPlaylists = () => async (dispatch, getState) => {
   dispatch(loadPlaylistsRequest())
 
   try {
-    const adapter = await import('../spotify/remote.adapter')
-    const service = await import('../spotify/service')
+    const adapter = await import('../../spotify/remote.adapter')
+    const service = await import('../../spotify/service')
 
-    const auth = await import('../auth/state')
+    const auth = await import('../Auth/state')
     const token = auth.token(getState())
 
     const client = await adapter.client(token)

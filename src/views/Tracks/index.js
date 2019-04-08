@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { playlistById } from '../playlist/state'
+import { playlistById } from '../Playlists/state'
 import { loadTracks, tracks, error, loading } from './state'
+import Button from '../../components/Button'
 
-const View = ({ tracks, playlist, error, loading, loadTracks }) => {
+const Index = ({ tracks, playlist, error, loading, loadTracks }) => {
   useLayoutEffect(() => {
     loadTracks()
   }, [])
@@ -15,13 +16,16 @@ const View = ({ tracks, playlist, error, loading, loadTracks }) => {
 
   if (tracks && tracks.length > 0) {
     list = (
-      <ul>
-        {tracks.map((p, i) => (
-          <li key={i}>
-            {p.name} - {p.artists.join(', ')}
-          </li>
-        ))}
-      </ul>
+      <React.Fragment>
+        <ul>
+          {tracks.map((p, i) => (
+            <li key={i}>
+              {p.name} - {p.artists.join(', ')}
+            </li>
+          ))}
+        </ul>
+        <Button>Shuffle</Button>
+      </React.Fragment>
     )
   }
 
@@ -29,14 +33,14 @@ const View = ({ tracks, playlist, error, loading, loadTracks }) => {
     <React.Fragment>
       <h1>{playlist.name}</h1>
       <Link to='/'>Back</Link>
-      <br />
+      <br/>
       {error && <span>Unable to find your tracks, please try again!</span>}
       {loading ? <span>Loading..</span> : list}
     </React.Fragment>
   )
 }
 
-View.propTypes = {
+Index.propTypes = {
   tracks: PropTypes.array.isRequired,
   playlist: PropTypes.object.isRequired,
   error: PropTypes.bool,
@@ -58,4 +62,4 @@ const mapState = (state, { match }) => ({
 export default connect(
   mapState,
   mapDispatch
-)(View)
+)(Index)

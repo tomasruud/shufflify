@@ -47,6 +47,7 @@ export const user = async meFunc => {
 
   return {
     id: u.id,
+    name: u.display_name,
     image
   }
 }
@@ -67,6 +68,7 @@ export const playlists = async (playlistFunc, genericFunc) => {
     id: p.id,
     ownerId: p.owner.id,
     name: p.name,
+    image: (p.images && p.images[0] && p.images[0].url) ? p.images[0].url : null,
     uri: p.uri,
     href: p.href
   }))

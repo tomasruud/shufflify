@@ -49,10 +49,10 @@ export const loadTracks = playlistID => async (dispatch, getState) => {
   try {
     dispatch(loadTracksRequest())
 
-    const adapter = await import('../spotify/remote.adapter')
-    const service = await import('../spotify/service')
+    const adapter = await import('../../spotify/remote.adapter')
+    const service = await import('../../spotify/service')
 
-    const auth = await import('../auth/state')
+    const auth = await import('../Auth/state')
     const token = auth.token(getState())
 
     const client = await adapter.client(token)

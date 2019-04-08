@@ -1,5 +1,5 @@
 module.exports = {
-  components: 'src/ui/**/*.js',
+  components: 'src/components/**/*.js',
   usageMode: 'expand',
   skipComponentsWithoutExample: true,
   dangerouslyUpdateWebpackConfig: (c) => {

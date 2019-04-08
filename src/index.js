@@ -5,16 +5,15 @@ import { MemoryRouter as Router, Route } from 'react-router-dom'
 
 import store from './store'
 
-import AuthRoute from './auth/ProtectedRoute'
+import AuthRoute from './views/Auth/ProtectedRoute'
 
-import PlaylistList from './playlist/View'
-import TrackList from './tracklist/View'
-import Login from './auth/View'
-import FAQ from './views/FAQ'
+import PlaylistList from './views/Playlists'
+import TrackList from './views/Tracks'
+import Login from './views/Auth'
 import Privacy from './views/Privacy'
 
 import Theme from './Theme'
-import Layout from './layout/Main'
+import Layout from './Layout'
 
 ReactDOM.render(
   <Provider store={store}>
@@ -23,8 +22,8 @@ ReactDOM.render(
         <Layout>
           <AuthRoute exact path='/' component={PlaylistList} />
           <Route path='/auth' component={Login} />
-          <Route path='/shuffle/:id' component={TrackList} />
-          <Route path='/faq' component={FAQ} />
+          <AuthRoute path='/playlists' component={PlaylistList} />
+          <AuthRoute path='/playlists/:id' component={TrackList} />
           <Route path='/privacy' component={Privacy} />
         </Layout>
       </Router>

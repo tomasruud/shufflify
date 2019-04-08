@@ -3,16 +3,16 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import {
+  error,
+  loaded,
+  loading,
   loadPlaylists,
   search,
-  visiblePlaylists,
-  error,
-  loading,
   updatePlaylistsSearch,
-  loaded
+  visiblePlaylists
 } from './state'
 
-const View = ({
+const Index = ({
   playlists,
   loaded,
   error,
@@ -34,7 +34,7 @@ const View = ({
       <ul>
         {playlists.map((p, i) => (
           <li key={i}>
-            <Link to={'/shuffle/' + p.id}>{p.name}</Link>
+            <Link to={'/playlists/' + p.id}>{p.name}</Link>
           </li>
         ))}
       </ul>
@@ -82,4 +82,4 @@ const mapState = state => ({
 export default connect(
   mapState,
   mapDispatch
-)(View)
+)(Index)

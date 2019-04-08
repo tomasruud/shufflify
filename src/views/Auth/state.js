@@ -48,7 +48,7 @@ export const error = state => state.auth.error
 
 export const loadToken = () => async dispatch => {
   try {
-    const service = await import('../spotify/service')
+    const service = await import('../../spotify/service')
 
     const { location, history, title } = window
     const { search, hash } = location
@@ -63,7 +63,7 @@ export const loadToken = () => async dispatch => {
       return dispatch(loadTokenSuccess(token, {}))
     }
 
-    const adapter = await import('../spotify/remote.adapter')
+    const adapter = await import('../../spotify/remote.adapter')
     const client = await adapter.client(token)
     const user = await service.user(adapter.getMe(client))
 

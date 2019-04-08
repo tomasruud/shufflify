@@ -7,9 +7,9 @@ import Skeleton from 'react-loading-skeleton'
 import { hasToken, loading, loadToken } from './state'
 import { redirectToLogin } from './business'
 
-import { Button, ContentLimiter, Heading1, Paragraph } from '../ui'
+import { Button, ContentLimiter, Heading1, Paragraph } from '../../components'
 
-const View = ({ hasToken, loading, loadToken, onLoginClick }) => {
+const Index = ({ hasToken, loading, loadToken, onLoginClick }) => {
   useLayoutEffect(() => {
     if (!hasToken) {
       loadToken()
@@ -51,7 +51,7 @@ const View = ({ hasToken, loading, loadToken, onLoginClick }) => {
   )
 }
 
-View.propTypes = {
+Index.propTypes = {
   hasToken: PropTypes.bool,
   isLoading: PropTypes.bool,
   loadToken: PropTypes.func.isRequired,
@@ -60,15 +60,15 @@ View.propTypes = {
 
 const mapState = state => ({
   hasToken: hasToken(state),
-  loading: loading(state),
-  onLoginClick: () => redirectToLogin()
+  loading: loading(state)
 })
 
 const mapDispatch = dispatch => ({
-  loadToken: () => dispatch(loadToken())
+  loadToken: () => dispatch(loadToken()),
+  onLoginClick: () => redirectToLogin()
 })
 
 export default connect(
   mapState,
   mapDispatch
-)(View)
+)(Index)
