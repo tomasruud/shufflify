@@ -1,4 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
+import Spotify, { NoAccessTokenAvailableError } from '../../spotify/spotify'
 
 export const loadTokenSuccess = createAction(
   'LOAD_TOKEN_SUCCESS',
@@ -10,7 +11,7 @@ export const loadTokenSuccess = createAction(
 
 export const loadTokenError = createAction('LOAD_TOKEN_ERROR')
 
-const defaultState =  {
+const defaultState = {
   token: null,
   user: {},
   error: false,
@@ -48,30 +49,21 @@ export const error = state => state.auth.error
 
 export const loadToken = () => async dispatch => {
   try {
-    const service = await import('../../spotify/service')
-
     const { location, history, title } = window
-    const { search, hash } = location
 
-    if (await service.hasAuthError(search)) {
-      return dispatch(loadTokenError())
-    }
-
-    const token = await service.findToken(hash)
-
-    if (!token) {
-      return dispatch(loadTokenSuccess(token, {}))
-    }
-
-    const adapter = await import('../../spotify/remote.adapter')
-    const client = await adapter.client(token)
-    const user = await service.user(adapter.getMe(client))
+    const token = await Spotify.getAccessToken(location)
+    const client = new Spotify(token)
+    const user = await client.getUser()
 
     history.replaceState({}, title, location.pathname)
 
     return dispatch(loadTokenSuccess(token, user))
   } catch (e) {
-    console.error(e)
-    return dispatch(loadTokenError())
+    if (e instanceof NoAccessTokenAvailableError) {
+      return dispatch(loadTokenSuccess(null, {}))
+    } else {
+      console.error(e)
+      return dispatch(loadTokenError())
+    }
   }
 }

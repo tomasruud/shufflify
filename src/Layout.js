@@ -2,9 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link as NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Skeleton from 'react-loading-skeleton'
 
 import info from '../package.json'
-import { hasToken } from './views/Auth/state'
+import { hasToken, loading } from './views/Login/state'
 import { small } from './Theme'
 
 import { Link, Logo, Paragraph } from './components'
@@ -56,7 +57,7 @@ const Content = styled.main`
   `}
 `
 
-const Layout = ({ children, hasToken }) => {
+const Layout = ({ children, hasToken, loading }) => {
   return (
     <React.Fragment>
       <Wrap>
@@ -65,6 +66,16 @@ const Layout = ({ children, hasToken }) => {
             <NavLink to='/' style={{ textDecoration: 'none' }}>
               <Logo/>
             </NavLink>
+
+            {loading ? (
+              <Skeleton width={80} />
+            ) : hasToken ? (
+              null
+            ) : (
+              <span>
+                <Link as={NavLink} to='/auth'>Sign in</Link>
+              </span>
+            )}
           </Header>
 
           <Content>{children}</Content>
@@ -88,7 +99,7 @@ const Layout = ({ children, hasToken }) => {
           </Paragraph>
 
           <Link as={NavLink} to='/privacy'>
-            Your privacy
+            Privacy
           </Link>
         </div>
 
@@ -107,7 +118,8 @@ const Layout = ({ children, hasToken }) => {
 }
 
 const mapState = state => ({
-  hasToken: hasToken(state)
+  hasToken: hasToken(state),
+  loading: loading(state)
 })
 
 export default withRouter(connect(mapState)(Layout))

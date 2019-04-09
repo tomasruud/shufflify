@@ -1,4 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
+import { token } from '../Login/state'
+import Spotify from '../../spotify/spotify'
 
 export const loadTracksRequest = createAction('LOAD_TRACKS_REQUEST')
 
@@ -49,18 +51,10 @@ export const loadTracks = playlistID => async (dispatch, getState) => {
   try {
     dispatch(loadTracksRequest())
 
-    const adapter = await import('../../spotify/remote.adapter')
-    const service = await import('../../spotify/service')
+    const t = token(getState())
 
-    const auth = await import('../Auth/state')
-    const token = auth.token(getState())
-
-    const client = await adapter.client(token)
-    const items = await service.tracks(
-      adapter.getTracks(client),
-      adapter.getGeneric(client),
-      playlistID
-    )
+    const client = new Spotify(t)
+    const items = await client.getTracks(playlistID)
 
     return dispatch(loadTracksSuccess(items))
   } catch (e) {

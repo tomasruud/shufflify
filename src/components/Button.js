@@ -13,6 +13,9 @@ const Button = styled.button`
 
   color: ${p => p.theme.primaryContrast};
   background-color: ${p => p.theme.primary};
+  
+  display: inline-block;
+  text-decoration: none;
 
   ${p => p.theme.shadow};
 

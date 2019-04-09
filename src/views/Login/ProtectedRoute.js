@@ -9,7 +9,7 @@ const ProtectedRoute = ({ component: Component, hasToken, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      hasToken ? <Component {...props} /> : <Redirect to='/auth' />
+      hasToken ? <Component {...props} /> : <Redirect to='/login' />
     }
   />
 )

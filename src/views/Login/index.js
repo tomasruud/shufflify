@@ -1,15 +1,14 @@
 import React, { useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import Skeleton from 'react-loading-skeleton'
 
 import { hasToken, loading, loadToken } from './state'
-import { redirectToLogin } from './business'
 
 import { Button, ContentLimiter, Heading1, Paragraph } from '../../components'
 
-const Index = ({ hasToken, loading, loadToken, onLoginClick }) => {
+const Index = ({ hasToken, loading, loadToken }) => {
   useLayoutEffect(() => {
     if (!hasToken) {
       loadToken()
@@ -17,7 +16,7 @@ const Index = ({ hasToken, loading, loadToken, onLoginClick }) => {
   }, [])
 
   if (hasToken) {
-    return <Redirect to='/' />
+    return <Redirect to='/playlists' />
   }
 
   if (loading) {
@@ -46,7 +45,7 @@ const Index = ({ hasToken, loading, loadToken, onLoginClick }) => {
         playlists to start shuffling!
       </Paragraph>
 
-      <Button onClick={() => onLoginClick()}>Sign in with Spotify</Button>
+      <Button as={Link} to='/auth'>Sign in with Spotify</Button>
     </ContentLimiter>
   )
 }
@@ -54,8 +53,7 @@ const Index = ({ hasToken, loading, loadToken, onLoginClick }) => {
 Index.propTypes = {
   hasToken: PropTypes.bool,
   isLoading: PropTypes.bool,
-  loadToken: PropTypes.func.isRequired,
-  onLoginClick: PropTypes.func.isRequired
+  loadToken: PropTypes.func.isRequired
 }
 
 const mapState = state => ({
@@ -64,8 +62,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  loadToken: () => dispatch(loadToken()),
-  onLoginClick: () => redirectToLogin()
+  loadToken: () => dispatch(loadToken())
 })
 
 export default connect(

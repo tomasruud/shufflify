@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { playlistById } from '../Playlists/state'
 import { loadTracks, tracks, error, loading } from './state'
-import Button from '../../components/Button'
+import { Button } from '../../components'
 
 const Index = ({ tracks, playlist, error, loading, loadTracks }) => {
   useLayoutEffect(() => {
@@ -33,7 +33,7 @@ const Index = ({ tracks, playlist, error, loading, loadTracks }) => {
     <React.Fragment>
       <h1>{playlist.name}</h1>
       <Link to='/'>Back</Link>
-      <br/>
+      <br />
       {error && <span>Unable to find your tracks, please try again!</span>}
       {loading ? <span>Loading..</span> : list}
     </React.Fragment>
