@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 import { token } from '../Login/state'
-import Spotify from '../../spotify/spotify'
+import Spotify from '../../shuffle/spotify'
 
 export const loadTracksRequest = createAction('LOAD_TRACKS_REQUEST')
 

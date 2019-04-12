@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { createAction, handleActions } from 'redux-actions'
 import { token, userID } from '../Login/state'
-import Spotify from '../../spotify/spotify'
+import Spotify from '../../shuffle/spotify'
 
 export const PlaylistFilters = {
   ALL: null,

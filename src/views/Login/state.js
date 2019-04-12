@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
-import Spotify, { NoAccessTokenAvailableError } from '../../spotify/spotify'
+import Spotify, { NoAccessTokenAvailableError } from '../../shuffle/spotify'
 
 export const loadTokenSuccess = createAction(
   'LOAD_TOKEN_SUCCESS',

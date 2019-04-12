@@ -1,4 +1,4 @@
-export const user = () => ({
+export const user = {
   display_name: 'myspotfiy',
   external_urls: {
     spotify: 'https://open.spotify.com/user/myspotfiy'
@@ -19,9 +19,9 @@ export const user = () => ({
   ],
   type: 'user',
   uri: 'spotify:user:myspotfiy'
-})
+}
 
-export const userWithoutImage = () => ({
+export const userWithoutImage = {
   display_name: 'myspotfiy',
   external_urls: {
     spotify: 'https://open.spotify.com/user/myspotfiy'
@@ -35,9 +35,9 @@ export const userWithoutImage = () => ({
   images: [],
   type: 'user',
   uri: 'spotify:user:myspotfiy'
-})
+}
 
-export const playlists = () => ({
+export const playlists = {
   href: 'https://api.spotify.com/v1/users/myspotfiy/playlists?offset=0&limit=1',
   items: [
     {
@@ -84,9 +84,9 @@ export const playlists = () => ({
   offset: 0,
   previous: null,
   total: 2
-})
+}
 
-export const playlistsLastPage = () => ({
+export const playlistsLastPage = {
   href: 'https://api.spotify.com/v1/users/myspotfiy/playlists?offset=1&limit=1',
   items: [
     {
@@ -134,9 +134,9 @@ export const playlistsLastPage = () => ({
   previous:
     'https://api.spotify.com/v1/users/myspotfiy/playlists?offset=0&limit=1',
   total: 2
-})
+}
 
-export const tracks = () => ({
+export const tracks = {
   items: [
     {
       track: {
@@ -158,9 +158,9 @@ export const tracks = () => ({
   ],
   next:
     'https://api.spotify.com/v1/playlists/5Ehsce4n7LxwGUAQ7arcZM/tracks?offset=1&limit=1&fields=items(track(name,artists(name))),next'
-})
+}
 
-export const tracksLastPage = () => ({
+export const tracksLastPage = {
   items: [
     {
       track: {
@@ -181,11 +181,8 @@ export const tracksLastPage = () => ({
     }
   ],
   next: null
-})
+}
 
-export const reorder = () => ({
+export const reorderResult = {
   snapshot_id: 'some-id-123'
-})
-
-export const returnNull = () => null
-export const returnEmpty = () => ({})
+}

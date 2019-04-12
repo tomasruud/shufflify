@@ -14,6 +14,10 @@ export default class Spotify {
     this.client.setAccessToken(token)
   }
 
+  setClient(client) {
+    this.client = client
+  }
+
   static getAuthenticationURL(clientID, redirectURL) {
     const q = stringify({
       redirect_uri: redirectURL,
@@ -110,6 +114,7 @@ export default class Spotify {
   }
 
   async moveTrack(playlistId, from, to) {
-    await this.client.reorderTracksInPlaylist(playlistId, from, to)
+    const res = await this.client.reorderTracksInPlaylist(playlistId, from, to)
+    return res.snapshot_id
   }
 }
