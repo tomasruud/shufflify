@@ -108,9 +108,40 @@ export default class Spotify {
 
     return l.map((t, i) => ({
       index: i,
+      id: t.track.id,
       name: t.track.name,
       artists: t.track.artists.map(a => a.name)
     }))
+  }
+
+  async getFeaturesForTracks(tracks) {
+    let t = Array.from(tracks)
+    let withFeatures = []
+
+    while (t.length > 0) {
+      let chunk = t.splice(0, 100)
+      let f = await this.client.getAudioFeaturesForTracks(chunk.map(t => t.id))
+
+      withFeatures.push(f.map(features => {
+        let track = chunk.find(e => e.id === features.id)
+        track.features = {
+          acousticness: features.acousticness,
+          bpm: features.tempo,
+          danceability: features.danceability,
+          energy: features.energy,
+          instrumentalness: features.instrumentalness,
+          key: features.key,
+          liveness: features.liveness,
+          mode: features.mode,
+          positivity: features.valence,
+          speechiness: features.speechiness
+        }
+
+        return track
+      }))
+    }
+
+    return withFeatures
   }
 
   async moveTrack(playlistId, from, to) {

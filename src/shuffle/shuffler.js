@@ -9,6 +9,8 @@ export const random = arr => {
   return shuf
 }
 
-export const artistDistribution = arr => {
+export const scatter = (arr, by) => {}
 
-}
+export const risePeakResolve = arr => {}
+
+export const camelot = arr => {}
