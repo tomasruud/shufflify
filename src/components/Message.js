@@ -37,5 +37,8 @@ const Message = ({ children }) => {
   )
 }
 
-/** @component */
+Message.propTypes = {
+
+}
+
 export default Message

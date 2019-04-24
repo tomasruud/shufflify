@@ -33,5 +33,6 @@ const PlaylistList = ({ playlists }) => (
   </List>
 )
 
-/** @component */
+PlaylistList.propTypes = {}
+
 export default PlaylistList

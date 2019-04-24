@@ -35,5 +35,4 @@ const Button = styled.button`
   }
 `
 
-/** @component */
 export default Button

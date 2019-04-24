@@ -17,5 +17,4 @@ const Input = styled.input`
   }
 `
 
-/** @component */
 export default Input

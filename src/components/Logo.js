@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled, { withTheme } from 'styled-components'
 
 const Box = styled.span`
@@ -13,8 +14,8 @@ const Box = styled.span`
 const BoxWrap = styled.div`
   width: 1.8rem;
   height: 1.8rem;
-  
-  margin-right: .5rem;
+
+  margin-right: 0.5rem;
 
   display: grid;
 
@@ -26,9 +27,9 @@ const Wrap = styled.span`
   font-weight: ${p => p.theme.font.bold};
   font-size: ${p => p.theme.font.h1};
   color: ${p => p.theme.black};
-  
+
   display: flex;
-  
+
   align-items: center;
 `
 
@@ -48,6 +49,12 @@ const Logo = ({ theme }) => {
       Shufflify
     </Wrap>
   )
+}
+
+Logo.propTypes = {
+  theme: PropTypes.shape({
+    palette: PropTypes.object
+  }).isRequired
 }
 
 export default withTheme(Logo)

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const Link = styled.a.attrs(({ external }) => ({
   target: external ? '_blank' : null
@@ -27,5 +28,8 @@ const Link = styled.a.attrs(({ external }) => ({
   }
 `
 
-/** @component */
+Link.propTypes = {
+  external: PropTypes.bool
+}
+
 export default Link
