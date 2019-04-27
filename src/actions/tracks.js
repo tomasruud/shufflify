@@ -1,56 +1,52 @@
 import { createAction } from 'redux-actions'
 import { token } from '../selectors/session'
 import Spotify from '../services/spotify'
+import * as message from './message'
 
-export const loadTracksRequest = createAction('LOAD_TRACKS_REQUEST')
+export const request = createAction('LOAD_TRACKS_REQUEST')
 
-export const loadTracksSuccess = createAction(
-  'LOAD_TRACKS_SUCCESS',
-  tracks => tracks
-)
+export const success = createAction('LOAD_TRACKS_SUCCESS', tracks => tracks)
 
-export const loadTracksError = createAction('LOAD_TRACKS_ERROR')
-
-export const loadTracks = playlistID => async (dispatch, getState) => {
+export const load = playlistID => async (dispatch, getState) => {
   try {
-    dispatch(loadTracksRequest())
+    dispatch(request())
 
     const t = token(getState())
 
     const client = new Spotify(t)
     const items = await client.getTracks(playlistID)
 
-    return dispatch(loadTracksSuccess(items))
+    const features = await client.getFeaturesForTracks(items)
+
+    return dispatch(success(features))
   } catch (e) {
     console.error(e)
-    return dispatch(loadTracksError())
+    return dispatch(
+      message.set('There was a problem loading tracks for your playlist')
+    )
   }
 }
 
-export const loadTracksFeaturesRequest = createAction(
-  'LOAD_TRACKS_FEATURES_REQUEST'
-)
+export const featuresRequest = createAction('LOAD_TRACKS_FEATURES_REQUEST')
 
-export const loadTracksFeaturesSuccess = createAction(
+export const featuresSuccess = createAction(
   'LOAD_TRACKS_FEATURES_SUCCESS',
   tracks => tracks
 )
 
-export const loadTracksFeaturesError = createAction(
-  'LOAD_TRACKS_FEATURES_ERROR'
-)
-
-export const loadTracksFeatures = tracks => async (dispatch, getState) => {
+export const loadFeatures = tracks => async (dispatch, getState) => {
   try {
-    dispatch(loadTracksFeaturesRequest())
+    dispatch(featuresRequest())
 
     const t = token(getState())
     const client = new Spotify(t)
     const features = await client.getFeaturesForTracks(tracks)
 
-    return dispatch(loadTracksFeaturesSuccess(features))
+    return dispatch(featuresSuccess(features))
   } catch (e) {
     console.error(e)
-    return dispatch(loadTracksFeaturesError())
+    return dispatch(
+      message.set('There was a problem loading metadata for your tracks')
+    )
   }
 }

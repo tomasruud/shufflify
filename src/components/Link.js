@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const Link = styled.a.attrs(({ external }) => ({
-  target: external ? '_blank' : null
+  target: external ? '_blank' : '_self'
 }))`
   color: inherit;
 
@@ -11,20 +11,22 @@ const Link = styled.a.attrs(({ external }) => ({
   font-size: inherit;
 
   text-decoration: none;
-  
-  transition: all .1s;
-  
+
+  transition: all 0.1s;
+
   border: 0;
-  background-color: transparent;
+  border-radius: 3px;
   
+  background: transparent;
+
   margin: 0;
   padding: 0;
 
   :hover {
     cursor: pointer;
-    border-bottom: 2px solid;
     
-    padding-bottom: 2px;
+    background: ${p => p.theme.primary};
+    color: ${p => p.theme.primaryContrast}
   }
 `
 

@@ -21,7 +21,7 @@ const theme = {
 
   background: colors.purple,
 
-  secondary: colors.yellow,
+  secondary: colors.red,
   white: colors.white,
   black: colors.black,
   gray: '#4D4646',
@@ -55,8 +55,6 @@ export const small = (...args) => css`
 `
 
 const Global = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css?family=Karla:400,400i,700|Rubik:700');
-  
   html {
     font-size: 140%;
   }

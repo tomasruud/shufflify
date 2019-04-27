@@ -1,9 +1,9 @@
 import React from 'react'
-import { Link as NavLink } from 'react-router-dom'
-import Skeleton from 'react-loading-skeleton'
 import styled from 'styled-components'
 import Logo from './Logo'
+import NavLink from '../containers/Link'
 import Link from './Link'
+import UserBadge from '../containers/UserBadge'
 
 const Wrapper = styled.header`
   color: ${p => p.theme.gray};
@@ -18,13 +18,15 @@ const Wrapper = styled.header`
 
 const Nav = ({ isLoading, isAuthenticated, authenticate }) => (
   <Wrapper>
-    <NavLink to='/' style={{ textDecoration: 'none' }}>
+    <NavLink to='' style={{ background: 'transparent' }}>
       <Logo />
     </NavLink>
 
     {isLoading ? (
-      <Skeleton width={80} />
-    ) : isAuthenticated ? null : (
+      null
+    ) : isAuthenticated ? (
+      <UserBadge />
+    ) : (
       <Link as='button' onClick={() => authenticate()}>
         Sign in
       </Link>

@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  display: ${p => p.open ? 'block' : 'none'};
-
-  color: ${p => p.theme.black};
+  color: ${p => p.theme.white};
   background-color: ${p => p.theme.secondary};
-
+  
   padding: 0.75rem;
 
   ${p => p.theme.shadow};
@@ -15,30 +13,33 @@ const Wrapper = styled.div`
 const Close = styled.button`
   border: 0;
   background: transparent;
+  
+  color: inherit;
 
   float: right;
-  
+
   vertical-align: middle;
   font-size: 1rem;
-    
+
   :hover {
     cursor: pointer;
   }
+  
+  :active,
+  :focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${p => p.theme.secondary},
+      0 0 0 4px ${p => p.theme.primaryLight};
+  }
 `
 
-const Message = ({ children }) => {
-  const [open, setOpen] = useState(true)
+const Message = ({ children, onClear, ...rest }) => (
+  <Wrapper {...rest}>
+    {children}
+    <Close onClick={() => onClear()}>x</Close>
+  </Wrapper>
+)
 
-  return (
-    <Wrapper open={open}>
-      {children}
-      <Close onClick={() => setOpen(false)}>x</Close>
-    </Wrapper>
-  )
-}
-
-Message.propTypes = {
-
-}
+Message.propTypes = {}
 
 export default Message

@@ -1,14 +1,16 @@
 import React, { useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import Button from './Button'
 import trackType from '../models/track'
 import playlistType from '../models/playlist'
+import Link from '../containers/Link'
+import { routes } from '../actions/router'
+import Title from './Title'
 
-const Tracks = ({ tracks, playlist, hasError, isLoading, loadTracks }) => {
+const Tracks = ({ tracks, playlist, playlistID, isLoading, loadTracks }) => {
   useLayoutEffect(() => {
-    loadTracks()
-  }, [])
+    loadTracks(playlistID)
+  }, [loadTracks, playlistID])
 
   let list = <span>No tracks found</span>
 
@@ -29,10 +31,9 @@ const Tracks = ({ tracks, playlist, hasError, isLoading, loadTracks }) => {
 
   return (
     <React.Fragment>
-      <h1>{playlist.name}</h1>
-      <Link to='/'>Back</Link>
+      <Title>{playlist.name}</Title>
+      <Link to={routes.PLAYLISTS}>Back</Link>
       <br />
-      {hasError && <span>Unable to find your tracks, please try again!</span>}
       {isLoading ? <span>Loading..</span> : list}
     </React.Fragment>
   )
@@ -41,7 +42,6 @@ const Tracks = ({ tracks, playlist, hasError, isLoading, loadTracks }) => {
 Tracks.propTypes = {
   tracks: PropTypes.arrayOf(trackType).isRequired,
   playlist: playlistType.isRequired,
-  hasError: PropTypes.bool,
   isLoading: PropTypes.bool,
   loadTracks: PropTypes.func.isRequired
 }

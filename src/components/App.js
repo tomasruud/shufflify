@@ -1,27 +1,41 @@
 import React from 'react'
-import { MemoryRouter as Router, Route, Switch } from 'react-router-dom'
-import Privacy from './Privacy'
+import styled from 'styled-components'
+import { small } from './Theme'
+import Container from './Wrapper'
+import Footer from '../containers/Footer'
+import Nav from '../containers/Nav'
 import Theme from './Theme'
-import Layout from '../components/Layout'
-import AuthRoute from '../containers/AuthRoute'
-import Tracks from '../containers/Tracks'
-import Playlists from '../containers/Playlists'
-import Login from '../containers/Login'
+import Router from '../containers/Router'
+import Notice from '../containers/Notice'
+
+const Wrapper = styled.div`
+  background-color: ${p => p.theme.white};
+  ${p => p.theme.shadow};
+`
+
+const Content = styled.main`
+  margin: 4rem 0;
+
+  color: ${p => p.theme.gray};
+
+  ${small`
+    margin: 3rem 0;
+  `}
+`
 
 const App = () => (
-  <Router>
-    <Theme>
-      <Layout>
-        <Switch>
-          <AuthRoute path='/playlists/:id' component={Tracks} />
-          <AuthRoute path='/playlists' component={Playlists}/>
-          <Route path='/login' component={Login} />
-          <Route path='/privacy' component={Privacy} />
-          <AuthRoute exact path='/' component={Playlists} />
-        </Switch>
-      </Layout>
-    </Theme>
-  </Router>
+  <Theme>
+    <Wrapper>
+      <Container>
+        <Nav />
+        <Content>
+          <Notice style={{ marginBottom: '1rem' }} />
+          <Router />
+        </Content>
+      </Container>
+    </Wrapper>
+    <Footer />
+  </Theme>
 )
 
 export default App

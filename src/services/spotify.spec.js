@@ -1,14 +1,14 @@
 import Spotify, { NoAccessTokenAvailableError } from './spotify'
-import * as LocalClient from './spotify.mock'
+import * as LocalClient from './spotify.samples'
 
-describe('Finding auth token', () => {
-  it('returns true if error is present', () => {
+describe('receive authentication data', () => {
+  it('throws an error if the data returned is falsy', () => {
     const loc = {
       search: '?error=access_denied&state=123',
       hash: ''
     }
 
-    expect(Spotify.getAccessToken(loc)).rejects.toThrow(Error)
+    return expect(Spotify.getAccessToken(loc)).rejects.toThrow(Error)
   })
 
   it('returns access token from hash', () => {
@@ -19,7 +19,7 @@ describe('Finding auth token', () => {
       hash: `#access_token=${token}&token_type=Bearer`
     }
 
-    expect(Spotify.getAccessToken(loc)).resolves.toBe(token)
+    return expect(Spotify.getAccessToken(loc)).resolves.toBe(token)
   })
 
   it('throws specific error if hash provided but no token is present', () => {
@@ -28,13 +28,13 @@ describe('Finding auth token', () => {
       hash: ''
     }
 
-    expect(Spotify.getAccessToken(loc)).rejects.toThrow(
+    return expect(Spotify.getAccessToken(loc)).rejects.toThrow(
       NoAccessTokenAvailableError
     )
   })
 
   it('throws error when no data is provided', () => {
-    expect(Spotify.getAccessToken(null)).rejects.toThrowError()
+    return expect(Spotify.getAccessToken(null)).rejects.toThrowError()
   })
 })
 
@@ -42,14 +42,14 @@ describe('authentication url builder', () => {
   it('returns a nice url', () => {
     const url = Spotify.getAuthenticationURL('123', 'http://localhost')
 
-    expect(url).toBe(
+    return expect(url).toBe(
       'https://accounts.spotify.com/authorize?client_id=123&redirect_uri=http%3A%2F%2Flocalhost&response_type=token&scope=playlist-read-private%20playlist-modify-private&show_dialog=false'
     )
   })
 })
 
-describe('get user info', () => {
-  it('returns user information', () => {
+describe('getting user info', () => {
+  it('returns proper user information', () => {
     const c = new Spotify()
 
     c.setClient({
@@ -66,7 +66,7 @@ describe('get user info', () => {
     })
   })
 
-  it('returns null if no user is present', () => {
+  it('throws error if the user is not found', () => {
     const c = new Spotify()
 
     c.setClient({
@@ -106,7 +106,7 @@ describe('get user info', () => {
   })
 })
 
-describe('Playlists listing', () => {
+describe('listing playlists', () => {
   it('lists all playlists', () => {
     const c = new Spotify()
 
@@ -124,7 +124,8 @@ describe('Playlists listing', () => {
       {
         id: '5QYl0j3b2od8WjVgm0tXIX',
         ownerId: 'myspotfiy',
-        image: 'https://pl.scdn.co/images/pl/default/8b5df80a65ddb6cd5115a7e4575f97b577be60ee',
+        image:
+          'https://pl.scdn.co/images/pl/default/8b5df80a65ddb6cd5115a7e4575f97b577be60ee',
         name: 'Starred',
         uri: 'spotify:user:myspotfiy:Playlists:5QYl0j3b2od8WjVgm0tXIX',
         href: 'https://api.spotify.com/v1/playlists/5QYl0j3b2od8WjVgm0tXIX'
@@ -132,7 +133,8 @@ describe('Playlists listing', () => {
       {
         id: '5Ehsce4n7LxwGUAQ7arcZM',
         ownerId: 'myspotfiy2',
-        image: 'https://pl.scdn.co/images/pl/default/2f4c97625fef020d12a1e6e17320faccaabf313a',
+        image:
+          'https://pl.scdn.co/images/pl/default/2f4c97625fef020d12a1e6e17320faccaabf313a',
         name: 'Shuffle',
         uri: 'spotify:user:myspotfiy:Playlists:5Ehsce4n7LxwGUAQ7arcZM',
         href: 'https://api.spotify.com/v1/playlists/5Ehsce4n7LxwGUAQ7arcZM'
@@ -141,8 +143,8 @@ describe('Playlists listing', () => {
   })
 })
 
-describe('Playlists track listing', () => {
-  it('lists all tracks in Playlists', () => {
+describe('listing playlist tracks', () => {
+  it('lists all tracks in a playlist', () => {
     const c = new Spotify()
 
     c.setClient({
@@ -180,6 +182,48 @@ describe('track reordering', () => {
       }
     })
 
-    return expect(c.moveTrack('12', '123', '123')).resolves.toEqual('some-id-123')
+    return expect(c.moveTrack('12', '123', '123')).resolves.toEqual(
+      'some-id-123'
+    )
+  })
+})
+
+describe('track features', () => {
+  it('finds track features', async () => {
+    const tracks = LocalClient.trackFeatures.audio_features.map((f, i) => ({
+      id: i
+    }))
+
+    const c = new Spotify()
+
+    c.setClient({
+      getAudioFeaturesForTracks() {
+        return LocalClient.trackFeatures
+      }
+    })
+
+    const f = await c.getFeaturesForTracks(tracks)
+
+    expect(f[0]).toHaveProperty('features')
+    expect(f[0]).toHaveProperty('features.energy', 0.626)
+  })
+
+  it('retains input track order', async () => {
+    const tracks = LocalClient.trackFeatures.audio_features.map((f, i) => ({
+      id: i
+    }))
+
+    const c = new Spotify()
+
+    c.setClient({
+      getAudioFeaturesForTracks() {
+        return LocalClient.trackFeatures
+      }
+    })
+
+    const f = await c.getFeaturesForTracks(tracks)
+
+    expect(f[0].id).toEqual(0)
+    expect(f[1].id).toEqual(1)
   })
 })

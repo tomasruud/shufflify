@@ -1,7 +1,7 @@
 import Types from 'prop-types'
 
 const track = Types.shape({
-  id: Types.string.isRequired,
+  id: Types.string, // Local files does not have an ID
   index: Types.number.isRequired,
   name: Types.string.isRequired,
   artists: Types.arrayOf(Types.string).isRequired,

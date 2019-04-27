@@ -1,34 +1,21 @@
 import { handleActions } from 'redux-actions'
-import {
-  loadTracksError,
-  loadTracksRequest,
-  loadTracksSuccess
-} from '../actions/tracks'
+import { request, success } from '../actions/tracks'
 
 const defaultState = {
   items: [],
-  loading: false,
-  error: false
+  loading: false
 }
 
 const reduce = handleActions(
   {
-    [loadTracksRequest]: state => ({
+    [request]: state => ({
       ...state,
-      loading: true,
-      error: false
+      loading: true
     }),
 
-    [loadTracksSuccess]: (state, action) => ({
+    [success]: (state, action) => ({
       ...state,
       items: action.payload,
-      loading: false,
-      error: false
-    }),
-
-    [loadTracksError]: state => ({
-      ...state,
-      error: true,
       loading: false
     })
   },

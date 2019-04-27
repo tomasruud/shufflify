@@ -1,16 +1,10 @@
 import { createSelector } from 'reselect'
 import { userID } from './session'
-
-export const PlaylistFilters = {
-  ALL: null,
-  MINE: 'MINE'
-}
+import { filters } from '../actions/playlists'
 
 export const playlists = state => state.playlists.items
 
 export const loading = state => state.playlists.loading
-
-export const error = state => state.playlists.error
 
 export const loaded = state => state.playlists.loaded
 
@@ -31,7 +25,7 @@ export const visiblePlaylists = createSelector(
     )
 
     switch (filter) {
-      case PlaylistFilters.MINE:
+      case filters.MINE:
         return playlists.filter(p => p.ownerId === userID)
 
       default:

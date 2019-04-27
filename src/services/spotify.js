@@ -129,14 +129,22 @@ export default class Spotify {
       chunks.push(t.splice(0, 100))
     }
 
-    const withFeatures = Promise.all(
+    const withFeatures = await Promise.all(
       chunks.map(async chunk => {
         let features = await this.client.getAudioFeaturesForTracks(
           chunk.map(t => t.id)
         )
 
-        return features.map(f => {
-          let track = chunk.find(e => e.id === f.id)
+        if (!features.audio_features) {
+          throw new Error('No audio features provided')
+        }
+
+        return features.audio_features.map((f, i) => {
+          let track = { ...chunk[i] }
+
+          if (!f) {
+            return track
+          }
 
           track.features = {
             acousticness: f.acousticness,
@@ -156,7 +164,7 @@ export default class Spotify {
       })
     )
 
-    return withFeatures.reduce((acc, e) => [...acc, ...e], [])
+    return [].concat(...withFeatures)
   }
 
   async moveTrack(playlistId, from, to) {

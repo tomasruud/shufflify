@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Button = styled.button`
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1rem;
   margin: 0;
 
   border-radius: 666rem;
@@ -32,6 +32,16 @@ const Button = styled.button`
     outline: none;
     box-shadow: 0 0 0 2px ${p => p.theme.white},
       0 0 0 4px ${p => p.theme.primaryLight};
+  }
+`
+
+export const SecondaryButton = styled(Button)`
+  color: ${p => p.theme.black};
+  background-color: ${p => p.theme.white};
+  
+  :hover {
+    color: ${p => p.theme.white};
+    background-color: ${p => p.theme.primary};
   }
 `
 

@@ -1,10 +1,11 @@
-import { Link as NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 import Link from './Link'
+import NavLink from '../containers/Link'
 import Paragraph from './Paragraph'
-import Container from './Container'
+import Container from './Wrapper'
+import { routes } from '../actions/router'
 
 const Wrap = styled(Container).attrs({ as: 'footer' })`
   color: ${p => p.theme.grayLight};
@@ -33,9 +34,7 @@ const Footer = ({ version }) => (
         on GitHub
       </Paragraph>
 
-      <Link as={NavLink} to='/privacy'>
-        Privacy
-      </Link>
+      <NavLink to={routes.PRIVACY}>Privacy</NavLink>
     </div>
 
     <div>

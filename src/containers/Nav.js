@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { authenticated, loading } from '../selectors/session'
-import { redirectToAuthentication } from '../actions/session'
+import { authenticate } from '../actions/session'
 import Nav from '../components/Nav'
 
 const mapState = state => ({
@@ -10,7 +9,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  authenticate: () => dispatch(redirectToAuthentication())
+  authenticate: () => dispatch(authenticate())
 })
 
-export default withRouter(connect(mapState, mapDispatch)(Nav))
+export default connect(mapState, mapDispatch)(Nav)

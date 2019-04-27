@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled, { withTheme } from 'styled-components'
 
@@ -34,9 +34,13 @@ const Wrap = styled.span`
 `
 
 const Logo = ({ theme }) => {
-  const colors = Object.keys(theme.palette)
-    .sort(() => 0.5 - Math.random())
-    .map(c => theme.palette[c])
+  const colors = useMemo(
+    () =>
+      Object.keys(theme.palette)
+        .sort(() => 0.5 - Math.random())
+        .map(c => theme.palette[c]),
+    [theme]
+  )
 
   return (
     <Wrap>

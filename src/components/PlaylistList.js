@@ -1,38 +1,38 @@
 import styled from 'styled-components'
 import React from 'react'
+import PropTypes from 'prop-types'
+import { routes } from '../actions/router'
+import Link from '../containers/Link'
+import playlist from '../models/playlist'
+import { SecondaryButton } from './Button'
 
 const List = styled.ul`
-  display: block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-flow: wrap;
 `
 
 const Item = styled.li`
-  display: flex;
+  margin: 4px;
 `
 
-const Thumb = styled.div`
-  width: 2rem;
-  height: 2rem;
-
-  background-image: ${props => `url(${props.image})` || 'none'};
-  background-size: cover;
-
-  border-radius: 100%;
-  border: 2px solid ${p => p.theme.white};
-
-  ${p => p.theme.shadow};
-`
-
-const PlaylistList = ({ playlists }) => (
-  <List>
+const PlaylistList = ({ playlists, ...rest }) => (
+  <List {...rest}>
     {playlists.map(p => (
       <Item key={p.id}>
-        <Thumb image={p.image} />
-        {p.name}
+        <SecondaryButton as={Link} to={routes.SHUFFLE} params={{ id: p.id }}>
+          {p.name}
+        </SecondaryButton>
       </Item>
     ))}
   </List>
 )
 
-PlaylistList.propTypes = {}
+PlaylistList.propTypes = {
+  playlists: PropTypes.arrayOf(playlist)
+}
 
 export default PlaylistList

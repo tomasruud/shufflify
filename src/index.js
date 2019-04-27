@@ -12,3 +12,7 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('shufflify')
 )
+
+if (module.hot) {
+  module.hot.accept()
+}
