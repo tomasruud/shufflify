@@ -1,35 +1,25 @@
 import { createSelector } from 'reselect'
 import { userID } from './session'
-import { filters } from '../actions/playlists'
 
-export const playlists = state => state.playlists.items
+export const playlists = state => Object.values(state.entities.playlists.byURI)
 
-export const loading = state => state.playlists.loading
+export const loading = state => state.entities.playlists.loading
 
-export const loaded = state => state.playlists.loaded
+export const loaded = state => playlists(state).length > 0
 
-export const playlistById = (state, id) =>
-  playlists(state).find(p => p.id === id)
+export const byURI = (state, uri) => state.entities.playlists.byURI[uri]
 
-export const filter = state => state.playlists.filter
-
-export const search = state => state.playlists.search
+export const search = state => state.entities.playlists.search
 
 export const visiblePlaylists = createSelector(
-  [filter, search, playlists, userID],
-  (filter, search, playlists, userID) => {
+  [search, playlists, userID],
+  (search, playlists, userID) => {
     search = search.toLowerCase()
 
     playlists = playlists.filter(
       p => !search || (p.name && p.name.toLowerCase().includes(search))
     )
 
-    switch (filter) {
-      case filters.MINE:
-        return playlists.filter(p => p.ownerId === userID)
-
-      default:
-        return playlists
-    }
+    return playlists.filter(p => p.ownerId === userID)
   }
 )

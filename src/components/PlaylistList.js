@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { routes } from '../actions/router'
+import routes from '../constants/routes'
 import Link from '../containers/Link'
 import playlist from '../models/playlist'
 import { SecondaryButton } from './Button'
@@ -22,8 +22,8 @@ const Item = styled.li`
 const PlaylistList = ({ playlists, ...rest }) => (
   <List {...rest}>
     {playlists.map(p => (
-      <Item key={p.id}>
-        <SecondaryButton as={Link} to={routes.SHUFFLE} params={{ id: p.id }}>
+      <Item key={p.uri}>
+        <SecondaryButton as={Link} to={routes.SHUFFLE} params={{ uri: p.uri }}>
           {p.name}
         </SecondaryButton>
       </Item>

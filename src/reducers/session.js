@@ -1,22 +1,32 @@
-import { handleActions } from 'redux-actions'
-import { success } from '../actions/session'
+import { SESSION_BOOTSTRAP_COMPLETE } from '../constants/actions'
+import { combineReducers } from 'redux'
 
-const defaultState = {
-  token: null,
-  user: {},
-  loading: true
+const token = (state = null, { type, payload }) => {
+  if (type === SESSION_BOOTSTRAP_COMPLETE) {
+    return payload.token
+  }
+
+  return state
 }
 
-const reduce = handleActions(
-  {
-    [success]: (state, action) => ({
-      ...state,
-      token: action.payload.token,
-      user: action.payload.user,
-      loading: false
-    })
-  },
-  defaultState
-)
+const user = (state = {}, { type, payload }) => {
+  if (type === SESSION_BOOTSTRAP_COMPLETE) {
+    return payload.user
+  }
 
-export default reduce
+  return state
+}
+
+const loading = (state = true, { type }) => {
+  if (type === SESSION_BOOTSTRAP_COMPLETE) {
+    return false
+  }
+
+  return state
+}
+
+export default combineReducers({
+  token,
+  user,
+  loading
+})

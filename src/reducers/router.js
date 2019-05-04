@@ -1,20 +1,23 @@
-import { handleActions } from 'redux-actions'
-import { navigate } from '../actions/router'
+import { combineReducers } from 'redux'
+import { ROUTER_NAVIGATE } from '../constants/actions'
 
-const defaultState = {
-  path: '/',
-  params: {}
+const path = (state = '', { type, payload }) => {
+  if (type === ROUTER_NAVIGATE) {
+    return payload.path
+  }
+
+  return state
 }
 
-const reducer = handleActions(
-  {
-    [navigate]: (state, action) => ({
-      ...state,
-      path: action.payload.path,
-      params: action.payload.params
-    })
-  },
-  defaultState
-)
+const params = (state = {}, { type, payload }) => {
+  if (type === ROUTER_NAVIGATE) {
+    return payload.params
+  }
 
-export default reducer
+  return state
+}
+
+export default combineReducers({
+  path,
+  params
+})

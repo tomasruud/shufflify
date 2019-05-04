@@ -72,7 +72,7 @@ export const playlists = {
         'MjkyLGZkMThiODExNjMwY2ViYTg2MDU5MzgxM2IxZjI0MDllYmNkNTA0NjI=',
       tracks: {
         href:
-          'https://api.spotify.com/v1/playlists/5QYl0j3b2od8WjVgm0tXIX/tracks',
+          'https://api.spotify.com/v1/playlists/5QYl0j3b2od8WjVgm0tXIX/byPlaylistURI',
         total: 1727
       },
       type: 'playlist',
@@ -121,7 +121,7 @@ export const playlistsLastPage = {
         'MTEwLGZlZjg5MTIzYTY1MWY4NDQ1NmY3MDU5NDBiYzlkMjc4MTE3Y2Y2NjM=',
       tracks: {
         href:
-          'https://api.spotify.com/v1/playlists/5Ehsce4n7LxwGUAQ7arcZM/tracks',
+          'https://api.spotify.com/v1/playlists/5Ehsce4n7LxwGUAQ7arcZM/byPlaylistURI',
         total: 93
       },
       type: 'playlist',
@@ -157,7 +157,7 @@ export const tracks = {
     }
   ],
   next:
-    'https://api.spotify.com/v1/playlists/5Ehsce4n7LxwGUAQ7arcZM/tracks?offset=1&limit=1&fields=items(track(name,artists(name))),next'
+    'https://api.spotify.com/v1/playlists/5Ehsce4n7LxwGUAQ7arcZM/byPlaylistURI?offset=1&limit=1&fields=items(track(name,artists(name))),next'
 }
 
 export const tracksLastPage = {
@@ -204,7 +204,7 @@ export const trackFeatures = {
       type: 'audio_features',
       id: '4JpKVNYnVcJ8tuMKjAj50A',
       uri: 'spotify:track:4JpKVNYnVcJ8tuMKjAj50A',
-      track_href: 'https://api.spotify.com/v1/tracks/4JpKVNYnVcJ8tuMKjAj50A',
+      track_href: 'https://api.spotify.com/v1/byPlaylistURI/4JpKVNYnVcJ8tuMKjAj50A',
       analysis_url:
         'http://echonest-analysis.s3.amazonaws.com/TR/WhpYUARk1kNJ_qP0AdKGcDDFKOQTTgsOoINrqyPQjkUnbteuuBiyj_u94iFCSGzdxGiwqQ6d77f4QLL_8=/3/full.json?AWSAccessKeyId=AKIAJRDFEY23UEVW42BQ&Expires=1458063189&Signature=JRE8SDZStpNOdUsPN/PoS49FMtQ%3D',
       duration_ms: 535223,
@@ -225,7 +225,7 @@ export const trackFeatures = {
       type: 'audio_features',
       id: '2NRANZE9UCmPAS5XVbXL40',
       uri: 'spotify:track:2NRANZE9UCmPAS5XVbXL40',
-      track_href: 'https://api.spotify.com/v1/tracks/2NRANZE9UCmPAS5XVbXL40',
+      track_href: 'https://api.spotify.com/v1/byPlaylistURI/2NRANZE9UCmPAS5XVbXL40',
       analysis_url:
         'http://echonest-analysis.s3.amazonaws.com/TR/WhuQhwPDhmEg5TO4JjbJu0my-awIhk3eaXkRd1ofoJ7tXogPnMtbxkTyLOeHXu5Jke0FCIt52saKJyfPM=/3/full.json?AWSAccessKeyId=AKIAJRDFEY23UEVW42BQ&Expires=1458063189&Signature=qfclum7FwTaR/7aQbnBNO0daCsM%3D',
       duration_ms: 187800,
@@ -246,7 +246,7 @@ export const trackFeatures = {
       type: 'audio_features',
       id: '24JygzOLM0EmRQeGtFcIcG',
       uri: 'spotify:track:24JygzOLM0EmRQeGtFcIcG',
-      track_href: 'https://api.spotify.com/v1/tracks/24JygzOLM0EmRQeGtFcIcG',
+      track_href: 'https://api.spotify.com/v1/byPlaylistURI/24JygzOLM0EmRQeGtFcIcG',
       analysis_url:
         'http://echonest-analysis.s3.amazonaws.com/TR/ehbkMg05Ck-FN7p3lV7vd8TUdBCvM6z5mgDiZRv6iSlw8P_b8GYBZ4PRAlOgTl3e5rS34_l3dZGDeYzH4=/3/full.json?AWSAccessKeyId=AKIAJRDFEY23UEVW42BQ&Expires=1458063189&Signature=bnTm0Hcb%2Bxo8ZCmuxm1mY0JY4Hs%3D',
       duration_ms: 497493,

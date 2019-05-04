@@ -100,7 +100,7 @@ export default class Spotify {
 
   async getTracks(playlistId) {
     let ts = await this.client.getPlaylistTracks(playlistId, {
-      fields: 'items(track(id,name,artists(name))), next'
+      fields: 'items(track(uri,id,name,artists(name),is_local)), next'
     })
 
     let l = ts.items
@@ -113,11 +113,12 @@ export default class Spotify {
       }
     }
 
-    return l.map((t, i) => ({
-      index: i,
+    return l.map(t => ({
+      uri: t.track.uri,
       id: t.track.id,
       name: t.track.name,
-      artists: t.track.artists.map(a => a.name)
+      artists: t.track.artists.map(a => a.name),
+      local: !!t.track.is_local
     }))
   }
 

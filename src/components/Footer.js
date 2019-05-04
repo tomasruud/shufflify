@@ -5,7 +5,7 @@ import Link from './Link'
 import NavLink from '../containers/Link'
 import Paragraph from './Paragraph'
 import Container from './Wrapper'
-import { routes } from '../actions/router'
+import routes from '../constants/routes'
 
 const Wrap = styled(Container).attrs({ as: 'footer' })`
   color: ${p => p.theme.grayLight};

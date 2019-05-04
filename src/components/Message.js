@@ -36,7 +36,7 @@ const Close = styled.button`
 const Message = ({ children, onClear, ...rest }) => (
   <Wrapper {...rest}>
     {children}
-    <Close onClick={() => onClear()}>x</Close>
+    <Close onClick={() => onClear()} ariaLabel='Close'>x</Close>
   </Wrapper>
 )
 

@@ -1,10 +1,12 @@
 import React, { useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
-import { routes } from '../actions/router'
-import { authenticate, init } from '../actions/session'
+
+import routes from '../constants/routes'
 import { path } from '../selectors/router'
 import { authenticated } from '../selectors/session'
+import { authenticate, bootstrap } from '../actions/session'
 import Privacy from '../components/Privacy'
+
 import Login from './Login'
 import Playlists from './Playlists'
 import Tracks from './Tracks'
@@ -40,7 +42,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  checkAuthentication: () => dispatch(init()),
+  checkAuthentication: () => dispatch(bootstrap()),
   authenticate: () => dispatch(authenticate())
 })
 

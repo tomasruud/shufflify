@@ -1,13 +1,9 @@
-import { createAction } from 'redux-actions'
+import { ROUTER_NAVIGATE } from '../constants/actions'
 
-export const routes = {
-  PRIVACY: '/privacy',
-  PLAYLISTS: '/playlists',
-  LOGIN: '/login',
-  SHUFFLE: '/shuffle'
-}
-
-export const navigate = createAction('ROUTER_NAVIGATE', (path, params) => ({
-  path,
-  params
-}))
+export const navigate = (path, params = {}) => ({
+  type: ROUTER_NAVIGATE,
+  payload: {
+    path,
+    params
+  }
+})

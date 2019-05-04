@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const Link = styled.a.attrs(({ external }) => ({
-  target: external ? '_blank' : '_self'
+  target: external ? '_blank' : null
 }))`
   color: inherit;
 

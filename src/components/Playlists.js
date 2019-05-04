@@ -4,34 +4,29 @@ import VisiblePlaylists from '../containers/VisiblePlaylists'
 import Title from './Title'
 import Filter from './Filter'
 import Paragraph from './Paragraph'
+import Loader from './Loader'
 
-const Playlists = ({
-  isLoaded,
-  isLoading,
-  loadPlaylists,
-  updateSearch,
-  search
-}) => {
+const Playlists = ({ isLoading, loadPlaylists, updateSearch, search }) => {
   useLayoutEffect(() => {
-    if (!isLoaded) {
-      loadPlaylists()
-    }
-  }, [isLoaded, loadPlaylists])
+    loadPlaylists()
+  }, [loadPlaylists])
 
   return (
     <React.Fragment>
-      <Title>Your playlists</Title>
+      <Title>Select playlist to shuffle</Title>
 
-      <Paragraph>Click on a playlists name to load the tracks</Paragraph>
+      <Paragraph>
+        Click on the name of a playlist to enter shuffle-mode.
+      </Paragraph>
 
       <Filter
         setFilter={updateSearch}
-        value={search}
+        filter={search}
         placeholder='Search...'
       />
 
       {isLoading ? (
-        <span>Loading..</span>
+        <Loader />
       ) : (
         <VisiblePlaylists style={{ marginTop: '1rem' }} />
       )}

@@ -4,7 +4,7 @@ import * as LocalClient from './spotify.samples'
 describe('receive authentication data', () => {
   it('throws an error if the data returned is falsy', () => {
     const loc = {
-      search: '?error=access_denied&state=123',
+      search: '?error=access_denied&reducer=123',
       hash: ''
     }
 
@@ -143,8 +143,8 @@ describe('listing playlists', () => {
   })
 })
 
-describe('listing playlist tracks', () => {
-  it('lists all tracks in a playlist', () => {
+describe('listing playlist byPlaylistURI', () => {
+  it('lists all byPlaylistURI in a playlist', () => {
     const c = new Spotify()
 
     c.setClient({
@@ -161,12 +161,14 @@ describe('listing playlist tracks', () => {
       {
         index: 0,
         name: 'Varm Vind',
-        artists: ['Holm CPU']
+        artists: ['Holm CPU'],
+        local: false
       },
       {
         index: 1,
         name: 'Uten Mål Og Mening',
-        artists: ['Kitboys']
+        artists: ['Kitboys'],
+        local: false
       }
     ])
   })

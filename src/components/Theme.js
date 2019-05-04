@@ -1,8 +1,7 @@
 import React from 'react'
-import { createGlobalStyle, ThemeProvider, css } from 'styled-components'
+import { createGlobalStyle, css, ThemeProvider } from 'styled-components'
 import { Reset } from 'styled-reset'
 import { lighten, saturate } from '@wessberg/color'
-import { SkeletonTheme } from 'react-loading-skeleton'
 
 const colors = {
   purple: '#453246',
@@ -74,16 +73,14 @@ const Global = createGlobalStyle`
 
 const Theme = ({ children }) => (
   <ThemeProvider theme={theme}>
-    <SkeletonTheme color={theme.grayLighter} highlightColor={colors.white}>
+    <React.Fragment>
       <Reset />
       <Global />
       {children}
-    </SkeletonTheme>
+    </React.Fragment>
   </ThemeProvider>
 )
 
-Theme.propTypes = {
-
-}
+Theme.propTypes = {}
 
 export default Theme

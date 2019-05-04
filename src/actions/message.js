@@ -1,5 +1,10 @@
-import { createAction } from 'redux-actions'
+import { MESSAGE_CLEAR, MESSAGE_SET } from '../constants/actions'
 
-export const set = createAction('MESSAGE_SET', message => message)
+export const set = message => ({
+  type: MESSAGE_SET,
+  payload: message
+})
 
-export const clear = createAction('MESSAGE_CLEAR')
+export const clear = () => ({
+  type: MESSAGE_CLEAR
+})

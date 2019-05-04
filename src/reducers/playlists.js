@@ -1,41 +1,53 @@
-import { handleActions } from 'redux-actions'
-import { filters } from '../actions/playlists'
-import { request, success, setFilter, setSearch } from '../actions/playlists'
+import { combineReducers } from 'redux'
+import {
+  PLAYLISTS_LOAD_REQUEST,
+  PLAYLISTS_LOAD_SUCCESS,
+  PLAYLISTS_SEARCH_SET,
+  TRACKS_LOAD_SUCCESS
+} from '../constants/actions'
 
-const defaultState = {
-  items: [],
-  loading: false,
-  loaded: false,
-  filter: filters.MINE,
-  search: ''
+const byURI = (state = {}, { type, payload }) => {
+  if (type === PLAYLISTS_LOAD_SUCCESS) {
+    return {
+      ...state,
+      ...payload.reduce((acc, playlist) => {
+        acc[playlist.uri] = playlist
+        return acc
+      }, {})
+    }
+  } else if (type === TRACKS_LOAD_SUCCESS) {
+    return {
+      ...state,
+      [payload.playlistURI]: {
+        ...state[payload.playlistURI],
+        tracks: payload.tracks.map(t => t.uri)
+      }
+    }
+  }
+
+  return state
 }
 
-const reducer = handleActions(
-  {
-    [request]: state => ({
-      ...state,
-      loading: true,
-      loaded: false
-    }),
+const search = (state = '', { type, payload }) => {
+  if (type === PLAYLISTS_SEARCH_SET) {
+    return payload
+  }
 
-    [success]: (state, action) => ({
-      ...state,
-      items: action.payload,
-      loading: false,
-      loaded: true
-    }),
+  return state
+}
 
-    [setFilter]: (state, action) => ({
-      ...state,
-      filter: action.payload
-    }),
+const loading = (state = false, { type }) => {
+  if (type === PLAYLISTS_LOAD_REQUEST) {
+    return true
+  } else if (type === PLAYLISTS_LOAD_SUCCESS) {
+    return false
+  }
 
-    [setSearch]: (state, action) => ({
-      ...state,
-      search: action.payload
-    })
-  },
-  defaultState
-)
+  return state
+}
 
-export default reducer
+export default combineReducers({
+  loading,
+  byURI,
+  search
+})

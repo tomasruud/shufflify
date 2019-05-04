@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+
 import Base from '../components/Link'
 import { navigate } from '../actions/router'
 
 const Link = ({ as: Component, to, params, navigateTo, ...rest }) => (
   <Component
-    href={to}
+    as='button'
     onClick={e => {
       e.preventDefault()
       navigateTo(to, params)

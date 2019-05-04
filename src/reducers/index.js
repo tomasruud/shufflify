@@ -1,17 +1,15 @@
 import { combineReducers } from 'redux'
 
 import session from './session'
-import playlists from './playlists'
-import tracks from './tracks'
 import router from './router'
 import message from './message'
+import entities from './entities'
 
 const root = combineReducers({
   session,
-  playlists,
-  tracks,
+  message,
   router,
-  message
+  entities
 })
 
 export default root

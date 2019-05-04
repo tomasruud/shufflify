@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { small } from './Theme'
-import Container from './Wrapper'
+
 import Footer from '../containers/Footer'
 import Nav from '../containers/Nav'
-import Theme from './Theme'
 import Router from '../containers/Router'
 import Notice from '../containers/Notice'
+
+import { small } from './Theme'
+import Container from './Wrapper'
+import Theme from './Theme'
 
 const Wrapper = styled.div`
   background-color: ${p => p.theme.white};

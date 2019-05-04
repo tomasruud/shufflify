@@ -1,9 +1,8 @@
 import { connect } from 'react-redux'
-import info from '../../package.json'
 import Footer from '../components/Footer'
 
 const mapState = () => ({
-  version: info.version
+  version: process.env.REACT_APP_VERSION
 })
 
 export default connect(mapState)(Footer)

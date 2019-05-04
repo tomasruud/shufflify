@@ -1,18 +1,16 @@
 import { connect } from 'react-redux'
 import { load } from '../actions/tracks'
-import { playlistById } from '../selectors/playlists'
-import { loading, tracks } from '../selectors/tracks'
+import { byURI } from '../selectors/playlists'
+import { loading } from '../selectors/tracks'
 import { params } from '../selectors/router'
 import Tracks from '../components/Tracks'
 
 const mapDispatch = dispatch => ({
-  loadTracks: playlistID => dispatch(load(playlistID))
+  loadTracks: playlistURI => dispatch(load(playlistURI))
 })
 
 const mapState = state => ({
-  playlistID: params(state).id,
-  playlist: playlistById(state, params(state).id),
-  tracks: tracks(state),
+  playlist: byURI(state, params(state).uri),
   isLoading: loading(state)
 })
 

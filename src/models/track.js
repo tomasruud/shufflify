@@ -1,10 +1,11 @@
 import Types from 'prop-types'
 
 const track = Types.shape({
-  id: Types.string, // Local files does not have an ID
-  index: Types.number.isRequired,
+  uri: Types.string.isRequired,
+  id: Types.string,
   name: Types.string.isRequired,
   artists: Types.arrayOf(Types.string).isRequired,
+  local: Types.bool,
 
   features: Types.shape({
     acousticness: Types.number.isRequired,

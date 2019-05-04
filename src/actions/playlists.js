@@ -1,42 +1,33 @@
-import { createAction } from 'redux-actions'
 import { token } from '../selectors/session'
 import Spotify from '../services/spotify'
-import * as message from './message'
+import {
+  PLAYLISTS_LOAD_REQUEST,
+  PLAYLISTS_LOAD_SUCCESS,
+  PLAYLISTS_SEARCH_SET
+} from '../constants/actions'
+import { loaded } from '../selectors/playlists'
 
-export const filters = {
-  ALL: null,
-  MINE: 'MINE'
-}
-
-export const request = createAction('LOAD_PLAYLISTS_REQUEST')
-
-export const success = createAction(
-  'LOAD_PLAYLISTS_SUCCESS',
-  playlists => playlists
-)
-
-export const setFilter = createAction(
-  'UPDATE_PLAYLISTS_FILTER',
-  filter => filter
-)
-
-export const setSearch = createAction(
-  'UPDATE_PLAYLISTS_SEARCH',
-  search => search
-)
+export const setSearch = search => ({
+  type: PLAYLISTS_SEARCH_SET,
+  payload: search
+})
 
 export const load = () => async (dispatch, getState) => {
-  try {
-    dispatch(request())
-
-    const t = token(getState())
-
-    const client = new Spotify(t)
-    const items = await client.getPlaylists()
-
-    return dispatch(success(items))
-  } catch (e) {
-    console.error(e)
-    return dispatch(message.set('There was a problem loading your playlists'))
+  if (loaded(getState())) {
+    return null
   }
+
+  dispatch({
+    type: PLAYLISTS_LOAD_REQUEST
+  })
+
+  const t = token(getState())
+
+  const client = new Spotify(t)
+  const items = await client.getPlaylists()
+
+  return dispatch({
+    type: PLAYLISTS_LOAD_SUCCESS,
+    payload: items
+  })
 }

@@ -1,23 +1,16 @@
-import { handleActions } from 'redux-actions'
-import { clear, set } from '../actions/message'
+import { combineReducers } from 'redux'
+import { MESSAGE_CLEAR, MESSAGE_SET } from '../constants/actions'
 
-const defaultState = {
-  message: ''
+const message = (state = null, { type, payload }) => {
+  if (type === MESSAGE_SET) {
+    return payload
+  } else if (type === MESSAGE_CLEAR) {
+    return null
+  }
+
+  return state
 }
 
-const reducer = handleActions(
-  {
-    [clear]: state => ({
-      ...state,
-      message: ''
-    }),
-
-    [set]: (state, action) => ({
-      ...state,
-      message: action.payload
-    })
-  },
-  defaultState
-)
-
-export default reducer
+export default combineReducers({
+  message
+})

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { load, setSearch } from '../actions/playlists'
-import { loaded, loading, search } from '../selectors/playlists'
+import { loading, search } from '../selectors/playlists'
 import Playlists from '../components/Playlists'
 
 const mapDispatch = dispatch => ({
@@ -9,7 +9,6 @@ const mapDispatch = dispatch => ({
 })
 
 const mapState = state => ({
-  isLoaded: loaded(state),
   isLoading: loading(state),
   search: search(state)
 })
