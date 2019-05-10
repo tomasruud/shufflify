@@ -12,4 +12,8 @@ export const byPlaylistURI = (state, playlistURI) => {
   return list.tracks.map(uri => byURI(state, uri))
 }
 
+export const URIbyID = (state, ID) => state.entities.tracks.URIbyID[ID]
+
+export const byID = (state, ID) => byURI(state, URIbyID(state, ID))
+
 export const loading = state => state.entities.tracks.loading

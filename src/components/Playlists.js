@@ -26,7 +26,7 @@ const Playlists = ({ isLoading, loadPlaylists, updateSearch, search }) => {
       />
 
       {isLoading ? (
-        <Loader />
+        <Loader style={{ marginTop: '1rem' }} />
       ) : (
         <VisiblePlaylists style={{ marginTop: '1rem' }} />
       )}

@@ -123,7 +123,7 @@ describe('listing playlists', () => {
     return expect(c.getPlaylists()).resolves.toEqual([
       {
         id: '5QYl0j3b2od8WjVgm0tXIX',
-        ownerId: 'myspotfiy',
+        ownerID: 'myspotfiy',
         image:
           'https://pl.scdn.co/images/pl/default/8b5df80a65ddb6cd5115a7e4575f97b577be60ee',
         name: 'Starred',
@@ -132,7 +132,7 @@ describe('listing playlists', () => {
       },
       {
         id: '5Ehsce4n7LxwGUAQ7arcZM',
-        ownerId: 'myspotfiy2',
+        ownerID: 'myspotfiy2',
         image:
           'https://pl.scdn.co/images/pl/default/2f4c97625fef020d12a1e6e17320faccaabf313a',
         name: 'Shuffle',
@@ -159,13 +159,11 @@ describe('listing playlist byPlaylistURI', () => {
 
     return expect(c.getTracks('123')).resolves.toEqual([
       {
-        index: 0,
         name: 'Varm Vind',
         artists: ['Holm CPU'],
         local: false
       },
       {
-        index: 1,
         name: 'Uten Mål Og Mening',
         artists: ['Kitboys'],
         local: false
@@ -192,9 +190,7 @@ describe('track reordering', () => {
 
 describe('track features', () => {
   it('finds track features', async () => {
-    const tracks = LocalClient.trackFeatures.audio_features.map((f, i) => ({
-      id: i
-    }))
+    const tracks = LocalClient.trackFeatures.audio_features.map((f, i) => i)
 
     const c = new Spotify()
 
@@ -206,14 +202,11 @@ describe('track features', () => {
 
     const f = await c.getFeaturesForTracks(tracks)
 
-    expect(f[0]).toHaveProperty('features')
-    expect(f[0]).toHaveProperty('features.energy', 0.626)
+    expect(f['0']).toHaveProperty('energy', 0.626)
   })
 
   it('retains input track order', async () => {
-    const tracks = LocalClient.trackFeatures.audio_features.map((f, i) => ({
-      id: i
-    }))
+    const tracks = LocalClient.trackFeatures.audio_features.map((f, i) => i)
 
     const c = new Spotify()
 
@@ -225,7 +218,7 @@ describe('track features', () => {
 
     const f = await c.getFeaturesForTracks(tracks)
 
-    expect(f[0].id).toEqual(0)
-    expect(f[1].id).toEqual(1)
+    expect(f['0'].energy).toEqual(0.626)
+    expect(f['1'].danceability).toEqual(0.457)
   })
 })

@@ -10,6 +10,11 @@ const normalized = {
     }
   },
 
+  shuffler: {
+    originalOrder: [123, 321],
+    nextOrder: [321, 123]
+  },
+
   router: {
     route: '/playlists',
     params: {}

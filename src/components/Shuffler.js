@@ -1,33 +1,33 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import playlistType from '../models/playlist'
-import Link from '../containers/Link'
-import routes from '../constants/routes'
-import Title from './Title'
 import VisibleTracks from '../containers/VisibleTracks'
+import Title from './Title'
 import Loader from './Loader'
+import ShuffleControls from './ShuffleControls'
 
-const Tracks = ({ playlist, isLoading, loadTracks }) => {
+const Shuffler = ({ playlist, isLoading, loadTracks }) => {
   useLayoutEffect(() => {
     if (!playlist.tracks) {
       loadTracks(playlist.uri)
     }
   }, [loadTracks, playlist])
 
+  const [nextOrder, setNextOrder] = useState(playlist.tracks)
+
   return (
     <React.Fragment>
       <Title>{playlist.name}</Title>
-      <Link to={routes.PLAYLISTS}>Back</Link>
-      <br />
+      <ShuffleControls/>
       {isLoading ? <Loader /> : <VisibleTracks />}
     </React.Fragment>
   )
 }
 
-Tracks.propTypes = {
+Shuffler.propTypes = {
   playlist: playlistType.isRequired,
   isLoading: PropTypes.bool,
   loadTracks: PropTypes.func.isRequired
 }
 
-export default Tracks
+export default Shuffler

@@ -5,7 +5,7 @@ const errorHandler = ({ dispatch }) => next => async action => {
     return await next(action)
   } catch (err) {
     console.error(err)
-    dispatch(set('An error occurred!'))
+    dispatch(set('Could not finish this action because of an error'))
   }
 }
 

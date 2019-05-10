@@ -3,7 +3,9 @@ import styled from 'styled-components'
 import Emoji from './Emoji'
 
 const Wrap = styled.div`
-  display: inline-block;
+  display: flex;
+  
+  max-width: 400px;
 
   background-color: ${p => p.theme.white};
   font-size: ${p => p.theme.font.small};
@@ -46,6 +48,8 @@ const Input = styled.input`
   padding: 0.75rem;
 
   font-size: inherit;
+  
+  width: 100%;
 
   :active,
   :focus {

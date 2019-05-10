@@ -3,12 +3,14 @@ import { TRACKS_LOAD_REQUEST, TRACKS_LOAD_SUCCESS } from '../constants/actions'
 
 const byURI = (state = {}, { type, payload }) => {
   if (type === TRACKS_LOAD_SUCCESS) {
+    const tracks = payload.tracks.reduce((acc, track) => {
+      acc[track.uri] = track
+      return acc
+    }, {})
+
     return {
       ...state,
-      ...payload.tracks.reduce((acc, track) => {
-        acc[track.uri] = track
-        return acc
-      }, {})
+      ...tracks
     }
   }
 
@@ -17,22 +19,24 @@ const byURI = (state = {}, { type, payload }) => {
 
 const URIbyID = (state = {}, { type, payload }) => {
   if (type === TRACKS_LOAD_SUCCESS) {
+    const tracks = payload.tracks.reduce((acc, track) => {
+      if (track.id) {
+        acc[track.id] = track.uri
+      }
+
+      return acc
+    }, {})
+
     return {
       ...state,
-      ...payload.tracks.reduce((acc, track) => {
-        if (track.id) {
-          acc[track.id] = track.uri
-        }
-
-        return acc
-      }, {})
+      ...tracks
     }
   }
 
   return state
 }
 
-const loading = (state = false, { type, payload }) => {
+const loading = (state = false, { type }) => {
   if (type === TRACKS_LOAD_REQUEST) {
     return true
   } else if (type === TRACKS_LOAD_SUCCESS) {

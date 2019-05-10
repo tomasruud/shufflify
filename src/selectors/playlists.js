@@ -20,6 +20,6 @@ export const visiblePlaylists = createSelector(
       p => !search || (p.name && p.name.toLowerCase().includes(search))
     )
 
-    return playlists.filter(p => p.ownerId === userID)
+    return playlists.filter(p => p.ownerID === userID)
   }
 )

@@ -1,6 +1,6 @@
-import styled from 'styled-components'
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import routes from '../constants/routes'
 import Link from '../containers/Link'
 import playlist from '../models/playlist'
@@ -32,7 +32,11 @@ const PlaylistList = ({ playlists, ...rest }) => (
 )
 
 PlaylistList.propTypes = {
-  playlists: PropTypes.arrayOf(playlist)
+  playlists: PropTypes.arrayOf(playlist).isRequired
+}
+
+PlaylistList.defaultProps = {
+  playlists: []
 }
 
 export default PlaylistList

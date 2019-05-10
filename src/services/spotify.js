@@ -84,7 +84,7 @@ export default class Spotify {
     return l.map(p => {
       const list = {
         id: p.id,
-        ownerId: p.owner.id,
+        ownerID: p.owner.id,
         name: p.name,
         uri: p.uri,
         href: p.href
@@ -98,8 +98,8 @@ export default class Spotify {
     })
   }
 
-  async getTracks(playlistId) {
-    let ts = await this.client.getPlaylistTracks(playlistId, {
+  async getTracks(playlistID) {
+    let ts = await this.client.getPlaylistTracks(playlistID, {
       fields: 'items(track(uri,id,name,artists(name),is_local)), next'
     })
 
@@ -122,32 +122,29 @@ export default class Spotify {
     }))
   }
 
-  async getFeaturesForTracks(tracks) {
-    let t = [...tracks]
-    let chunks = []
+  async getFeaturesForTracks(trackIDs) {
+    let t = [...trackIDs]
+    let features = {}
 
     while (t.length > 0) {
-      chunks.push(t.splice(0, 100))
-    }
+      const ids = t.splice(0, 100)
 
-    const withFeatures = await Promise.all(
-      chunks.map(async chunk => {
-        let features = await this.client.getAudioFeaturesForTracks(
-          chunk.map(t => t.id)
-        )
+      const { audio_features } = await this.client.getAudioFeaturesForTracks(
+        ids
+      )
 
-        if (!features.audio_features) {
-          throw new Error('No audio features provided')
-        }
+      if (!audio_features) {
+        throw new Error('No audio features provided')
+      }
 
-        return features.audio_features.map((f, i) => {
-          let track = { ...chunk[i] }
-
+      features = {
+        ...features,
+        ...audio_features.reduce((acc, f, i) => {
           if (!f) {
-            return track
+            return acc
           }
 
-          track.features = {
+          acc[ids[i]] = {
             acousticness: f.acousticness,
             bpm: f.tempo,
             danceability: f.danceability,
@@ -160,12 +157,12 @@ export default class Spotify {
             speechiness: f.speechiness
           }
 
-          return track
-        })
-      })
-    )
+          return acc
+        }, {})
+      }
+    }
 
-    return [].concat(...withFeatures)
+    return features
   }
 
   async moveTrack(playlistId, from, to) {

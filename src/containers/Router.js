@@ -9,14 +9,14 @@ import Privacy from '../components/Privacy'
 
 import Login from './Login'
 import Playlists from './Playlists'
-import Tracks from './Tracks'
+import Shuffler from './Shuffler'
 
-const Router = ({ path, isAuthenticated, checkAuthentication }) => {
+const Router = ({ path, isAuthenticated, bootstrap }) => {
   useLayoutEffect(() => {
     if (!isAuthenticated) {
-      checkAuthentication()
+      bootstrap()
     }
-  }, [checkAuthentication, isAuthenticated])
+  }, [bootstrap, isAuthenticated])
 
   if (path === routes.PRIVACY) {
     return <Privacy />
@@ -25,7 +25,7 @@ const Router = ({ path, isAuthenticated, checkAuthentication }) => {
   if (isAuthenticated) {
     switch (path) {
       case routes.SHUFFLE:
-        return <Tracks />
+        return <Shuffler />
 
       case routes.PLAYLISTS:
       default:
@@ -42,7 +42,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  checkAuthentication: () => dispatch(bootstrap()),
+  bootstrap: () => dispatch(bootstrap()),
   authenticate: () => dispatch(authenticate())
 })
 
