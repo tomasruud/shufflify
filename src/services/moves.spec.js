@@ -45,8 +45,6 @@ it('makes certain that moves count is less than n', () => {
 
   const ms = moves(a, b, (a, b) => a === b)
 
-  console.log(ms.length)
-
   expect(ms.length < a.length).toBeTruthy()
 })
 
