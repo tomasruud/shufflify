@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import playlistType from '../models/playlist'
 import VisibleTracks from '../containers/VisibleTracks'
@@ -12,8 +12,6 @@ const Shuffler = ({ playlist, isLoading, loadTracks }) => {
       loadTracks(playlist.uri)
     }
   }, [loadTracks, playlist])
-
-  const [nextOrder, setNextOrder] = useState(playlist.tracks)
 
   return (
     <React.Fragment>
