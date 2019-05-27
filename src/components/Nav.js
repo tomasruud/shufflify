@@ -8,8 +8,6 @@ import UserBadge from '../containers/UserBadge'
 const Wrapper = styled.header`
   color: ${p => p.theme.gray};
 
-  margin-bottom: 2rem;
-
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -9,8 +9,12 @@ export const random = arr => {
   return shuf
 }
 
-export const scatter = (arr, by) => {}
+export const scatter = (arr, by) => []
 
-export const risePeakResolve = arr => {}
+export const risePeakResolve = (arr, by) => []
 
-export const camelot = arr => {}
+export const ascending = (arr, by) => []
+
+export const descending = (arr, by) => ascending(arr, by).reverse()
+
+export const camelot = arr => []

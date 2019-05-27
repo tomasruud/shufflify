@@ -63,6 +63,8 @@ const Global = createGlobalStyle`
     
     font-family: ${p => p.theme.font.primary};
     line-height: 1.35;
+    
+    overflow-y: scroll;
   }
   
   ::selection {

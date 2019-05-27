@@ -1,5 +1,6 @@
 import Spotify, { NoAccessTokenAvailableError } from '../services/spotify'
 import { SESSION_BOOTSTRAP_COMPLETE } from '../constants/actions'
+import * as whitelist from '../constants/whitelist'
 
 export const success = (token, user) => ({
   type: SESSION_BOOTSTRAP_COMPLETE,
@@ -25,6 +26,10 @@ export const bootstrap = () => async dispatch => {
     const user = await client.getUser()
 
     history.replaceState({}, title, location.pathname)
+
+    if (whitelist.enabled && !whitelist.has(user.id)) {
+      throw Error('You are not whitelisted')
+    }
 
     return dispatch(success(token, user))
   } catch (e) {

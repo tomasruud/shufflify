@@ -22,7 +22,7 @@ const Playlists = ({ isLoading, loadPlaylists, updateSearch, search }) => {
       <Filter
         setFilter={updateSearch}
         filter={search}
-        placeholder='Search...'
+        placeholder='Search by name'
       />
 
       {isLoading ? (

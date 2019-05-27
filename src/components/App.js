@@ -6,7 +6,6 @@ import Nav from '../containers/Nav'
 import Router from '../containers/Router'
 import Notice from '../containers/Notice'
 
-import { small } from './Theme'
 import Container from './Wrapper'
 import Theme from './Theme'
 
@@ -16,13 +15,9 @@ const Wrapper = styled.div`
 `
 
 const Content = styled.main`
-  margin: 4rem 0;
+  margin: 3rem 0;
 
   color: ${p => p.theme.gray};
-
-  ${small`
-    margin: 3rem 0;
-  `}
 `
 
 const App = () => (
