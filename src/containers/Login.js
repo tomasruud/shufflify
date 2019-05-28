@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
-import { authenticate } from '../actions/session'
-import Login from '../components/Login'
+import { session } from '../actions'
+import { Login } from '../components'
 
 const mapDispatch = dispatch => ({
-  authenticate: () => dispatch(authenticate())
+  authenticate: () => dispatch(session.authenticate())
 })
 
 export default connect(

@@ -1,10 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Footer from '../containers/Footer'
-import Nav from '../containers/Nav'
-import Router from '../containers/Router'
-import Notice from '../containers/Notice'
+import { Nav, Notice, Router, Footer } from '../containers'
 
 import Container from './Wrapper'
 import Theme from './Theme'

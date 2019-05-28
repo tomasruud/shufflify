@@ -1,11 +1,13 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import { routes } from '../constants'
+import { Link as NavLink } from '../containers'
+
 import Link from './Link'
-import NavLink from '../containers/Link'
 import Paragraph from './Paragraph'
 import Container from './Wrapper'
-import routes from '../constants/routes'
 
 const Wrap = styled(Container).attrs({ as: 'footer' })`
   color: ${p => p.theme.grayLight};

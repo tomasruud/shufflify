@@ -1,6 +1,8 @@
 import React, { useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
-import VisiblePlaylists from '../containers/VisiblePlaylists'
+
+import { VisiblePlaylists } from '../containers'
+
 import Title from './Title'
 import Filter from './Filter'
 import Paragraph from './Paragraph'

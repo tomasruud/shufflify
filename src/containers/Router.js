@@ -1,12 +1,11 @@
 import React, { useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
 
-import routes from '../constants/routes'
-import { path } from '../selectors/router'
-import { authenticated } from '../selectors/session'
-import { authenticate, bootstrap } from '../actions/session'
-import Privacy from '../components/Privacy'
+import { routes } from '../constants'
+import { router, session } from '../selectors'
+import { session as sessionActions } from '../actions'
 
+import { Privacy } from '../components'
 import Login from './Login'
 import Playlists from './Playlists'
 import Shuffler from './Shuffler'
@@ -37,13 +36,13 @@ const Router = ({ path, isAuthenticated, bootstrap }) => {
 }
 
 const mapState = state => ({
-  path: path(state),
-  isAuthenticated: authenticated(state)
+  path: router.path(state),
+  isAuthenticated: session.authenticated(state)
 })
 
 const mapDispatch = dispatch => ({
-  bootstrap: () => dispatch(bootstrap()),
-  authenticate: () => dispatch(authenticate())
+  bootstrap: () => dispatch(sessionActions.bootstrap()),
+  authenticate: () => dispatch(sessionActions.authenticate())
 })
 
 export default connect(

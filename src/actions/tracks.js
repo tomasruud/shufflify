@@ -1,15 +1,14 @@
-import { token } from '../selectors/session'
-import Spotify from '../services/spotify'
-import { TRACKS_LOAD_REQUEST, TRACKS_LOAD_SUCCESS } from '../constants/actions'
-import { byURI } from '../selectors/playlists'
+import { TRACKS_LOAD_REQUEST, TRACKS_LOAD_SUCCESS } from '../constants'
+import { session, playlists } from '../selectors'
+import { Spotify } from '../services'
 
 export const load = playlistURI => async (dispatch, getState) => {
   dispatch({
     type: TRACKS_LOAD_REQUEST
   })
 
-  const id = byURI(getState(), playlistURI).id
-  const t = token(getState())
+  const id = playlists.byURI(getState(), playlistURI).id
+  const t = session.token(getState())
 
   const client = new Spotify(t)
   const tracks = await client.getTracks(id)

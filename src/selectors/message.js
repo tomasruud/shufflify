@@ -1,3 +1,3 @@
-export const hasMessage = state => !!state.message.message
+export const exists = state => !!state.content.content
 
-export const message = state => state.message.message
+export const content = state => state.content.content

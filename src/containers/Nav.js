@@ -1,15 +1,18 @@
 import { connect } from 'react-redux'
-import { authenticated, loading } from '../selectors/session'
-import { authenticate } from '../actions/session'
-import Nav from '../components/Nav'
+import { session } from '../selectors'
+import { session as action } from '../actions'
+import { Nav } from '../components'
 
 const mapState = state => ({
-  isAuthenticated: authenticated(state),
-  isLoading: loading(state),
+  isAuthenticated: session.authenticated(state),
+  isLoading: session.loading(state)
 })
 
 const mapDispatch = dispatch => ({
-  authenticate: () => dispatch(authenticate())
+  authenticate: () => dispatch(action.authenticate())
 })
 
-export default connect(mapState, mapDispatch)(Nav)
+export default connect(
+  mapState,
+  mapDispatch
+)(Nav)

@@ -1,4 +1,4 @@
-import { ROUTER_NAVIGATE } from '../constants/actions'
+import { ROUTER_NAVIGATE } from '../constants'
 
 export const navigate = (path, params = {}) => ({
   type: ROUTER_NAVIGATE,

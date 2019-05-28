@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Alert from '../components/Message'
-import { hasMessage, message } from '../selectors/message'
-import { clear } from '../actions/message'
+import { Message as Alert } from '../components'
+import { message } from '../selectors'
+import { message as actions } from '../actions'
 
 const Notice = ({ text, isSet, clear, ...rest }) => {
   if (isSet) {
@@ -13,12 +13,12 @@ const Notice = ({ text, isSet, clear, ...rest }) => {
 }
 
 const mapState = state => ({
-  text: message(state),
-  isSet: hasMessage(state)
+  text: message.content(state),
+  isSet: message.exists(state)
 })
 
 const mapDispatch = dispatch => ({
-  clear: () => dispatch(clear())
+  clear: () => dispatch(actions.clear())
 })
 
 export default connect(

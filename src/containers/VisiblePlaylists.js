@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
-import { visiblePlaylists } from '../selectors/playlists'
-import PlaylistList from '../components/PlaylistList'
+
+import { playlists } from '../selectors'
+import { PlaylistList } from '../components'
 
 const mapState = state => ({
-  playlists: visiblePlaylists(state)
+  playlists: playlists.visible(state)
 })
 
 export default connect(mapState)(PlaylistList)

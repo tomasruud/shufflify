@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
-import TrackList from '../components/TrackList'
-import { byPlaylistURI } from '../selectors/tracks'
-import { params } from '../selectors/router'
+
+import { tracks, router } from '../selectors'
+import { TrackList } from '../components'
 
 const mapState = state => ({
-  tracks: byPlaylistURI(state, params(state).uri)
+  tracks: tracks.byPlaylistURI(state, router.params(state).uri)
 })
 
 export default connect(mapState)(TrackList)

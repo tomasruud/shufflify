@@ -1,9 +1,8 @@
 import { connect } from 'react-redux'
-import * as trackActions from '../actions/tracks'
-import * as playlists from '../selectors/playlists'
-import * as tracks from '../selectors/tracks'
-import * as router from '../selectors/router'
-import Shuffler from '../components/Shuffler'
+
+import { tracks as trackActions } from '../actions'
+import { playlists, tracks, router } from '../selectors'
+import { Shuffler } from '../components'
 
 const mapDispatch = dispatch => ({
   loadTracks: playlistURI => dispatch(trackActions.load(playlistURI))
@@ -11,6 +10,7 @@ const mapDispatch = dispatch => ({
 
 const mapState = state => ({
   playlist: playlists.byURI(state, router.params(state).uri),
+  tracks: tracks.byPlaylistURI(state, router.params(state).uri),
   isLoading: tracks.loading(state)
 })
 

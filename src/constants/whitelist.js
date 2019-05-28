@@ -4,4 +4,4 @@ const whitelist = [
   'myspotfiy'
 ]
 
-export const has = username => whitelist.includes(username)
+export const includes = username => whitelist.includes(username)

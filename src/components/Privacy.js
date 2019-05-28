@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Content from './Content'
 import Paragraph from './Paragraph'
 import Title from './Title'

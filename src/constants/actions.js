@@ -1,3 +1,4 @@
+// @flow
 export const ROUTER_NAVIGATE = 'ROUTER_NAVIGATE'
 
 export const MESSAGE_SET = 'MESSAGE_SET'

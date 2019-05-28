@@ -19,13 +19,15 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.13",
+    "flow-bin": "^0.98.1",
     "prettier": "^1.17.1"
   },
   "scripts": {
     "format": "prettier --write src/**/*",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --colors"
+    "test": "react-scripts test --colors",
+    "flow": "flow"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import Base from '../components/Link'
-import { navigate } from '../actions/router'
+import { Link as Base } from '../components'
+import { router } from '../actions'
 
 const Link = ({ as: Component, to, params, navigateTo, ...rest }) => (
   <Component
@@ -28,7 +28,7 @@ Link.defaultProps = {
 }
 
 const mapDispatch = dispatch => ({
-  navigateTo: (path, params) => dispatch(navigate(path, params))
+  navigateTo: (path, params) => dispatch(router.navigate(path, params))
 })
 
 export default connect(

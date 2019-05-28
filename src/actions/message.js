@@ -1,10 +1,20 @@
-import { MESSAGE_CLEAR, MESSAGE_SET } from '../constants/actions'
+// @flow
+import { MESSAGE_CLEAR, MESSAGE_SET } from '../constants'
 
-export const set = message => ({
+export type SetAction = {
+  +type: string,
+  +message: string
+}
+
+export type ClearAction = {
+  +type: string
+}
+
+export const set = (message: string): SetAction => ({
   type: MESSAGE_SET,
-  payload: message
+  message
 })
 
-export const clear = () => ({
+export const clear = (): ClearAction => ({
   type: MESSAGE_CLEAR
 })

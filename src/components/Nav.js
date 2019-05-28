@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+
+import { Link as NavLink, UserBadge } from '../containers'
+
 import Logo from './Logo'
-import NavLink from '../containers/Link'
 import Link from './Link'
-import UserBadge from '../containers/UserBadge'
 
 const Wrapper = styled.header`
   color: ${p => p.theme.gray};
@@ -20,9 +21,7 @@ const Nav = ({ isLoading, isAuthenticated, authenticate }) => (
       <Logo />
     </NavLink>
 
-    {isLoading ? (
-      null
-    ) : isAuthenticated ? (
+    {isLoading ? null : isAuthenticated ? (
       <UserBadge />
     ) : (
       <Link as='button' onClick={() => authenticate()}>

@@ -1,16 +1,16 @@
 import { connect } from 'react-redux'
-import { load, setSearch } from '../actions/playlists'
-import { loading, search } from '../selectors/playlists'
-import Playlists from '../components/Playlists'
+import { playlists as actions } from '../actions'
+import { playlists } from '../selectors'
+import { Playlists } from '../components'
 
 const mapDispatch = dispatch => ({
-  loadPlaylists: () => dispatch(load()),
-  updateSearch: search => dispatch(setSearch(search))
+  loadPlaylists: () => dispatch(actions.load()),
+  updateSearch: search => dispatch(actions.setSearch(search))
 })
 
 const mapState = state => ({
-  isLoading: loading(state),
-  search: search(state)
+  isLoading: playlists.loading(state),
+  search: playlists.search(state)
 })
 
 export default connect(

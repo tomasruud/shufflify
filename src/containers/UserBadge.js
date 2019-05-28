@@ -1,10 +1,11 @@
 import { connect } from 'react-redux'
-import Badge from '../components/Badge'
-import { userImage, userName } from '../selectors/session'
+
+import { Badge } from '../components'
+import { session } from '../selectors'
 
 const mapState = state => ({
-  image: userImage(state),
-  name: userName(state)
+  image: session.userImage(state),
+  name: session.userName(state)
 })
 
 export default connect(mapState)(Badge)

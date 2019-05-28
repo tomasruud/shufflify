@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import routes from '../constants/routes'
-import Link from '../containers/Link'
-import playlist from '../models/playlist'
+
+import { routes } from '../constants'
+import { playlist } from '../models'
+import { Link } from '../containers'
+
 import { SecondaryButton } from './Button'
 
 const List = styled.ul`

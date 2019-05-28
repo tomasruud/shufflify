@@ -11,7 +11,7 @@ export const byURI = (state, uri) => state.entities.playlists.byURI[uri]
 
 export const search = state => state.entities.playlists.search
 
-export const visiblePlaylists = createSelector(
+export const visible = createSelector(
   [search, playlists, userID],
   (search, playlists, userID) => {
     search = search.toLowerCase()
