@@ -1,9 +1,8 @@
-import { ROUTER_NAVIGATE } from '../constants'
+// @flow
+import type { Action } from './types'
 
-export const navigate = (path, params = {}) => ({
-  type: ROUTER_NAVIGATE,
-  payload: {
-    path,
-    params
-  }
+export const navigate = (path: string, params: {} = {}): Action => ({
+  type: 'ROUTER_NAVIGATE',
+  path,
+  params
 })

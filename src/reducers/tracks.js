@@ -1,9 +1,19 @@
+// @flow
 import { combineReducers } from 'redux'
-import { TRACKS_LOAD_REQUEST, TRACKS_LOAD_SUCCESS } from '../constants/actions'
+import type { Action } from '../actions'
+import type { ID, Track, URI } from '../common'
 
-const byURI = (state = {}, { type, payload }) => {
-  if (type === TRACKS_LOAD_SUCCESS) {
-    const tracks = payload.tracks.reduce((acc, track) => {
+type URIbyIDMap = {
+  [ID]: URI
+}
+
+type ByURIMap = {
+  [URI]: Track
+}
+
+const byURI = (state: ?ByURIMap = null, action: Action): ?ByURIMap => {
+  if (action.type === 'TRACKS_LOAD_SUCCESS') {
+    const tracks = action.tracks.reduce((acc, track) => {
       acc[track.uri] = track
       return acc
     }, {})
@@ -17,9 +27,9 @@ const byURI = (state = {}, { type, payload }) => {
   return state
 }
 
-const URIbyID = (state = {}, { type, payload }) => {
-  if (type === TRACKS_LOAD_SUCCESS) {
-    const tracks = payload.tracks.reduce((acc, track) => {
+const URIbyID = (state: ?URIbyIDMap = null, action: Action): ?URIbyIDMap => {
+  if (action.type === 'TRACKS_LOAD_SUCCESS') {
+    const tracks = action.tracks.reduce((acc, track) => {
       if (track.id) {
         acc[track.id] = track.uri
       }
@@ -36,14 +46,22 @@ const URIbyID = (state = {}, { type, payload }) => {
   return state
 }
 
-const loading = (state = false, { type }) => {
-  if (type === TRACKS_LOAD_REQUEST) {
+const loading = (state: boolean = false, action: Action): boolean => {
+  if (action.type === 'TRACKS_LOAD_REQUEST') {
     return true
-  } else if (type === TRACKS_LOAD_SUCCESS) {
+  }
+
+  if (action.type === 'TRACKS_LOAD_SUCCESS') {
     return false
   }
 
   return state
+}
+
+export type State = {
+  loading: boolean,
+  byURI: ByURIMap,
+  URIbyID: URIbyIDMap
 }
 
 export default combineReducers({

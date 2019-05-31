@@ -1,20 +1,26 @@
+// @flow
 import { combineReducers } from 'redux'
-import { ROUTER_NAVIGATE } from '../constants/actions'
+import type { Action } from '../actions'
 
-const path = (state = '', { type, payload }) => {
-  if (type === ROUTER_NAVIGATE) {
-    return payload.path
+const path = (state: string = '', action: Action): string => {
+  if (action.type === 'ROUTER_NAVIGATE') {
+    return action.path
   }
 
   return state
 }
 
-const params = (state = {}, { type, payload }) => {
-  if (type === ROUTER_NAVIGATE) {
-    return payload.params
+const params = (state: {} = {}, action: Action): {} => {
+  if (action.type === 'ROUTER_NAVIGATE') {
+    return action.params
   }
 
   return state
+}
+
+export type State = {
+  path: string,
+  params: {}
 }
 
 export default combineReducers({

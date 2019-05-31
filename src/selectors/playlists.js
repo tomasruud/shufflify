@@ -1,25 +1,51 @@
+// @flow
 import { createSelector } from 'reselect'
-import { userID } from './session'
+import type { Playlist, URI, User } from '../common'
+import type { State } from '../reducers'
 
-export const playlists = state => Object.values(state.entities.playlists.byURI)
+import { user } from './session'
 
-export const loading = state => state.entities.playlists.loading
+export const all = (state: State): ?Array<Playlist> => {
+  if (state.playlists.byURI == null) {
+    return undefined
+  }
 
-export const loaded = state => playlists(state).length > 0
+  return ((Object.values(state.playlists.byURI): any): Array<Playlist>)
+}
 
-export const byURI = (state, uri) => state.entities.playlists.byURI[uri]
+export const loading = (state: State): boolean => state.playlists.loading
 
-export const search = state => state.entities.playlists.search
+export const loaded = (state: State): boolean => all(state) != null
 
-export const visible = createSelector(
-  [search, playlists, userID],
-  (search, playlists, userID) => {
+export const byURI = (state: State, uri: URI): ?Playlist => {
+  if (state.playlists.byURI == null) {
+    return undefined
+  }
+
+  return state.playlists.byURI[uri]
+}
+
+export const search = (state: State): string => state.playlists.search
+
+export const filtered = createSelector(
+  search,
+  all,
+  user,
+  loaded,
+  (
+    search: string,
+    all: ?Array<Playlist>,
+    user: User,
+    loaded: boolean
+  ): Array<Playlist> => {
+    if (!loaded || all == null) {
+      return []
+    }
+
     search = search.toLowerCase()
 
-    playlists = playlists.filter(
-      p => !search || (p.name && p.name.toLowerCase().includes(search))
-    )
-
-    return playlists.filter(p => p.ownerID === userID)
+    return all
+      .filter(p => !search || (p.name && p.name.toLowerCase().includes(search)))
+      .filter(p => p.ownerID === user.id)
   }
 )

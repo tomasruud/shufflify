@@ -1,24 +1,28 @@
+// @flow
 import { parse, stringify } from 'query-string'
 import Client from 'spotify-web-api-js'
+import type { ID, Playlist, Track, TrackFeatures, User } from '../common'
 
 export class NoAccessTokenAvailableError extends Error {
-  constructor(m) {
+  constructor(m?: mixed) {
     super(m)
     this.name = 'NoAccessTokenAvailableError'
   }
 }
 
 export default class Spotify {
-  constructor(token) {
+  client: Client
+
+  constructor(token: string) {
     this.client = new Client()
     this.client.setAccessToken(token)
   }
 
-  setClient(client) {
+  setClient(client: Client) {
     this.client = client
   }
 
-  static getAuthenticationURL(clientID, redirectURL) {
+  static getAuthenticationURL(clientID: string, redirectURL: string): string {
     const q = stringify({
       redirect_uri: redirectURL,
       client_id: clientID,
@@ -30,7 +34,13 @@ export default class Spotify {
     return `https://accounts.spotify.com/authorize?${q}`
   }
 
-  static async getAccessToken({ search, hash }) {
+  static async getAccessToken({
+    search,
+    hash
+  }: {
+    search: string,
+    hash: string
+  }): Promise<string> {
     const s = parse(search)
 
     if (!!s.error) {
@@ -46,7 +56,7 @@ export default class Spotify {
     return h.access_token
   }
 
-  async getUser() {
+  async getUser(): Promise<User> {
     const u = await this.client.getMe()
 
     if (!u) {
@@ -59,7 +69,8 @@ export default class Spotify {
 
     let user = {
       id: u.id,
-      name: u.display_name
+      name: u.display_name,
+      image: undefined
     }
 
     if (u.images && u.images[0] && u.images[0].url) {
@@ -69,7 +80,7 @@ export default class Spotify {
     return user
   }
 
-  async getPlaylists() {
+  async getPlaylists(): Promise<Array<Playlist>> {
     let ps = await this.client.getUserPlaylists({ limit: 50 })
     let l = ps.items
 
@@ -87,7 +98,8 @@ export default class Spotify {
         ownerID: p.owner.id,
         name: p.name,
         uri: p.uri,
-        href: p.href
+        href: p.href,
+        image: undefined
       }
 
       if (p.images && p.images[0] && p.images[0].url) {
@@ -98,7 +110,7 @@ export default class Spotify {
     })
   }
 
-  async getTracks(playlistID) {
+  async getTracks(playlistID: ID): Promise<Array<Track>> {
     let ts = await this.client.getPlaylistTracks(playlistID, {
       fields: 'items(track(uri,id,name,artists(name),is_local)), next'
     })
@@ -122,9 +134,11 @@ export default class Spotify {
     }))
   }
 
-  async getFeaturesForTracks(trackIDs) {
+  async getFeaturesForTracks(
+    trackIDs: Array<ID>
+  ): Promise<Array<TrackFeatures>> {
     let t = [...trackIDs]
-    let features = {}
+    let features = []
 
     while (t.length > 0) {
       const ids = t.splice(0, 100)
@@ -137,14 +151,14 @@ export default class Spotify {
         throw new Error('No audio features provided')
       }
 
-      features = {
-        ...features,
-        ...audio_features.reduce((acc, f, i) => {
+      features.concat(
+        audio_features.reduce((acc, f, i) => {
           if (!f) {
             return acc
           }
 
-          acc[ids[i]] = {
+          acc.push({
+            id: ids[i],
             acousticness: f.acousticness,
             bpm: f.tempo,
             danceability: f.danceability,
@@ -155,18 +169,18 @@ export default class Spotify {
             major: f.mode === 1,
             positivity: f.valence,
             speechiness: f.speechiness
-          }
+          })
 
           return acc
-        }, {})
-      }
+        }, [])
+      )
     }
 
     return features
   }
 
-  async moveTrack(playlistId, from, to) {
-    const res = await this.client.reorderTracksInPlaylist(playlistId, from, to)
+  async moveTrack(playlistID: ID, from: number, to: number): Promise<string> {
+    const res = await this.client.reorderTracksInPlaylist(playlistID, from, to)
     return res.snapshot_id
   }
 }

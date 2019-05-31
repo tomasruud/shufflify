@@ -1,38 +1,37 @@
 // @flow
-import { session, playlists } from '../selectors'
+import type { Action, ThunkAction } from './types'
+import { playlists, session } from '../selectors'
 import { Spotify } from '../services'
-import {
-  PLAYLISTS_LOAD_REQUEST,
-  PLAYLISTS_LOAD_SUCCESS,
-  PLAYLISTS_SEARCH_SET
-} from '../constants'
 
-type SetSearchAction = {
-  +type: string,
-  +search: string
-}
-
-export const setSearch = (search: string): SetSearchAction => ({
-  type: PLAYLISTS_SEARCH_SET,
+export const setSearch = (search: string): Action => ({
+  type: 'PLAYLISTS_SEARCH_SET',
   search
 })
 
-export const load = () => async (dispatch, getState) => {
-  if (playlists.loaded(getState())) {
-    return null
-  }
-
+export const load = (): ThunkAction => async (dispatch, getState) => {
   dispatch({
-    type: PLAYLISTS_LOAD_REQUEST
+    type: 'PLAYLISTS_LOAD_REQUEST'
   })
 
   const t = session.token(getState())
 
+  if (t == null) {
+    throw Error('No token provided')
+  }
+
   const client = new Spotify(t)
   const items = await client.getPlaylists()
 
-  return dispatch({
-    type: PLAYLISTS_LOAD_SUCCESS,
-    payload: items
+  dispatch({
+    type: 'PLAYLISTS_LOAD_SUCCESS',
+    items
   })
+}
+
+export const loadIfNeeded = (): ThunkAction => async (dispatch, getState) => {
+  if (playlists.loaded(getState())) {
+    return
+  }
+
+  dispatch(load())
 }

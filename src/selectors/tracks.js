@@ -1,19 +1,49 @@
+// @flow
+import type { ID, Track, URI } from '../common'
+import type { State } from '../reducers'
 import { byURI as playlistByURI } from './playlists'
 
-export const byURI = (state, URI) => state.entities.tracks.byURI[URI]
+export const byURI = (state: State, uri: URI): ?Track => {
+  if (!state.tracks.byURI) {
+    return undefined
+  }
 
-export const byPlaylistURI = (state, playlistURI) => {
+  return state.tracks.byURI[uri]
+}
+
+export const byPlaylistURI = (
+  state: State,
+  playlistURI: URI
+): ?Array<?Track> => {
   const list = playlistByURI(state, playlistURI)
 
-  if (!list.tracks) {
+  if (list == null) {
+    throw Error('List not found')
+  }
+
+  if (list.tracks == null) {
     return undefined
   }
 
   return list.tracks.map(uri => byURI(state, uri))
 }
 
-export const URIbyID = (state, ID) => state.entities.tracks.URIbyID[ID]
+export const URIbyID = (state: State, id: ID): ?string => {
+  if (state.tracks.URIbyID == null) {
+    return undefined
+  }
 
-export const byID = (state, ID) => byURI(state, URIbyID(state, ID))
+  return state.tracks.URIbyID[id]
+}
 
-export const loading = state => state.entities.tracks.loading
+export const byID = (state: State, id: ID): ?Track => {
+  const uri = URIbyID(state, id)
+
+  if (uri == null) {
+    return undefined
+  }
+
+  return byURI(state, uri)
+}
+
+export const loading = (state: State): boolean => state.tracks.loading

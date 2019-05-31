@@ -1,22 +1,21 @@
-import { Spotify, NoAccessTokenAvailableError } from '../services'
-import { SESSION_BOOTSTRAP_COMPLETE, whitelist } from '../constants'
+// @flow
+import type { ThunkAction } from './types'
+import { NoAccessTokenAvailableError, Spotify } from '../services'
 
-export const success = (token, user) => ({
-  type: SESSION_BOOTSTRAP_COMPLETE,
-  payload: {
-    token,
-    user
-  }
-})
+const whitelist = ['myspotfiy']
 
-export const authenticate = () => async () => {
+export const authenticate = (): void => {
   const client = process.env.REACT_APP_SPOTIFY_CLIENT_ID
   const redirect = process.env.REACT_APP_SPOTIFY_REDIRECT
+
+  if (client == null || redirect == null) {
+    throw Error('Missing client or redirect')
+  }
 
   window.location = Spotify.getAuthenticationURL(client, redirect)
 }
 
-export const bootstrap = () => async dispatch => {
+export const bootstrap = (): ThunkAction => async dispatch => {
   try {
     const { location, history, title } = window
 
@@ -26,14 +25,22 @@ export const bootstrap = () => async dispatch => {
 
     history.replaceState({}, title, location.pathname)
 
-    if (whitelist.enabled && !whitelist.includes(user.id)) {
+    if (!whitelist.includes(user.id)) {
       throw Error('You are not whitelisted')
     }
 
-    return dispatch(success(token, user))
+    dispatch({
+      type: 'SESSION_BOOTSTRAP_COMPLETE',
+      token,
+      user
+    })
   } catch (e) {
     if (e instanceof NoAccessTokenAvailableError) {
-      return dispatch(success(null, {}))
+      dispatch({
+        type: 'SESSION_BOOTSTRAP_COMPLETE',
+        token: null,
+        user: null
+      })
     } else {
       throw e
     }

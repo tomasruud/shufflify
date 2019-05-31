@@ -1,3 +1,4 @@
+// @flow
 import * as message from './message'
 import * as playlists from './playlists'
 import * as router from './router'

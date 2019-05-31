@@ -1,28 +1,38 @@
+// @flow
 import { combineReducers } from 'redux'
-import {
-  TRACKFEATURES_LOAD_REQUEST,
-  TRACKFEATURES_LOAD_SUCCESS
-} from '../constants/actions'
+import type { Action } from '../actions'
+import type { ID, TrackFeatures } from '../common'
 
-const byID = (state = {}, {type, payload}) => {
-  if (type === TRACKFEATURES_LOAD_SUCCESS) {
+type ByIDMap = {
+  [ID]: TrackFeatures
+}
+
+const byID = (state: ByIDMap = {}, action: Action): ByIDMap => {
+  if (action.type === 'TRACKFEATURES_LOAD_SUCCESS') {
     return {
       ...state,
-      ...payload
+      ...action.features
     }
   }
 
   return state
 }
 
-const loading = (state = false, { type }) => {
-  if (type === TRACKFEATURES_LOAD_REQUEST) {
+const loading = (state: boolean = false, action: Action): boolean => {
+  if (action.type === 'TRACKFEATURES_LOAD_REQUEST') {
     return true
-  } else if (type === TRACKFEATURES_LOAD_SUCCESS) {
+  }
+
+  if (action.type === 'TRACKFEATURES_LOAD_SUCCESS') {
     return false
   }
 
   return state
+}
+
+export type State = {
+  loading: boolean,
+  byID: ByIDMap
 }
 
 export default combineReducers({

@@ -1,10 +1,25 @@
-const move = (steps, index) => ({
+// @flow
+type Move = {
+  start: number,
+  range: number,
+  before: number
+}
+
+export type Equals<T> = {
+  (T, T): boolean
+}
+
+const makeMove = (steps: Array<number>, index: number): Move => ({
   start: index - steps.length + 1,
   range: steps.length,
   before: index - steps.length + 1 - steps[0]
 })
 
-export const moves = (a, b, equals) => {
+export function moves<T>(
+  a: Array<T>,
+  b: Array<T>,
+  equals: Equals<T>
+): Array<Move> {
   // Create an array of the destination index for each element
   const target = a.map(e => b.findIndex(v => equals(e, v)))
 
@@ -23,18 +38,18 @@ export const moves = (a, b, equals) => {
           a.current.push(v)
         } else {
           if (a.current.length > 0) {
-            a.moves.push(move(a.current, i - 1))
+            a.moves.push(makeMove(a.current, i - 1))
           }
 
           a.current = [v]
         }
       } else if (a.current.length > 0) {
-        a.moves.push(move(a.current, i - 1))
+        a.moves.push(makeMove(a.current, i - 1))
         a.current = []
       }
 
       if (i === arr.length - 1 && a.current.length > 0) {
-        a.moves.push(move(a.current, i))
+        a.moves.push(makeMove(a.current, i))
       }
 
       return a

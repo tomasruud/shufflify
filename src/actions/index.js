@@ -7,4 +7,4 @@ import * as trackFeatures from './trackFeatures'
 import * as tracks from './tracks'
 
 export { message, playlists, router, session, trackFeatures, tracks }
-
+export * from './types'

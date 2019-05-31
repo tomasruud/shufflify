@@ -1,3 +1,4 @@
+// @flow
 import * as shuffler from './shuffler'
 
 export { shuffler }

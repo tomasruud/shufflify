@@ -1,3 +1,7 @@
-export const exists = state => !!state.content.content
+// @flow
+import type { State } from '../reducers'
 
-export const content = state => state.content.content
+export const content = (state: State): ?string => state.message.message
+
+export const isSet = (state: State): boolean =>
+  content(state) != null && content(state) !== ''

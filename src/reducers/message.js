@@ -1,14 +1,21 @@
+// @flow
 import { combineReducers } from 'redux'
-import { MESSAGE_CLEAR, MESSAGE_SET } from '../constants/actions'
+import type { Action } from '../actions'
 
-const message = (state = null, { type, payload }) => {
-  if (type === MESSAGE_SET) {
-    return payload
-  } else if (type === MESSAGE_CLEAR) {
+const message = (state: ?string = null, action: Action): ?string => {
+  if (action.type === 'MESSAGE_SET') {
+    return action.message
+  }
+
+  if (action.type === 'MESSAGE_CLEAR') {
     return null
   }
 
   return state
+}
+
+export type State = {
+  message: ?string
 }
 
 export default combineReducers({

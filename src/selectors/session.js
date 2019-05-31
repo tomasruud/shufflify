@@ -1,15 +1,13 @@
-export const token = state => state.session.token
+// @flow
+import type { User } from '../common'
+import type { State } from '../reducers'
 
-export const user = state => state.session.user
+export const token = (state: State): ?string => state.session.token
 
-export const userID = state => user(state).id
+export const user = (state: State): ?User => state.session.user
 
-export const userName = state => user(state).name
+export const loading = (state: State): boolean => state.session.loading
 
-export const userImage = state => user(state).image
+export const hasToken = (state: State): boolean => token(state) != null
 
-export const loading = state => state.session.loading
-
-export const hasToken = state => !!token(state)
-
-export const authenticated = state => hasToken(state)
+export const authenticated = hasToken
