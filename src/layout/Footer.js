@@ -2,7 +2,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Link, Paragraph, Wrapper } from '../common'
+import { Link, Paragraph } from '../common'
+import Wrapper from './Wrapper'
 
 const Wrap = styled(Wrapper).attrs({ as: 'footer' })`
   color: ${p => p.theme.grayLight};

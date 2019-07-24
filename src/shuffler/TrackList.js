@@ -21,6 +21,9 @@ const Row = styled.div`
   padding-bottom: 0.5rem;
   margin-bottom: 0.5rem;
   border-bottom: 1px solid ${p => p.theme.grayLighter};
+  
+  ${p => p.theme.animations.show};
+  opacity: 0;
 `
 
 const Cell = styled.div`

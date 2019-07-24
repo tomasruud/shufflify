@@ -1,7 +1,12 @@
 // @flow
 import React from 'react'
+import styled from 'styled-components'
 
-import { Button, Content, Paragraph, Title, NavLink } from '../common'
+import { Button, Paragraph, Title, NavLink } from '../common'
+
+const Content = styled.div`
+  max-width: 600px;
+`
 
 const View = () => (
   <Content>

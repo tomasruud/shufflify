@@ -64,16 +64,20 @@ const theme = {
     show: css`
       animation: ${animations.show} 400ms ease-out forwards;
     `
+  },
+
+  mediaQueries: {
+    small: (...args: any) => css`
+      @media (max-width: 800px) {
+        ${css(...args)}
+      }
+    `
   }
 }
 
-export const small = (...args: any) => css`
-  @media (max-width: 800px) {
-    ${css(...args)}
-  }
-`
-
 const Global = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css?family=Karla:400,400i,700|Rubik:700&display=swap');
+  
   html {
     font-size: 140%;
   }

@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import { session } from '../selectors'
-import { theme } from '../common'
 
 const Image = styled.img`
   width: 1.5rem;
@@ -15,7 +14,7 @@ const Image = styled.img`
 
   margin-right: 0.25rem;
 
-  ${theme.small`
+  ${p => p.theme.mediaQueries.small`
     margin-right: 0;
   `}
 `
@@ -30,15 +29,15 @@ const Wrap = styled.span`
   padding: 0.25rem 0.65rem 0.25rem 0.25rem;
   border-radius: 666rem;
 
-  ${p => p.theme.shadow};
+  ${p => p.theme.shadow}
 
-  ${theme.small`
+  ${p => p.theme.mediaQueries.small`
     padding: 0.25rem;
   `}
 `
 
 const Name = styled.span`
-  ${theme.small`
+  ${p => p.theme.mediaQueries.small`
     display: none;
   `}
 `

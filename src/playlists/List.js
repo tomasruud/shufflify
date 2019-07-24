@@ -20,7 +20,7 @@ const Item = styled.li`
   margin: 4px;
   
   ${p => p.theme.animations.show};
-  transform: translateY(20px);
+  opacity: 0;
 `
 
 type Props = {
@@ -29,7 +29,7 @@ type Props = {
 
 const List = ({ playlists, ...rest }: Props) => (
   <Wrap {...rest}>
-    {playlists.map(p => (
+    {playlists.map((p, i) => (
       <Item key={p.uri}>
         <NavLink as={SecondaryButton} to='/shuffle' params={{ uri: p.uri }}>
           {p.name}
