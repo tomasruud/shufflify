@@ -1,8 +1,4 @@
-// @flow
-import type { URI } from '../common'
-import type { ThunkAction } from './types'
-import { session, playlists } from '../selectors'
-import { Spotify } from '../services'
+import { Spotify } from '../../services'
 
 export const load = (playlistURI: URI): ThunkAction => async (
   dispatch,

@@ -1,14 +1,14 @@
 import { ThunkAction } from 'redux-thunk'
 import { NoAccessTokenAvailableError, Spotify } from '../../services'
-import { User } from '../../models'
+import { User } from './models'
 
-interface BootstrapComplete {
-  type: 'session/BOOTSTRAP_COMPLETE'
-  token: string | null
-  user: User | null
+interface Set {
+  type: 'session/SET'
+  token?: string
+  user?: User
 }
 
-export type Action = BootstrapComplete
+export type Action = Set
 
 export const authenticate = (): void => {
   const client = process.env.REACT_APP_SPOTIFY_CLIENT_ID
@@ -41,17 +41,13 @@ export const bootstrap = (): ThunkAction<
     }
 
     dispatch({
-      type: 'session/BOOTSTRAP_COMPLETE',
+      type: 'session/SET',
       token,
       user
     })
   } catch (e) {
     if (e instanceof NoAccessTokenAvailableError) {
-      dispatch({
-        type: 'session/BOOTSTRAP_COMPLETE',
-        token: null,
-        user: null
-      })
+      dispatch({ type: 'session/SET' })
     } else {
       throw e
     }

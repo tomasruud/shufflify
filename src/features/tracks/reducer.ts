@@ -1,7 +1,4 @@
-// @flow
 import { combineReducers } from 'redux'
-import type { Action } from '../actions'
-import type { ID, Track, URI } from '../common'
 
 type URIbyIDMap = {
   [ID]: URI

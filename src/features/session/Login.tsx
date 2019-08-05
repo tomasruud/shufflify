@@ -1,14 +1,13 @@
-// @flow
 import React from 'react'
 import styled from 'styled-components'
 
-import { Button, Paragraph, Title, NavLink } from '../common'
+import { Button, Paragraph, Title, NavLink } from '../../common'
 
 const Content = styled.div`
   max-width: 600px;
 `
 
-const View = () => (
+const Login = () => (
   <Content>
     <Title>Make your playlists more interesting</Title>
 
@@ -27,4 +26,4 @@ const View = () => (
   </Content>
 )
 
-export default View
+export default Login

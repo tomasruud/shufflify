@@ -1,5 +1,4 @@
-// @flow
-import type { Track } from '../common/track'
+import { Track } from '../features/tracks/models'
 
 export const random = (arr: Array<Track>): Array<number> => {
   let shuf = [...arr.keys()]

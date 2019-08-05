@@ -35,7 +35,7 @@ const Wrap = styled.span`
 const Logo = ({ theme }: { theme: DefaultTheme }) => {
   const colors = useMemo(
     () =>
-      Object.keys(theme.colors)
+      (Object.keys(theme.colors) as Array<keyof typeof theme.colors>)
         .sort(() => 0.5 - Math.random())
         .map(c => theme.colors[c]),
     [theme]

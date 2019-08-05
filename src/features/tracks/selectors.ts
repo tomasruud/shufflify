@@ -1,7 +1,5 @@
-// @flow
-import type { ID, Track, URI } from '../common'
-import type { State } from '../reducers'
-import { byURI as playlistByURI } from './playlists'
+import { State } from '../../reducers'
+import { ID, Track, URI } from '../../common'
 
 export const byURI = (state: State, uri: URI): ?Track => {
   if (!state.tracks.byURI) {

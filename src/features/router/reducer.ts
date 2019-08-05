@@ -12,7 +12,7 @@ const path = (state = '', action: Action) => {
 
 const params = (state = {}, action: Action) => {
   if (action.type === 'router/NAVIGATE') {
-    return action.params
+    return action.params || {}
   }
 
   return state

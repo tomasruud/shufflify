@@ -1,7 +1,5 @@
-// @flow
+import { ID, TrackFeatures } from '../../common'
 import { combineReducers } from 'redux'
-import type { Action } from '../actions'
-import type { ID, TrackFeatures } from '../common'
 
 type ByIDMap = {
   [ID]: TrackFeatures

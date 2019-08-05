@@ -1,8 +1,3 @@
-// @flow
-import type { ID, TrackFeatures, URI } from '../common'
-import type { State } from '../reducers'
-import { byURI as trackByURI } from './tracks'
-
 export const byID = (state: State, id: ID): ?TrackFeatures => {
   if (state.trackFeatures.byID == null) {
     return undefined

@@ -38,12 +38,17 @@ const Close = styled.button`
 `
 
 type Props = {
-  children: any,
-  isSet: boolean,
+  children: any
+  isSet: boolean
   clear: () => void
 }
 
-const Item = ({ children, isSet, clear, ...rest }: Props) => {
+const Item = ({
+  children,
+  isSet,
+  clear,
+  ...rest
+}: Props & React.ComponentProps<typeof Wrapper>) => {
   if (!isSet) {
     return null
   }
@@ -51,7 +56,7 @@ const Item = ({ children, isSet, clear, ...rest }: Props) => {
   return (
     <Wrapper {...rest}>
       {children}
-      <Close onClick={() => clear()} ariaLabel='Close'>
+      <Close onClick={() => clear()} aria-label='Close'>
         x
       </Close>
     </Wrapper>

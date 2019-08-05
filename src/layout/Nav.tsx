@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-
-import { session } from '../selectors'
+import { session } from '../features'
+import { State } from '../store'
 import { NavLink } from '../common'
 import Logo from './Logo'
 import Badge from './Badge'
@@ -37,9 +37,9 @@ const Nav = ({ isLoading, isAuthenticated }: Props) => (
   </Wrapper>
 )
 
-const select = state => ({
-  isAuthenticated: session.authenticated(state),
-  isLoading: session.loading(state)
+const select = (state: State) => ({
+  isAuthenticated: session.selectors.authenticated(state.session),
+  isLoading: session.selectors.loading(state.session)
 })
 
 export default connect(select)(Nav)

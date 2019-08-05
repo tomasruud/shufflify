@@ -1,8 +1,5 @@
-// @flow
-import type { ID } from './id'
-
-export type TrackFeatures = {
-  id: ID,
+export type Meta = {
+  id: string,
   acousticness: number,
   bpm: number,
   danceability: number,

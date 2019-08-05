@@ -1,21 +1,15 @@
-import { Message } from './models'
-
 interface Set {
   type: 'message/SET'
-  message: Message
+  message?: string
 }
 
-interface Clear {
-  type: 'message/CLEAR'
-}
+export type Action = Set
 
-export type Action = Set | Clear
-
-export const set = (message: Message): Action => ({
+export const set = (message: string): Action => ({
   type: 'message/SET',
   message
 })
 
 export const clear = (): Action => ({
-  type: 'message/CLEAR'
+  type: 'message/SET'
 })

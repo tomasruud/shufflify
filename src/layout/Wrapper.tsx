@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   padding: 2rem;
 
-  ${p => p.theme.mediaQueries.small`
+  ${p => p.theme.queries.small`
     padding: 1rem;
   `}
 `

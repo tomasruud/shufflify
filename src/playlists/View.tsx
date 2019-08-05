@@ -12,7 +12,7 @@ type Props = {
   loadPlaylists: () => void,
   updateSearch: (filter: string) => void,
   search: string,
-  playlists: ?Array<Playlist>
+  playlists: Array<Playlist>
 }
 
 const View = ({ isLoading, loadPlaylists, updateSearch, search }: Props) => {

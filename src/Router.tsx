@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { View as Login } from './login'
+import { LoginView } from './features/session'
 import { View as Playlists } from './playlists'
 import { View as Shuffler } from './shuffler'
 import { State } from './store'
@@ -35,7 +35,7 @@ const Router = ({ path, isAuthenticated, bootstrap }: Props) => {
     }
   }
 
-  return <Login />
+  return <LoginView />
 }
 
 const select = (state: State) => ({

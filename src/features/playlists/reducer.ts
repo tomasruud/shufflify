@@ -1,20 +1,12 @@
 import { combineReducers } from 'redux'
-import { Playlist } from './models'
-import { URI } from '../../models'
+import { ByURIMap } from './models'
+import { Action } from './actions'
 
-interface LoadSuccess {
-  type: 'playlists/LOAD_SUCCESS',
-  items: Array<Playlist>
-}
-
-export type Action = LoadSuccess
-
-type ByURIMap = {
-  [URI]: Playlist
-}
-
-const byURI = (state: ?ByURIMap = null, action: Action): ?ByURIMap => {
-  if (action.type === 'PLAYLISTS_LOAD_SUCCESS') {
+const byURI = (
+  state: ByURIMap | null = null,
+  action: Action
+): ByURIMap | null => {
+  if (action.type === 'playlists/LOAD_SUCCESS') {
     const toAdd = action.items.reduce((acc, playlist) => {
       acc[playlist.uri] = playlist
       return acc
@@ -30,7 +22,7 @@ const byURI = (state: ?ByURIMap = null, action: Action): ?ByURIMap => {
     }
   }
 
-  if (action.type === 'TRACKS_LOAD_SUCCESS') {
+  if (action.type === 'tracks/LOAD_SUCCESS') {
     if (state == null) {
       state = {}
     }
@@ -47,8 +39,19 @@ const byURI = (state: ?ByURIMap = null, action: Action): ?ByURIMap => {
   return state
 }
 
+const ownerID = (
+  state: string | null = null,
+  action: Action
+): string | null => {
+  if (action.type === 'playlists/OWNER_SET') {
+    return action.ownerID
+  }
+
+  return state
+}
+
 const search = (state: string = '', action: Action): string => {
-  if (action.type === 'PLAYLISTS_SEARCH_SET') {
+  if (action.type === 'playlists/SEARCH_SET') {
     return action.search
   }
 
@@ -56,25 +59,27 @@ const search = (state: string = '', action: Action): string => {
 }
 
 const loading = (state: boolean = false, action: Action): boolean => {
-  if (action.type === 'PLAYLISTS_LOAD_REQUEST') {
+  if (action.type === 'playlists/LOAD_REQUEST') {
     return true
   }
 
-  if (action.type === 'PLAYLISTS_LOAD_SUCCESS') {
+  if (action.type === 'playlists/LOAD_SUCCESS') {
     return false
   }
 
   return state
 }
 
-export interface State {
-  loading: boolean,
-  byURI: ByURIMap | null,
-  search: string
+export type State = {
+  readonly loading: boolean
+  readonly byURI: ByURIMap | null
+  readonly search: string
+  readonly ownerID: string | null
 }
 
 export default combineReducers<State, Action>({
   loading,
   byURI,
-  search
+  search,
+  ownerID
 })

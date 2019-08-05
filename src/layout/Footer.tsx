@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-
 import { Link, Paragraph } from '../common'
 import Wrapper from './Wrapper'
 

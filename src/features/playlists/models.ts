@@ -1,11 +1,12 @@
-import { ID, URI } from '../../models'
-
 export interface Playlist {
-  uri: URI,
-  id: ID,
-  ownerID: ID,
+  uri: string,
+  id: string,
+  ownerID: string,
   name: string,
   href: string,
-  image?: string,
-  tracks: Array<URI>
+  image?: string
+}
+
+export interface ByURIMap {
+  [uri: string]: Playlist
 }

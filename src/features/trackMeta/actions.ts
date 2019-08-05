@@ -1,8 +1,5 @@
-// @flow
-import type { ThunkAction } from './types'
-import type { ID } from '../common'
-import { session } from '../selectors'
-import { Spotify } from '../services'
+import { ID } from '../../common'
+import { Spotify } from '../../services'
 
 export const loadFeatures = (tracks: Array<ID>): ThunkAction => async (
   dispatch,

@@ -9,6 +9,11 @@ interface SetSearch {
   search: string
 }
 
+interface SetOwner {
+  type: 'playlists/OWNER_SET'
+  ownerID: string
+}
+
 interface LoadRequest {
   type: 'playlists/LOAD_REQUEST'
 }
@@ -18,11 +23,16 @@ interface LoadSuccess {
   items: Array<Playlist>
 }
 
-export type Action = SetSearch | LoadRequest | LoadSuccess
+export type Action = SetSearch | LoadRequest | LoadSuccess | SetOwner
 
 export const setSearch = (search: string): Action => ({
   type: 'playlists/SEARCH_SET',
   search
+})
+
+export const setOwnerID = (ownerID: string): Action => ({
+  type: 'playlists/OWNER_SET',
+  ownerID
 })
 
 export const load = (): ThunkAction<Promise<void>,

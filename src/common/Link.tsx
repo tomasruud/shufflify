@@ -1,17 +1,16 @@
-// @flow
 import styled from 'styled-components'
 
 type Props = {
-  external: boolean
+  external?: boolean
 }
 
-const Link = styled.a.attrs(({ external }: Props) => ({
+const Link = styled.a.attrs<Props>(({ external }) => ({
   target: external ? '_blank' : null
-}))`
+}))<Props>`
   color: inherit;
 
-  font-weight: ${p => p.theme.font.bold};
-  font-family: ${p => p.theme.font.primary};
+  font-weight: ${p => p.theme.fontWeights.bold};
+  font-family: ${p => p.theme.fonts.primary};
   font-size: inherit;
 
   text-decoration: none;
@@ -20,7 +19,7 @@ const Link = styled.a.attrs(({ external }: Props) => ({
 
   border: 0;
   border-radius: 3px;
-  
+
   background: transparent;
 
   margin: 0;
@@ -28,9 +27,9 @@ const Link = styled.a.attrs(({ external }: Props) => ({
 
   :hover {
     cursor: pointer;
-    
-    background: ${p => p.theme.primary};
-    color: ${p => p.theme.primaryContrast}
+
+    background: ${p => p.theme.colors.red};
+    color: ${p => p.theme.colors.white};
   }
 `
 

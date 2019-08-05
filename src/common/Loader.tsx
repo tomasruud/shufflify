@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
 
@@ -16,15 +15,19 @@ const animation = keyframes`
   }
 `
 
-const Ball = styled.div.attrs(({ offset }) => ({
+type Props = {
+  offset?: number
+}
+
+const Ball = styled.div.attrs<Props>(({ offset }) => ({
   offset: offset || 0
-}))`
+}))<Props>`
   width: 100%;
   height: 100%;
 
   border-radius: 100%;
 
-  background-color: ${p => p.theme.secondary};
+  background-color: ${p => p.theme.secondaryColors.red20};
   opacity: 0.8;
 
   animation: ${animation} 1.5s ${p => p.offset}s

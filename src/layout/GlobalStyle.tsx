@@ -1,7 +1,6 @@
 import React from 'react'
 import { createGlobalStyle } from 'styled-components'
 import { Reset } from 'styled-reset'
-
 import 'typeface-karla'
 import 'typeface-rubik'
 
