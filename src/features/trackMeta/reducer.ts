@@ -1,15 +1,17 @@
-import { ID, TrackFeatures } from '../../common'
 import { combineReducers } from 'redux'
-
-type ByIDMap = {
-  [ID]: TrackFeatures
-}
+import { ByIDMap } from './models'
+import { Action } from './actions'
 
 const byID = (state: ByIDMap = {}, action: Action): ByIDMap => {
-  if (action.type === 'TRACKFEATURES_LOAD_SUCCESS') {
+  if (action.type === 'trackMeta/LOAD_SUCCESS') {
+    const toAdd = action.meta.reduce((acc: ByIDMap, m) => {
+      acc[m.id] = m
+      return acc
+    }, {})
+
     return {
       ...state,
-      ...action.features
+      ...toAdd
     }
   }
 
@@ -17,11 +19,11 @@ const byID = (state: ByIDMap = {}, action: Action): ByIDMap => {
 }
 
 const loading = (state: boolean = false, action: Action): boolean => {
-  if (action.type === 'TRACKFEATURES_LOAD_REQUEST') {
+  if (action.type === 'trackMeta/LOAD_REQUEST') {
     return true
   }
 
-  if (action.type === 'TRACKFEATURES_LOAD_SUCCESS') {
+  if (action.type === 'trackMeta/LOAD_SUCCESS') {
     return false
   }
 
@@ -29,8 +31,8 @@ const loading = (state: boolean = false, action: Action): boolean => {
 }
 
 export type State = {
-  loading: boolean,
-  byID: ByIDMap
+  readonly loading: boolean,
+  readonly byID: ByIDMap
 }
 
 export default combineReducers({

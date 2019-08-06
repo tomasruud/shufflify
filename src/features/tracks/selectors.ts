@@ -1,12 +1,12 @@
-import { State } from '../../reducers'
-import { ID, Track, URI } from '../../common'
+import { State } from './reducer'
+import { Track } from './models'
 
-export const byURI = (state: State, uri: URI): ?Track => {
-  if (!state.tracks.byURI) {
-    return undefined
+export const byURI = (state: State, uri: string): Track | null => {
+  if (!state.byURI) {
+    return null
   }
 
-  return state.tracks.byURI[uri]
+  return state.byURI[uri]
 }
 
 export const byPlaylistURI = (

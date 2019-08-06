@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { LoginView } from './features/session'
+import LoginView from './Login'
 import { View as Playlists } from './playlists'
 import { View as Shuffler } from './shuffler'
 import { State } from './store'

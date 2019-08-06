@@ -18,8 +18,12 @@ const user = (state: User | null = null, action: Action) => {
   return state
 }
 
-const loading = (state = true, action: Action) => {
-  if (action.type === 'session/SET') {
+const loading = (state = false, action: Action) => {
+  if (action.type === 'session/BOOT') {
+    return true
+  }
+
+  if (action.type === 'session/SET' && !!action.token && !!action.user) {
     return false
   }
 

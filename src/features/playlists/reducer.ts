@@ -7,32 +7,18 @@ const byURI = (
   action: Action
 ): ByURIMap | null => {
   if (action.type === 'playlists/LOAD_SUCCESS') {
-    const toAdd = action.items.reduce((acc, playlist) => {
+    const toAdd = action.items.reduce((acc: ByURIMap, playlist) => {
       acc[playlist.uri] = playlist
       return acc
     }, {})
 
-    if (state == null) {
+    if (state === null) {
       return toAdd
     }
 
     return {
       ...state,
       ...toAdd
-    }
-  }
-
-  if (action.type === 'tracks/LOAD_SUCCESS') {
-    if (state == null) {
-      state = {}
-    }
-
-    const playlist = { ...state[action.playlistURI] }
-    playlist.tracks = action.tracks.map(t => t.uri)
-
-    return {
-      ...state,
-      [action.playlistURI]: playlist
     }
   }
 

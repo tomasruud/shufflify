@@ -1,4 +1,4 @@
-export type Meta = {
+export type TrackMeta = {
   id: string,
   acousticness: number,
   bpm: number,
@@ -10,4 +10,8 @@ export type Meta = {
   major: boolean,
   positivity: number,
   speechiness: number
+}
+
+export type ByIDMap = {
+  [id: string]: TrackMeta
 }

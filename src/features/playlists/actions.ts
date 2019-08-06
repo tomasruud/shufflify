@@ -1,8 +1,6 @@
 import { ThunkAction } from 'redux-thunk'
 import { Playlist } from './models'
-import { State } from '../../store'
-import { session } from '../index'
-import { Spotify } from '../../services'
+import { PlaylistService } from './services'
 
 interface SetSearch {
   type: 'playlists/SEARCH_SET'
@@ -35,22 +33,17 @@ export const setOwnerID = (ownerID: string): Action => ({
   ownerID
 })
 
-export const load = (): ThunkAction<Promise<void>,
-  State,
+export const load = (): ThunkAction<
+  Promise<void>,
   null,
-  Action> => async (dispatch, getState) => {
+  PlaylistService,
+  Action
+> => async (dispatch, _, service) => {
   dispatch({
     type: 'playlists/LOAD_REQUEST'
   })
 
-  const t = session.selectors.token(getState().session)
-
-  if (t == null) {
-    throw Error('No token provided')
-  }
-
-  const client = new Spotify(t)
-  const items = await client.getPlaylists()
+  const items = await service.getPlaylists()
 
   dispatch({
     type: 'playlists/LOAD_SUCCESS',

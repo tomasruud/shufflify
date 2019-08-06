@@ -1,17 +1,10 @@
-export const byID = (state: State, id: ID): ?TrackFeatures => {
-  if (state.trackFeatures.byID == null) {
-    return undefined
+import { State } from './reducer'
+import { TrackMeta } from './models'
+
+export const byID = (state: State, id: string): TrackMeta | null => {
+  if (state.byID == null) {
+    return null
   }
 
-  return state.trackFeatures.byID[id]
-}
-
-export const byURI = (state: State, uri: URI): ?TrackFeatures => {
-  const t = trackByURI(state, uri)
-
-  if (!t || !t.id) {
-    return undefined
-  }
-
-  return byID(state, t.id)
+  return state.byID[id]
 }

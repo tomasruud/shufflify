@@ -1,6 +1,6 @@
 import { ThunkAction } from 'redux-thunk'
-import { NoAccessTokenAvailableError, Spotify } from '../../services'
 import { User } from './models'
+import { NoAccessTokenAvailableError, SessionService } from './services'
 
 interface Set {
   type: 'session/SET'
@@ -8,9 +8,18 @@ interface Set {
   user?: User
 }
 
-export type Action = Set
+interface Boot {
+  type: 'session/BOOT'
+}
 
-export const authenticate = (): void => {
+export type Action = Set | Boot
+
+export const authenticate = (): ThunkAction<
+  Promise<void>,
+  null,
+  SessionService,
+  Action
+> => async (_dispatch, _getState, service) => {
   const client = process.env.REACT_APP_SPOTIFY_CLIENT_ID
   const redirect = process.env.REACT_APP_SPOTIFY_REDIRECT
 
@@ -18,21 +27,28 @@ export const authenticate = (): void => {
     throw Error('Missing client or redirect')
   }
 
-  window.location.href = Spotify.getAuthenticationURL(client, redirect)
+  window.location.href = await service.getAuthURL(client, redirect)
 }
 
 export const bootstrap = (): ThunkAction<
   Promise<void>,
-  {},
-  {},
+  null,
+  SessionService,
   Action
-> => async dispatch => {
+> => async (dispatch, _getState, service) => {
+  dispatch({ type: 'session/BOOT' })
+
   try {
     const { location } = window
 
-    const token = await Spotify.getAccessToken(location)
-    const client = new Spotify(token)
-    const user = await client.getUser()
+    const token = await service.getAccessToken(location)
+
+    dispatch({
+      type: 'session/SET',
+      token
+    })
+
+    const user = await service.getUser()
 
     const whitelist = ['myspotfiy']
 

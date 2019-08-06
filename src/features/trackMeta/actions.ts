@@ -1,25 +1,33 @@
-import { ID } from '../../common'
-import { Spotify } from '../../services'
+import { ThunkAction } from 'redux-thunk'
+import { TrackMeta } from './models'
+import { TrackMetaService } from './services'
 
-export const loadFeatures = (tracks: Array<ID>): ThunkAction => async (
+interface LoadRequest {
+  type: 'trackMeta/LOAD_REQUEST'
+}
+
+interface LoadSuccess {
+  type: 'trackMeta/LOAD_SUCCESS'
+  meta: Array<TrackMeta>
+}
+
+export type Action = LoadRequest | LoadSuccess
+
+export const loadFeatures = (
+  trackIDs: Array<string>
+): ThunkAction<Promise<void>, null, TrackMetaService, Action> => async (
   dispatch,
-  getState
+  _getState,
+  service
 ) => {
   dispatch({
-    type: 'TRACKFEATURES_LOAD_REQUEST'
+    type: 'trackMeta/LOAD_REQUEST'
   })
 
-  const t = session.token(getState())
-
-  if (t == null) {
-    throw Error('No token provided')
-  }
-
-  const client = new Spotify(t)
-  const features = await client.getFeaturesForTracks(tracks)
+  const meta = await service.getMetaForTracks(trackIDs)
 
   dispatch({
-    type: 'TRACKFEATURES_LOAD_SUCCESS',
-    features
+    type: 'trackMeta/LOAD_SUCCESS',
+    meta
   })
 }

@@ -1,12 +1,6 @@
 import { combineReducers } from 'redux'
-
-type URIbyIDMap = {
-  [ID]: URI
-}
-
-type ByURIMap = {
-  [URI]: Track
-}
+import { ByURIMap, URIbyIDMap } from './models'
+import { Action } from './actions'
 
 const byURI = (state: ?ByURIMap = null, action: Action): ?ByURIMap => {
   if (action.type === 'TRACKS_LOAD_SUCCESS') {
@@ -22,6 +16,21 @@ const byURI = (state: ?ByURIMap = null, action: Action): ?ByURIMap => {
   }
 
   return state
+}
+
+
+if (action.type === 'tracks/LOAD_SUCCESS') {
+  if (state == null) {
+    state = {}
+  }
+
+  const playlist = { ...state[action.playlistURI] }
+  playlist.tracks = action.tracks.map(t => t.uri)
+
+  return {
+    ...state,
+    [action.playlistURI]: playlist
+  }
 }
 
 const URIbyID = (state: ?URIbyIDMap = null, action: Action): ?URIbyIDMap => {
@@ -56,9 +65,9 @@ const loading = (state: boolean = false, action: Action): boolean => {
 }
 
 export type State = {
-  loading: boolean,
-  byURI: ByURIMap,
-  URIbyID: URIbyIDMap
+  readonly loading: boolean,
+  readonly byURI: ByURIMap,
+  readonly URIbyID: URIbyIDMap
 }
 
 export default combineReducers({

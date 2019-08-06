@@ -1,5 +1,5 @@
-import { Spotify } from '../services'
+import { playlists, session } from '../features'
 
-export interface Services {
-  spotify: Spotify
-}
+export type Services =
+  | playlists.services.PlaylistService
+  | session.services.SessionService

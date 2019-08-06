@@ -3,12 +3,13 @@ import thunk, { ThunkMiddleware } from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
 
 import { Actions } from './actions'
+import { Services } from './services'
 import root from './reducer'
 import errorHandler from './error'
-import { Services } from './services'
 
 export type State = ReturnType<typeof root>
 export type Actions = Actions
+export type Services = Services
 
 const composeEnhancers = composeWithDevTools({ shouldHotReload: false })
 

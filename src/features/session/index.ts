@@ -2,6 +2,6 @@ import * as actions from './actions'
 import reducer from './reducer'
 import * as selectors from './selectors'
 import * as models from './models'
-import LoginView from './Login'
+import * as services from './services'
 
-export { actions, reducer, selectors, models, LoginView }
+export { actions, reducer, selectors, models, services }

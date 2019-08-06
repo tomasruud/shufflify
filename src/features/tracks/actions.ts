@@ -1,48 +1,34 @@
-import { Spotify } from '../../services'
+import { ThunkAction } from 'redux-thunk'
+import { Track } from './models'
+import { TrackService } from './services'
 
-export const load = (playlistURI: URI): ThunkAction => async (
-  dispatch,
-  getState
-) => {
-  dispatch({
-    type: 'TRACKS_LOAD_REQUEST'
-  })
-
-  const playlist = playlists.byURI(getState(), playlistURI)
-
-  if (playlist == null) {
-    throw Error('Could not find playlist ' + playlistURI)
-  }
-
-  const t = session.token(getState())
-
-  if (t == null) {
-    throw Error('No token provided')
-  }
-
-  const client = new Spotify(t)
-  const tracks = await client.getTracks(playlist.id)
-
-  dispatch({
-    type: 'TRACKS_LOAD_SUCCESS',
-    playlistURI,
-    tracks
-  })
+interface LoadRequest {
+  type: 'tracks/LOAD_REQUEST'
 }
 
-export const loadIfNeeded = (playlistURI: URI): ThunkAction => async (
+interface LoadSuccess {
+  type: 'tracks/LOAD_SUCCESS'
+  tracks: Array<Track>
+}
+
+export type Action = LoadRequest | LoadSuccess
+
+export const load = (
+  playlistID: string
+): ThunkAction<Promise<void>, null, TrackService, Action> => async (
   dispatch,
-  getState
+  _getState,
+  service
 ) => {
-  const p = playlists.byURI(getState(), playlistURI)
+  dispatch({
+    type: 'tracks/LOAD_REQUEST'
+  })
 
-  if (p == null) {
-    throw Error('Could not find playlist ' + playlistURI)
-  }
+  const tracks = await service.getTracks(playlistID)
 
-  if (p.tracks != null) {
-    return
-  }
-
-  dispatch(load(playlistURI))
+  dispatch({
+    type: 'tracks/LOAD_SUCCESS',
+    playlistID,
+    tracks
+  })
 }
