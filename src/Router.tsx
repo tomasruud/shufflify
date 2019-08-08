@@ -19,6 +19,7 @@ const Router = ({ path, isAuthenticated, bootstrap }: Props) => {
       bootstrap()
     }
   }, [bootstrap, isAuthenticated])
+
   if (path === '/authenticate') {
     session.actions.authenticate()
     return null

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
-import { ByURIMap, URIbyIDMap } from './models'
+import { TrackURIByPlaylistURIMap, ByURIMap, Track, URIbyIDMap } from './models'
 import { Action } from './actions'
 
-const byURI = (state: ?ByURIMap = null, action: Action): ?ByURIMap => {
-  if (action.type === 'TRACKS_LOAD_SUCCESS') {
-    const tracks = action.tracks.reduce((acc, track) => {
+const byURI = (state: ByURIMap = {}, action: Action): ByURIMap => {
+  if (action.type === 'tracks/LOAD_SUCCESS') {
+    const tracks = action.tracks.reduce((acc: ByURIMap, track) => {
       acc[track.uri] = track
       return acc
     }, {})
@@ -18,24 +18,25 @@ const byURI = (state: ?ByURIMap = null, action: Action): ?ByURIMap => {
   return state
 }
 
-
-if (action.type === 'tracks/LOAD_SUCCESS') {
-  if (state == null) {
-    state = {}
+const byPlaylistURI = (
+  state: TrackURIByPlaylistURIMap = {},
+  action: Action
+): TrackURIByPlaylistURIMap => {
+  if (action.type === 'tracks/LOAD_SUCCESS') {
+    return {
+      ...state,
+      ...{
+        [action.playlistURI]: action.tracks.map((t: Track) => t.uri)
+      }
+    }
   }
 
-  const playlist = { ...state[action.playlistURI] }
-  playlist.tracks = action.tracks.map(t => t.uri)
-
-  return {
-    ...state,
-    [action.playlistURI]: playlist
-  }
+  return state
 }
 
-const URIbyID = (state: ?URIbyIDMap = null, action: Action): ?URIbyIDMap => {
-  if (action.type === 'TRACKS_LOAD_SUCCESS') {
-    const tracks = action.tracks.reduce((acc, track) => {
+const URIbyID = (state: URIbyIDMap = {}, action: Action): URIbyIDMap => {
+  if (action.type === 'tracks/LOAD_SUCCESS') {
+    const tracks = action.tracks.reduce((acc: URIbyIDMap, track) => {
       if (track.id) {
         acc[track.id] = track.uri
       }
@@ -53,11 +54,11 @@ const URIbyID = (state: ?URIbyIDMap = null, action: Action): ?URIbyIDMap => {
 }
 
 const loading = (state: boolean = false, action: Action): boolean => {
-  if (action.type === 'TRACKS_LOAD_REQUEST') {
+  if (action.type === 'tracks/LOAD_REQUEST') {
     return true
   }
 
-  if (action.type === 'TRACKS_LOAD_SUCCESS') {
+  if (action.type === 'tracks/LOAD_SUCCESS') {
     return false
   }
 
@@ -65,13 +66,15 @@ const loading = (state: boolean = false, action: Action): boolean => {
 }
 
 export type State = {
-  readonly loading: boolean,
-  readonly byURI: ByURIMap,
+  readonly loading: boolean
+  readonly byPlaylistURI: TrackURIByPlaylistURIMap
+  readonly byURI: ByURIMap
   readonly URIbyID: URIbyIDMap
 }
 
-export default combineReducers({
+export default combineReducers<State, Action>({
   loading,
+  byPlaylistURI,
   byURI,
   URIbyID
 })

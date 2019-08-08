@@ -8,17 +8,26 @@ import { State } from '../store'
 import { playlists } from '../features'
 
 type Props = {
-  isLoading: boolean,
-  loadPlaylists: () => void,
-  updateSearch: (filter: string) => void,
-  search: string,
-  playlists: Array<Playlist>
+  isLoading: boolean
+  loadPlaylists: () => void
+  updateSearch: (filter: string) => void
+  search: string
+  playlists: Array<playlists.models.Playlist>
+  needsLoading: boolean
 }
 
-const View = ({ isLoading, loadPlaylists, updateSearch, search }: Props) => {
+const View = ({
+  isLoading,
+  loadPlaylists,
+  updateSearch,
+  search,
+  needsLoading
+}: Props) => {
   useLayoutEffect(() => {
-    loadPlaylists()
-  }, [loadPlaylists])
+    if (needsLoading) {
+      loadPlaylists()
+    }
+  }, [loadPlaylists, needsLoading])
 
   return (
     <>
@@ -45,11 +54,12 @@ const View = ({ isLoading, loadPlaylists, updateSearch, search }: Props) => {
 
 const select = (state: State) => ({
   isLoading: playlists.selectors.loading(state.playlists),
-  search: playlists.selectors.search(state.playlists)
+  search: playlists.selectors.search(state.playlists),
+  needsLoading: !playlists.selectors.loaded(state.playlists)
 })
 
 const actions = {
-  loadPlaylists: playlists.actions.loadIfNeeded,
+  loadPlaylists: playlists.actions.load,
   updateSearch: playlists.actions.setSearch
 }
 

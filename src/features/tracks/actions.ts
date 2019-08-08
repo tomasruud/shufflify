@@ -9,12 +9,13 @@ interface LoadRequest {
 interface LoadSuccess {
   type: 'tracks/LOAD_SUCCESS'
   tracks: Array<Track>
+  playlistURI: string
 }
 
 export type Action = LoadRequest | LoadSuccess
 
 export const load = (
-  playlistID: string
+  playlistURI: string
 ): ThunkAction<Promise<void>, null, TrackService, Action> => async (
   dispatch,
   _getState,
@@ -24,11 +25,11 @@ export const load = (
     type: 'tracks/LOAD_REQUEST'
   })
 
-  const tracks = await service.getTracks(playlistID)
+  const tracks = await service.getTracks(playlistURI)
 
   dispatch({
     type: 'tracks/LOAD_SUCCESS',
-    playlistID,
+    playlistURI,
     tracks
   })
 }

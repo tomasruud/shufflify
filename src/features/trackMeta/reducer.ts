@@ -35,7 +35,7 @@ export type State = {
   readonly byID: ByIDMap
 }
 
-export default combineReducers({
+export default combineReducers<State, Action>({
   loading,
   byID
 })

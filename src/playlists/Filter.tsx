@@ -1,4 +1,3 @@
-// @flow
 import React from 'react'
 import styled from 'styled-components'
 
@@ -9,12 +8,12 @@ const Wrap = styled.div`
 
   max-width: 400px;
 
-  background-color: ${p => p.theme.white};
-  font-size: ${p => p.theme.font.small};
+  background-color: ${p => p.theme.colors.white};
+  font-size: ${p => p.theme.fontSizes.small};
 
   border-radius: 666rem;
 
-  ${p => p.theme.shadow};
+  ${p => p.theme.shadows.main};
 `
 
 const Button = styled.button`
@@ -35,8 +34,8 @@ const Button = styled.button`
   :active,
   :focus {
     outline: none;
-    box-shadow: 0 0 0 2px ${p => p.theme.white},
-      0 0 0 4px ${p => p.theme.primaryLight};
+    box-shadow: 0 0 0 2px ${p => p.theme.colors.white},
+      0 0 0 4px ${p => p.theme.secondaryColors.red20};
   }
 `
 
@@ -56,8 +55,8 @@ const Input = styled.input`
   :active,
   :focus {
     outline: none;
-    box-shadow: 0 0 0 2px ${p => p.theme.white},
-      0 0 0 4px ${p => p.theme.primaryLight};
+    box-shadow: 0 0 0 2px ${p => p.theme.colors.white},
+      0 0 0 4px ${p => p.theme.secondaryColors.red20};
   }
 `
 

@@ -14,6 +14,6 @@ export type ByURIMap = {
   [uri: string]: Track
 }
 
-export type ByPlaylistURIMap = {
-  [uri: string]: Track
+export type TrackURIByPlaylistURIMap = {
+  [uri: string]: Array<string>
 }

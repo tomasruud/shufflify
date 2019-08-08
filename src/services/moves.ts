@@ -1,13 +1,10 @@
-// @flow
 type Move = {
   start: number,
   range: number,
   before: number
 }
 
-export type Equals<T> = {
-  (T, T): boolean
-}
+export type Equals<T> = (a: T, b: T) => boolean
 
 const makeMove = (steps: Array<number>, index: number): Move => ({
   start: index - steps.length + 1,
